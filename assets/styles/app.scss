@@ -1,0 +1,64 @@
+@import 'variables';
+
+html,body{
+    width:100%;
+    height:100%;
+    margin:0;
+    padding:0;
+    font-family: $main-font-family;
+    font-weight: $main-font-weight;
+    font-size: $main-font-size;
+    line-height: $main-line-height;
+}
+
+.homeBg{
+    width:80%;
+    padding:10%;
+    color:#fff;
+    background:url(../src/images/image1.jpg);
+    background-size: cover;
+    
+    h1{
+        font-family: $header-font-family;
+        font-size:9em;
+        line-height:100%;
+        padding:0;
+        margin:0px 0px 20px;
+    }
+    
+    h3{
+        font-size:4em;
+        line-height: 100%;
+        font-weight: 100;
+        padding:0;
+        margin:0;
+    }
+}
+
+main{
+    display: table;
+    width:80%;
+    padding:5% 10%;
+    font-size:$main-text-font-size;
+    
+    .row{
+        display: table-row;
+        width:100%;
+        div{
+            display: table-cell;
+            vertical-align: top;
+        }
+    }
+    
+    .testText{
+        width:50%;
+    }
+    
+    .testImage{
+        width: 50%;
+        img{
+            margin-left:20%;
+            width:80%;
+        }
+    }
+}
