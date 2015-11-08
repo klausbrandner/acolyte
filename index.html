@@ -3,33 +3,47 @@
     <head>
         <title>Acolyte</title>
         
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
-        
         <link rel="stylesheet" href="styles/app.css" />
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-sanitize.js"></script>
+        
         <script src="js/acolyte.min.js"></script>
+        <link rel="stylesheet" href="styles/acolyte.css" />
     </head>
     <body>
         
-        <div class="homeBg">
-            <h1>Say Hello To Acolyte!</h1>
-            <h3>The Angularjs based CMS framework for web-developers</h3>
+        <aco-root></aco-root>
+        
+        <div class="homeBg aco-background" category="home" element="banner">
+            <h1 aco-text category="home" element="header"></h1>
+            <h3 aco-text category="home" element="subtitle"></h3>
         </div>
         
         <main>
             
             <div class="row">
-                <div class="testText" aco-text category="home" element="about"></div>
-                <div class="testImage" aco-img></div>
-            </div>
-            
-            <div class="row">
-                <div class="testText" contenteditable>
-                    You should be able to edit this text live on the webpage!
+                <div class="testText" aco-text category="home" element="text1"></div>
+                <div>
+                    <a href="http://localhost/acolyte/">
+                        <img class="testImage" aco-img category="home" element="image2" />
+                    </a>
                 </div>
             </div>
             
+            <div class="row">
+                <div class="testText" id="clickEvent" aco-text category="home" element="text1"></div>
+                <a href="http://localhost/acolyte/" aco-text category="home" element="text2"></a>
+            </div>
+            <br /><br />
+            <a href="http://localhost/acolyte/"><img aco-img category="home" element="image1" /></a>
+        
+            <div aco-text category="home" element="newText"></div>
+        
         </main>
+        
         
     </body>
 </html>

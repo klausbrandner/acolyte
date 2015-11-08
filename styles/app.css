@@ -11,12 +11,16 @@ html, body {
   font-size: 100%;
   line-height: 270%; }
 
+a {
+  color: burlywood; }
+
 .homeBg {
   width: 80%;
   padding: 10%;
   color: #fff;
-  background: url(../src/images/image1.jpg);
-  background-size: cover; }
+  background-size: cover;
+  background-position: center;
+  text-shadow: 2px 2px #000; }
   .homeBg h1 {
     font-family: Vollkorn;
     font-size: 9em;
@@ -44,9 +48,11 @@ main {
   main .testText {
     width: 50%; }
   main .testImage {
-    width: 50%; }
-    main .testImage img {
-      margin-left: 20%;
-      width: 80%; }
+    width: 100%;
+    height: 400px; }
+
+img {
+  width: 400px;
+  height: 400px; }
 
 /*# sourceMappingURL=app.css.map */

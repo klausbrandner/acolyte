@@ -1,0 +1,51 @@
+(function(){
+    
+    angular.module('Acolyte')
+    
+    .directive('acoImg',function(){
+        return{
+            restrict:'AC',
+            controller: 'AcoImageController',
+            controllerAs: 'acoImgCtrl',
+            replace: true,
+            scope:{
+                category:'@',
+                element:'@'
+            },
+            templateUrl: acolyte.pathToAcolyte + 'templates/aco-image.html'
+        };
+    })
+    .directive('acoBackground',['$compile','AcoPageContentService',function($compile,AcoPageContentService){
+        return{
+            restrict: 'EC',
+            controller: 'AcoBackgroundController',
+            controllerAs: 'acoImgCtrl',
+            scope:{
+                category: '@',
+                element: '@'
+            },
+            link: function(scope,elem,attr){
+
+                scope.$on('AcoPageContentChanged',function(){
+                    var c = attr.category;
+                    var e = attr.element;
+                    var img = AcoPageContentService.getImage(c,e);
+                    var size = elem.css('background-size');
+                    var pos = elem.css('background-position');
+                    var atta = elem.css('background-attachment');
+                    var repeat = elem.css('background-repeat');
+                    var style = 'background:url('+img+');';
+                    style += 'background-size:'+size+';';
+                    style += 'background-position:'+pos+';';
+                    style += 'background-attachment:'+atta+';';
+                    style += 'background-repeat:'+repeat+';';
+                    attr.$set('style',style);
+                    elem.find("aco-update-img-btn").remove();
+                    elem.append($compile('<aco-update-img-btn ng-click="acoImgCtrl.edit()">edit</div>')(scope));
+                });
+                
+            }
+        };
+    }]);
+    
+})();
