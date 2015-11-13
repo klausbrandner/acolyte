@@ -17,7 +17,7 @@ $app->response->headers->set('Content-Type', 'application/json');
     }finally{
         $db = null;
     }*/
-
+/**/
 $app->group('/content', function() use($app){
     $app->map('/get', function() use($app){
         if($app->getCookie('lan') !== null)         $lan = $app->getCookie('lan');
