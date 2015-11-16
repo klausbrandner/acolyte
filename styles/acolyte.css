@@ -40,16 +40,67 @@ aco-admin {
       aco-admin #aco-admin-table > div.active {
         background: #36a6d6; }
 
-/*
-aco-highlight{
+aco-login-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(black.png);
+  font-family: Gotham;
+  display: none; }
+  aco-login-box > #acoLoginBox {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100px;
-    height: 100px;
-    background: #FFFBCC;
-    display: none;
-}
+    top: 50%;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: -200px;
+    background: #fff;
+    width: 300px;
+    height: 300px;
+    padding: 50px; }
+    aco-login-box > #acoLoginBox > h1 {
+      font-size: 50px;
+      font-weight: 600;
+      line-height: 100%;
+      margin: 0;
+      padding: 0;
+      color: #000;
+      text-transform: uppercase; }
+    aco-login-box > #acoLoginBox > h2 {
+      font-size: 25px;
+      font-weight: 200;
+      line-height: 160%;
+      margin: 0;
+      padding: 0;
+      color: #000;
+      text-transform: inherit; }
+    aco-login-box > #acoLoginBox > form {
+      padding-top: 20px;
+      text-align: center; }
+    aco-login-box > #acoLoginBox > form > input {
+      width: 266px;
+      padding: 0px 15px;
+      margin: 5px 0px;
+      height: 50px;
+      font-size: 18px; }
+    aco-login-box > #acoLoginBox > form > #acoLoginBtn {
+      width: 150px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-weight: 400;
+      background: #36a6d6;
+      color: #fff;
+      font-size: 18px;
+      border: 0;
+      margin: 10px auto 0;
+      -webkit-border-radius: 25px;
+      -moz-border-radius: 25px;
+      border-radius: 25px;
+      cursor: pointer; }
+
+/*
 
 aco-background, .aco-background{
     position: relative;

@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .controller('AcoTextController',['$sce','$scope','$interval','AcoPageContentService',function($sce,$scope,$interval,AcoPageContentService){
+    .controller('AcoTextController',['$sce','$scope','$interval','AcoPageContentService','AcoLoginService',function($sce,$scope,$interval,AcoPageContentService,AcoLoginService){
         
         var self = this;
         
@@ -13,31 +13,37 @@
         
         // click Event on text
         self.edit = function(e){
-            if(self.editable){
-                e.preventDefault();
-                e.stopPropagation();
-                
-                $interval.cancel(self.timer);
-                self.timer = $interval(function(){
-                    UpdateText();
-                },acolyte.updateRate);
+            if(AcoLoginService.getLoginState()){
+                if(self.editable){
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    $interval.cancel(self.timer);
+                    self.timer = $interval(function(){
+                        UpdateText();
+                    },acolyte.updateRate);
+                }
             }
         }
         
         // send request to server
         self.update = function(){
-            $interval.cancel(self.timer);
-            UpdateText();
+            if(AcoLoginService.getLoginState()){
+                $interval.cancel(self.timer);
+                UpdateText();
+            }
         }
         
         function UpdateText(){
-            // http -> update text
-            var postData = {
-                category: $scope.category,
-                element: $scope.element,
-                text: self.text
+            if(AcoLoginService.getLoginState()){
+                // http -> update text
+                var postData = {
+                    category: $scope.category,
+                    element: $scope.element,
+                    text: self.text
+                }
+                console.log(postData);
             }
-            console.log(postData);
         }
         
         // Listener when PageContent gets updated

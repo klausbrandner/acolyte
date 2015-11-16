@@ -8,7 +8,7 @@
 var acolyte = {
     pathToAcolyte: '',
     pathToServer: 'server/',
-    tmpImage: '',
+    tmpImage: 'src/images/black.png',
     tmpText: '...',
     newText: "Hi, I'm a new text.",
     updateRate: 1000
@@ -52,8 +52,12 @@ var acolyte = {
         
         self.edit = false;
         
-        self.setEdit = function(){
-            self.edit = !self.edit;
+        self.setEdit = function(setTo){
+            if(setTo){
+                self.edit = setTo;
+            }else{
+                self.edit = !self.edit;
+            }
             self.broadcastEditMode();
         }
         self.getEditMode = function(){
@@ -158,16 +162,21 @@ var acolyte = {
         ---------------- Controllers ----------------
     
     */
-    .controller('AcoRootController',['$scope','$http','$timeout','AcoPageContentService',function($scope,$http,$timeout,AcoPageContentService){
+    .controller('AcoRootController',['$scope','$http','$timeout','AcoPageContentService','AcoLoginService',function($scope,$http,$timeout,AcoPageContentService,AcoLoginService){
         
         var self = this;
         
         init();
         function init(){
             $timeout(function(){
-                AcoPageContentService.fetchContent()
+                AcoPageContentService.fetchContent();
             });
         }
+        
+        // Listener to Login State
+        $scope.$on('AcoLoginStateChanged',function(){
+            AcoPageContentService.fetchContent();
+        });
         
     }]);
     

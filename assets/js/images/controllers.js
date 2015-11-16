@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .controller('AcoImageController',['$scope','$timeout','AcoPageContentService',function($scope,$timeout,AcoPageContentService){
+    .controller('AcoImageController',['$scope','$timeout','AcoPageContentService','AcoLoginService',function($scope,$timeout,AcoPageContentService,AcoLoginService){
         
         var self = this;
         
@@ -13,9 +13,12 @@
         
         // click event on image
         self.edit = function(e){
-            if(self.editable){
-                e.preventDefault();
-                e.stopPropagation();
+            if(AcoLoginService.getLoginState()){
+                if(self.editable){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    alert("update image");
+                }
             }
         }
         
