@@ -8,14 +8,14 @@ module.exports = function(grunt){
             },
             dist:{
                 src:['assets/js/*.js','assets/js/**/*.js'],
-                dest:'js/acolyte.min.js'
+                dest:'acolyte/acolyte.min.js'
             }
         },
         sass: {
             dist: {
                 files: {
                     'styles/app.css': 'assets/styles/app.scss',
-                    'styles/acolyte.css': 'assets/styles/acolyte.scss'
+                    'acolyte/acolyte.css': 'assets/styles/acolyte.scss'
                 }
             }
         },

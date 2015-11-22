@@ -55,4 +55,12 @@ img {
   width: 400px;
   height: 400px; }
 
+footer {
+  padding: 10px 10% 10px;
+  background: #222;
+  color: #fff;
+  font-size: 1.1em; }
+  footer aco-login-btn {
+    cursor: pointer; }
+
 /*# sourceMappingURL=app.css.map */

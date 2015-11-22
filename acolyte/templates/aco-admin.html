@@ -1,6 +1,6 @@
 <div id="aco-admin-table" ng-show="acoAdminCtrl.showPanel">
     <div id="aco-admin-drag">
-        <img id="aco-admin-drag-img" src="src/icons/dragW.png" />
+        <img id="aco-admin-drag-img" ng-src="{{acoAdminCtrl.dragImg}}" />
     </div>
     <div id="aco-admin-edit" ng-class="(acoAdminCtrl.edit) ? 'active' : ''" ng-click="acoAdminCtrl.setEditMode()">
         {{(acoAdminCtrl.edit) ? 'done' : 'edit'}}

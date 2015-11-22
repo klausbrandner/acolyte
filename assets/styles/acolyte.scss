@@ -6,6 +6,7 @@ aco-admin{
     right: 50px;
     color: #fff;
     z-index: 1000;
+    background: $color-admin-bg;
     
     #aco-admin-table{
         height: 50px;
@@ -22,7 +23,7 @@ aco-admin{
             font-family: Gotham;
             font-weight: 400;
             cursor: pointer;
-            background: $color-admin-bg;
+            background: transparent;
             transition: background 0.4s;
             
             & > #aco-admin-drag-img{
@@ -67,7 +68,7 @@ aco-login-box{
     left: 0;
     width: 100%;
     height: 100%;
-    background: url(black.png);
+    background: url(src/black.png);
     font-family: $font-Acolyte;
     display: none;
     
@@ -132,27 +133,74 @@ aco-login-box{
 }
 
 
-/*
+#aco-img-upload-box{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(src/black.png);
+    display: table;
+    z-index: 1200;
+    display: none;
+    
+    #aco-img-upload-content{
+        width: 100%;
+        display: table-cell;
+        vertical-align: middle;
+        color: #fff;
+        text-align: center;
+        font-size: 1.2em;
+        font-family: $font-Acolyte;
+        
+        #aco-img-upload-header{
+            font-size: 2em;
+        }
+        
+        #aco-img-upload-bar{
+            width: 100%;
+            height: 2px;
+            padding: 30px 0px 10px;
+            
+            #aco-img-upload-progress{
+                width: 60%;
+                height: 100%;
+                background: $color-blue;
+            }
+        }
+        
+        #aco-img-upload-input{
+            display: none;
+        }
+    }
+}
+
 
 aco-background, .aco-background{
     position: relative;
 }
 aco-background > aco-update-img-btn, .aco-background > aco-update-img-btn{
     position: absolute;
-    top:0;
-    right:0;
-    padding:10px 15px 8px 18px;
-    background:#222;
-    font-size:14px;
-    font-weight:400;
-    font-family: Gotham, Arial;
+    top: 0;
+    right: 0;
+    padding: 10px 15px 8px 18px;
+    background: #222;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: $font-Acolyte;
     text-transform: uppercase;
     letter-spacing: 1px;
     line-height: 20px;
-    color:#FFF;
-    cursor:pointer;
+    color: #FFF;
+    cursor: pointer;
     -webkit-border-bottom-left-radius: 10px;
     -moz-border-radius-bottomleft: 10px;
     border-bottom-left-radius: 10px;
-    z-index:1000;
-}*/
+    z-index: 1000;
+    
+    &:hover{
+        background: #444;
+    }
+}

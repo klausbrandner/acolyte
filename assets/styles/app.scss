@@ -44,7 +44,7 @@ main{
     display: table;
     width:80%;
     padding:5% 10%;
-    font-size:$main-text-font-size;
+    font-size: $main-text-font-size;
     
     .row{
         display: table-row;
@@ -68,4 +68,15 @@ main{
 img{
     width: 400px;
     height: 400px;
+}
+
+footer{
+    padding: 10px 10% 10px;
+    background: #222;
+    color: #fff;
+    font-size: 1.1em;
+    
+    aco-login-btn{
+        cursor: pointer;
+    }
 }

@@ -7,6 +7,7 @@
         var self = this;
         self.edit = false;
         self.showPanel = false;
+        self.dragImg = acolyte.pathToAcolyte + 'src/dragW.png';
         
         init();
         function init(){

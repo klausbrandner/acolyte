@@ -6,8 +6,8 @@
 */
 
 var acolyte = {
-    pathToAcolyte: '',
-    pathToServer: 'server/',
+    pathToAcolyte: 'acolyte/',
+    pathToServer: 'acolyte/server/',
     tmpImage: 'src/images/black.png',
     tmpText: '...',
     newText: "Hi, I'm a new text.",

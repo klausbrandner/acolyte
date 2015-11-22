@@ -53,11 +53,20 @@
                     style += 'background-repeat:'+repeat+';';
                     attr.$set('style',style);
                     elem.find("aco-update-img-btn").remove();
-                    elem.append($compile('<aco-update-img-btn ng-click="acoImgCtrl.edit()">edit</div>')(scope));
+                    elem.append($compile('<aco-update-img-btn ng-show="acoImgCtrl.editable" ng-click="acoImgCtrl.edit()">edit</div>')(scope));
                 });
                 
             }
         };
-    }]);
+    }])
+    .directive('acoImgUpload',function(){
+        return{
+            restrict: 'E',
+            controller: 'AcoImageUploadController',
+            controllerAs: 'acoImgUploadCtrl',
+            scope:{},
+            templateUrl: acolyte.pathToAcolyte + 'templates/aco-img-upload.html'
+        };
+    });
     
 })();
