@@ -7,16 +7,16 @@ $app->response->headers->set('Content-Type', 'application/json');
 
 $app->group('/content', function() use($app){
     $app->map('/get', function() use($app){
-        if($app->getCookie('lan') !== null)         $lan = $app->getCookie('lan');
+        if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
         else                                        $app->redirect($app->urlFor('setLanguage', array('lan' =>
                                                     substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2))));
         
-        if(false)    $app->redirect($app->urlFor('getFinished'));
-        else        $app->redirect($app->urlFor('getModified'));       
+        if($app->getCookie('aco-user') !== null)    $app->redirect($app->urlFor('getModified'));
+        else                                        $app->redirect($app->urlFor('getFinished'));       
     })->via('GET', 'PUT', 'POST')->name('getContent');
     
     $app->map('/get/finished', function() use($app){
-        if($app->getCookie('lan') !== null)          $lan = $app->getCookie('lan');
+        if($app->getCookie('aco-lan') !== null)          $lan = $app->getCookie('aco-lan');
         try{
             if(($db = connectTo5Design()) != false){
                 $query = 'SELECT category, element, text FROM TextContent WHERE lan = ?'; 
@@ -56,7 +56,7 @@ $app->group('/content', function() use($app){
     })->via('GET', 'PUT', 'POST')->name('getFinished');
     
     $app->map('/get/modified', function() use($app){
-        if($app->getCookie('lan') !== null)         $lan = $app->getCookie('lan');
+        if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
         try{
             if(($db = connectTo5Design()) != false){
                 $case = '';
@@ -114,7 +114,7 @@ $app->group('/content', function() use($app){
 
 $app->group('/content/text', function() use($app){
     $app->map('/get/modified/:category/:element', function($category, $element) use($app){
-        if($app->getCookie('lan') !== null)         $lan = $app->getCookie('lan');
+        if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
         try{
             if(($db = connectTo5Design()) != false){
                 $query = 'SELECT category, element, tmp_text AS text FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
@@ -147,7 +147,7 @@ $app->group('/content/text', function() use($app){
     
     $app->map('/edit/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
-        if($app->getCookie('lan') !== null)                     $lan = $app->getCookie('lan');
+        if($app->getCookie('aco-lan') !== null)                     $lan = $app->getCookie('aco-lan');
         if(isset($data->text) && !empty($data->text))           $text = $data->text;
         try{
             if(($db = connectTo5Design()) != false){
@@ -176,7 +176,7 @@ $app->group('/content/text', function() use($app){
     
     $app->map('/set/modified/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
-        if($app->getCookie('lan') !== null)                     $lan = $app->getCookie('lan');
+        if($app->getCookie('aco-lan') !== null)                     $lan = $app->getCookie('aco-lan');
         if(isset($data->text))                                  $text = $data->text;
         try{
             if(($db = connectTo5Design()) != false){
@@ -212,7 +212,7 @@ $app->group('/content/text', function() use($app){
     
     $app->map('/add/modified/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
-        if($app->getCookie('lan') !== null)                     $lan = $app->getCookie('lan');
+        if($app->getCookie('aco-lan') !== null)                     $lan = $app->getCookie('aco-lan');
         if(isset($data->text) && !empty($data->text))           $text = $data->text;
         try{
             if(($db = connectTo5Design()) != false){
@@ -238,7 +238,7 @@ $app->group('/content/text', function() use($app){
     })->via('PUT', 'POST')->name('addText');
     
     $app->put('/save/:category/:element', function($category, $element) use($app){
-        if($app->getCookie('lan') !== null)         $lan = $app->getCookie('lan');
+        if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
         try{
             if(($db = connectTo5Design()) != false){
                 $query = 'SELECT * FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
@@ -282,7 +282,7 @@ $app->group('/content/text', function() use($app){
     
     
     $app->put('/undo/:category/:element', function($category, $element) use($app){
-        if($app->getCookie('lan') !== null)         $lan = $app->getCookie('lan');
+        if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
         try{
             if(($db = connectTo5Design()) != false){
                 $query = 'SELECT * FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
@@ -331,7 +331,7 @@ $app->group('/content/file', function() use($app){
 
 $app->group('/content/language', function() use($app){
    $app->map('/set/:lan', function($lan) use($app){
-       $app->setCookie('lan', 'en', '180 days');
+       $app->setCookie('aco-lan', 'en', '180 days');
        $app->redirect($app->urlFor('getContent'));
    })->via('GET', 'PUT', 'POST', 'DELETE')->name('setLanguage');
 });
@@ -341,6 +341,12 @@ $app->notFound(function () use ($app) {
     //$app->render('404.html');
 });
 //---------------------------------------------------------------------
+
+$app->group('/user', function() use($app){
+   $app->post('/login', function() use($app){
+      $app-setCookie('aco-user','1'); 
+   });
+});
 
 $app->run();
 ?>
