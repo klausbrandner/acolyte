@@ -339,16 +339,28 @@ $app->group('/content/language', function() use($app){
    })->via('GET', 'PUT', 'POST', 'DELETE')->name('setLanguage');
 });
 
+
+
+
+
 //---------------------------------------------------------------------
 $app->notFound(function () use ($app) {
     //$app->render('404.html');
 });
 //---------------------------------------------------------------------
 
+
+
+
 $app->group('/user', function() use($app){
-   $app->post('/login', function() use($app){
-      $app-setCookie('aco-user','1'); 
-   });
+    $app->post('/login', function() use($app){
+       $app->setCookie('aco-user','1'); 
+    });
+    
+    $app->get('/view', function() use($app){
+        $app->response->status(200);
+        $app->response->body(json_encode(['user' => $app->getCookie('aco-user')]));
+    });
 });
 
 $app->run();
