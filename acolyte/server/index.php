@@ -5,19 +5,6 @@ require_once 'func/db_connect.php';             //DATABASE CONNECTIONS
 $app = new \Slim\Slim(); 
 $app->response->headers->set('Content-Type', 'application/json');
 
-
-    /*if($app->getCookie('lan') !== null)         $lan = $app->getCookie('lan');
-    try{
-        if(($db = connectTo5Design()) != false){
-        }else throw new Exception($e);
-    }catch(Exception $e){
-        $app->halt(503, json_encode(['type' => 'Error',
-                                    'title' => 'Oops, something went wrong!',
-                                    'message' => $e->getMessage()]));
-    }finally{
-        $db = null;
-    }*/
-/**/
 $app->group('/content', function() use($app){
     $app->map('/get', function() use($app){
         if($app->getCookie('lan') !== null)         $lan = $app->getCookie('lan');
@@ -158,6 +145,10 @@ $app->group('/content/text', function() use($app){
         
     })->via('GET', 'PUT', 'POST')->name('getText');
     
+    $app->map('/sad/modified/:category/:element'){
+        
+    })->via('PUT', 'POST');
+    
     $app->put('/set/modified/:catgory/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('lan') !== null)                     $lan = $app->getCookie('lan');
@@ -191,10 +182,10 @@ $app->group('/content/text', function() use($app){
         
         $app->redirect($app->urlFor('getText', array(   'category' => $category,
                                                         'element' => $element)));
-    });
+    })->name('setText');
     
     
-    $app->post('/insert/:category/:element', function($category, $element) use($app){
+    $app->post('/add/modified/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('lan') !== null)                     $lan = $app->getCookie('lan');
         if(isset($data->text) && !empty($data->text))           $text = $data->text;
@@ -219,7 +210,7 @@ $app->group('/content/text', function() use($app){
         $app->redirect($app->urlFor('getText', array(   'category' => $category,
                                                         'element' => $element)));
         
-    });
+    })->name();
     
     $app->put('/save/:category/:element', function($category, $element) use($app){
         if($app->getCookie('lan') !== null)         $lan = $app->getCookie('lan');
@@ -233,12 +224,13 @@ $app->group('/content/text', function() use($app){
                 $sql_text->execute();
                 $sql_text->setFetchMode(PDO::FETCH_OBJ);
                 if($result = $sql_text->fetch()){
-                    $query = 'UPDATE TextContent SET text = ? WHERE lan = ? AND category = ? AND element = ?'; 
+                    $query = 'UPDATE TextContent SET text = ? WHERE lan = ? AND category = ? AND element = ? AND tmp_text = ?'; 
                     $sql_text = $db->prepare($query);
                     $sql_text->bindParam(1, $result->tmp_text);
                     $sql_text->bindParam(2, $lan);
                     $sql_text->bindParam(3, $category);
                     $sql_text->bindParam(4, $element);
+                    $sql_text->bindParam(5, '');
                     if($sql_text->execute())    $result = 1;
                     else                        $result = 0;
                     //$result = $sql_text->rowCount();
