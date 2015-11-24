@@ -11,8 +11,7 @@ $app->group('/content', function() use($app){
         else                                        $app->redirect($app->urlFor('setLanguage', array('lan' =>
                                                     substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2))));
         
-        if(false)    $app->redirect($app->urlFor('getFinished'));
-        else        $app->redirect($app->urlFor('getModified'));       
+        $app->redirect($app->urlFor('getModified'));       
     })->via('GET', 'PUT', 'POST')->name('getContent');
     
     $app->map('/get/finished', function() use($app){
@@ -149,6 +148,7 @@ $app->group('/content/text', function() use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('lan') !== null)                     $lan = $app->getCookie('lan');
         if(isset($data->text) && !empty($data->text))           $text = $data->text;
+    
         try{
             if(($db = connectTo5Design()) != false){
                 $query = 'SELECT * FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
@@ -168,10 +168,11 @@ $app->group('/content/text', function() use($app){
             $db = null;
         }
         
-        if(!empty($result))         $app->redirect($app->urlFor('setText', array(   'category' => $category,
-                                                                                    'element' => $element)));
-        else                        $app->redirect($app->urlFor('addText', array(   'category' => $category,
-                                                                                    'element' => $element)));
+
+        if(!empty($result)) $app->redirect($app->urlFor('setText', array(   'category' => $category,
+                                                                            'element' => $element)));
+        else                $app->redirect($app->urlFor('addText', array(   'category' => $category,
+                                                                            'element' => $element)));
     })->via('PUT', 'POST')->name('editText');
     
     $app->map('/set/modified/:category/:element', function($category, $element) use($app){
@@ -232,7 +233,7 @@ $app->group('/content/text', function() use($app){
             $db = null;
         }
         
-        $app->redirect($app->urlFor('getText', array(   'category' => $category,
+       $app->redirect($app->urlFor('getText', array(   'category' => $category,
                                                         'element' => $element)));
         
     })->via('PUT', 'POST')->name('addText');

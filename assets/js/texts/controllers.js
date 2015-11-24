@@ -32,8 +32,6 @@
                 $interval.cancel(self.timer);
                 self.timer = null;
                 UpdateText();
-                console.log("hallo");
-                // hallo
             }
         }
         
@@ -42,13 +40,15 @@
                 
                 CreateRequest(function(token){
                     
-                    var url = acolyte.pathToServer + 'content/text/set/modified/' + $scope.category + '/' + $scope.element;
+                    var url = acolyte.pathToServer + 'content/text/edit/' + $scope.category + '/' + $scope.element;
                     var postData = {
                         text: self.text,
                         token: token
                     }
-                    
+                    console.log(postData);
+                    console.log(url);
                     $http.put(url,postData).success(function(response){
+                        console.log(response);
                         AcoPageContentService.setText($scope.category, $scope.element, response.textContent.text);
                     }).error(function(response){
                         console.log(response);

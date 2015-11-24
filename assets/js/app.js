@@ -115,11 +115,22 @@ var acolyte = {
             return text;
         }
         self.setText = function(category, element, text){
+            var found = false;
             for(var i=0; i<self.texts.length; i++){
                 var tmpText = self.texts[i];
                 if(tmpText.category == category && tmpText.element == element){
                     self.texts[i].text = text;
+                    found = true;
                 }
+            }
+            // if there is no such element -> create new one
+            if(!found){
+                var tmpText = {
+                    category: category,
+                    element: element,
+                    text: text
+                }
+                self.texts.push(tmpText);
             }
             self.broadcastPageContent();
         }

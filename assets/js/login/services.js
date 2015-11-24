@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .factory('AcoLoginService',['$rootScope',function($rootScope){
+    .factory('AcoLoginService',['$rootScope','$http',function($rootScope,$http){
         
         var self = {};
         
@@ -13,9 +13,26 @@
         }
         
         self.login = function(username, password){
-            // http -> login
-            self.loggedIn = true;
-            self.broadcastLoginStatus();
+            
+            CreateRequest(function(token){
+                
+                var postData = {
+                    username: username,
+                    password: password,
+                    token: token
+                }
+                
+                $http.post(acolyte.pathToServer + '/user/login', postData).success(function(response){
+                    console.log(response);
+                    // http -> login
+                    self.loggedIn = true;
+                    self.broadcastLoginStatus();
+                }).error(function(response){
+                    console.log(response);
+                });
+                
+            });
+            
         }
         self.logout = function(){
             // http -> logout
