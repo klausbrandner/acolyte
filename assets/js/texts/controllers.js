@@ -32,6 +32,7 @@
                 $interval.cancel(self.timer);
                 self.timer = null;
                 UpdateText();
+                console.log("hallo");
             }
         }
         
