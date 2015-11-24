@@ -72,8 +72,9 @@ var acolyte = {
                 $http.get(acolyte.pathToServer + 'content/get').success(function(response){
                     console.log(response);
                     self.texts = response.textContent;
-                    
-                    var content = {
+                    self.images = response.fileContent;
+                    console.log(self.images);
+                    /*var content = {
                         fileContent:
                         [
                             {
@@ -94,7 +95,7 @@ var acolyte = {
                         ]
                     }
 
-                    self.images = content.fileContent;
+                    self.images = content.fileContent;*/
                     
                     self.broadcastPageContent();
                 }).error(function(response){
@@ -139,10 +140,29 @@ var acolyte = {
             for(var i=0; i<self.images.length; i++){
                 var tmpImage = self.images[i];
                 if(tmpImage.category == category && tmpImage.element == element){
-                    src = tmpImage.src;
+                    src = tmpImage.url;
                 }
             }
             return src;
+        }
+        self.setImage = function(category, element, url){
+            var found = false;
+            for(var i=0; i<self.images.length; i++){
+                var tmpImage = self.images[i];
+                if(tmpImage.category == category && tmpImage.element == element){
+                    self.images[i].url = url;
+                    found = true;
+                }
+            }
+            if(!found){
+                var tmpImage = {
+                    category: category,
+                    element: element,
+                    url: url
+                }
+                self.images.push(tmpImage);
+            }
+            self.broadcastPageContent();
         }
         
         self.broadcastPageContent = function(){

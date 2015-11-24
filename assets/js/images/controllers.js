@@ -83,7 +83,7 @@
     
     
     // Image Upload Controller
-    .controller('AcoImageUploadController',['$scope','AcoNotificationService','AcoImageUploadService',function($scope,AcoNotificationService,AcoImageUploadService){
+    .controller('AcoImageUploadController',['$scope','AcoNotificationService','AcoImageUploadService','AcoPageContentService',function($scope,AcoNotificationService,AcoImageUploadService,AcoPageContentService){
         
         var self = this;
         
@@ -101,7 +101,16 @@
                     self.percentage = "please wait";
                     $scope.$apply();
                     $("#aco-img-upload-box").css({"display":"table","opacity":"1"});
-                    convertImgToBase64URL(files[0],uploadFile,"image/png");
+                    var fileExt = $(this).val().split('.').pop();
+                    console.log(fileExt);
+                    if(fileExt == "jpg"){
+                        fileExt = "jpeg";
+                    }
+                    if(fileExt == "jpeg" || fileExt == "png" || fileExt == "gif" || fileExt == "bmp"){
+                        convertImgToBase64URL(files[0],uploadFile,"image/" + fileExt);
+                    }else{
+                        AcoNotificationService.push('error','Invalid file', 'We are sorry, but this file-type is not supported.')
+                    }
                 }
                 
             });
@@ -151,7 +160,7 @@
                             var percentComplete = evt.loaded / evt.total;
                             //Do something with upload progress here
                             $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":percentComplete*100+"%"});
-                            self.percentage = percentComplete * 100 + "%";
+                            self.percentage = Math.round(percentComplete * 100) + "%";
                             $scope.$apply();
                         }
                    }, false);
@@ -161,7 +170,7 @@
                            var percentComplete = evt.loaded / evt.total;
                            //Do something with download progress
                             $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":percentComplete*100+"%"});
-                            self.percentage = percentComplete * 100 + "%";
+                            self.percentage = Math.round(percentComplete * 100) + "%";
                             $scope.$apply();
                        }
                    }, false);
@@ -175,6 +184,7 @@
                         $("#aco-img-upload-box").animate({"opacity":"0"},400,function(){
                             $("#aco-img-upload-box").css({"display":"none"});
                         });
+                        AcoPageContentService.setImage(self.tmpImage.category, self.tmpImage.element, data.fileContent.url)
                         AcoNotificationService.push('success','Image uploaded','Image has been successfully uploaded.');
                     }else{
                         AcoNotificationService.push("error","Unknown error","Sorry, an unknown error occured while processing your request!");

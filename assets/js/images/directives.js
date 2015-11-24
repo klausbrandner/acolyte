@@ -42,6 +42,9 @@
                     var c = attr.category;
                     var e = attr.element;
                     var img = AcoPageContentService.getImage(c,e);
+                    if(!img){
+                        img = acolyte.tmpImage;
+                    }
                     var size = elem.css('background-size');
                     var pos = elem.css('background-position');
                     var atta = elem.css('background-attachment');
