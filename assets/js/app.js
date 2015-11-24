@@ -43,7 +43,7 @@ var acolyte = {
     
     */
     
-    .factory('AcoPageContentService',['$rootScope',function($rootScope){
+    .factory('AcoPageContentService',['$rootScope','$http',function($rootScope,$http){
         
         var self = {};
         
@@ -66,6 +66,18 @@ var acolyte = {
         
         self.fetchContent = function(){
             
+            
+            CreateRequest(function(token){
+                
+                console.log(token);
+                
+                $http.get(acolyte.pathToServer + 'content/get').success(function(response){
+                    console.log(response);
+                }).error(function(response){
+                    console.log(response);
+                });
+                
+            });
             // http --> get content
             var content = {
                 textContent:
