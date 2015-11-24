@@ -1,7 +1,3 @@
-_____________________________________________________________________________________
-
-TABLES --- TABLES --- TABLES --- TABLES --- TABLES --- TABLES --- TABLES --- TABLES
-_____________________________________________________________________________________
 DROP TABLE IF EXISTS textcontent;
 DROP TABLE IF EXISTS filecontent;
 DROP TABLE IF EXISTS language;
@@ -35,18 +31,17 @@ CREATE TABLE FileContent(
     element     VARCHAR(255)    NOT NULL,
     url         VARCHAR(255),    
     src         VARCHAR(255),    
-    width       INT(11)         NOT NULL,
-    height      INT(11)         NOT NULL,
+    width       INT(11),         
+    height      INT(11),         
     
     tmp_url     VARCHAR(255),
     tmp_src     VARCHAR(255),
     
     PRIMARY KEY(category, element)
 );
-_____________________________________________________________________________________
 
-TABLES --- TABLES --- TABLES --- TABLES --- TABLES --- TABLES --- TABLES --- TABLES
-_____________________________________________________________________________________
+INSERT INTO `Language`(`lan`, `language`, `tmp_lan`, `tmp_language`) VALUES ('en', 'en', 'en', 'en');
+
 
 
 
