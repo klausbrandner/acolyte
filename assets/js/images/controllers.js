@@ -137,6 +137,7 @@
             var dataPost = JSON.stringify({
                 file: dataUrl
             });
+            console.log(dataPost);
             
             $.ajax({
                 url:url,
