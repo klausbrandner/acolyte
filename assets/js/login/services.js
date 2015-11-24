@@ -12,6 +12,24 @@
             return self.loggedIn;
         }
         
+        self.checkLoginState = function(){
+            
+            CreateRequest(function(token){
+                
+                $http.get(acolyte.pathToServer + 'user/view').success(function(response){
+                    console.log(response);
+                    if(response.user != null){
+                        self.loggedIn = true;
+                    }
+                    self.broadcastLoginStatus();
+                }).error(function(response){
+                    console.log(response);
+                });
+                
+            });
+            
+        }
+        
         self.login = function(username, password){
             
             CreateRequest(function(token){
@@ -22,7 +40,7 @@
                     token: token
                 }
                 
-                $http.post(acolyte.pathToServer + '/user/login', postData).success(function(response){
+                $http.get(acolyte.pathToServer + '/user/login').success(function(response){
                     console.log(response);
                     // http -> login
                     self.loggedIn = true;

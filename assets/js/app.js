@@ -169,7 +169,8 @@ var acolyte = {
         init();
         function init(){
             $timeout(function(){
-                AcoPageContentService.fetchContent();
+                //AcoPageContentService.fetchContent();
+                AcoLoginService.checkLoginState();
             });
         }
         
