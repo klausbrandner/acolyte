@@ -33,6 +33,7 @@
                 self.timer = null;
                 UpdateText();
                 console.log("hallo");
+                // hallo
             }
         }
         
