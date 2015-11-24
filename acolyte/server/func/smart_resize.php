@@ -115,26 +115,3 @@
     return true;
   }
 
-/**
-    * @param  $file - file string (base64)
-    * @param  $directory - directory for fileupload
-    * @return url to file| null
-*/
-function smart_base64_image($file,$directory){
-    $directory = $_SERVER["DOCUMENT_ROOT"].$directory;
-    $file = str_replace('data:image/jpeg;base64,','',$file);
-    $file = base64_decode($file);
-    $file_type = '.jpg';
-    
-    
-    do{
-        $file_name = substr(sha1(rand()), 0, 10);
-    }while(file_exists($directory.$file_name.$file_type));  
-    $file_url = $directory.$file_name.$file_type;
-    
-    if(file_put_contents($file_url, $file)){
-        //$file_url = str_replace("/Applications/XAMPP/xamppfiles/htdocs",'',$file_url);
-        return $file_name.$file_type;
-    }
-    else return null;
-}
