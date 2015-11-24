@@ -359,7 +359,7 @@ $app->group('/content/file', function() use($app){
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
-                                            'message' => 'The text could not be found!']));
+                                            'message' => 'The File could not be found!']));
         if(empty($result)) $app->stop();
         
         $app->response->status(200);

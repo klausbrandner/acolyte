@@ -1,8 +1,22 @@
 <?php
 function base64_decode_image($file,$directory){
-    $file = str_replace('data:image/png;base64,','',$file);
+    
+    if(strpos($file, 'data:image/png;base64,') !== false){
+        $file = str_replace('data:image/png;base64,','',$file);
+        $file_type = '.png';
+    }elseif(strpos($file, 'data:image/gif;base64,') !== false){
+        $file = str_replace('data:image/gif;base64,','',$file);
+        $file_type = '.gif';
+    }elseif(strpos($file, 'data:image/bmp;base64,') !== false){
+        $file = str_replace('data:image/bmp;base64,','',$file);
+        $file_type = '.bmp';
+    }else{
+        $file = str_replace('data:image/jpeg;base64,','',$file);
+        $file_type = '.jpeg';
+    }
+    
     $file = base64_decode($file);
-    $file_type = '.png';
+   
     
     if($file !== false){
         do{
