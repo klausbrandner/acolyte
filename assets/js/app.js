@@ -69,71 +69,39 @@ var acolyte = {
             
             CreateRequest(function(token){
                 
-                console.log(token);
-                
                 $http.get(acolyte.pathToServer + 'content/get').success(function(response){
                     console.log(response);
+                    self.texts = response.textContent;
+                    
+                    var content = {
+                        fileContent:
+                        [
+                            {
+                                category: 'home',
+                                element: 'banner',
+                                src: 'src/images/image2.jpg'
+                            },
+                            {
+                                category: 'home',
+                                element: 'image1',
+                                src: 'src/images/eys2.jpg'
+                            },
+                            {
+                                category: 'home',
+                                element: 'image2',
+                                src: 'src/images/image3.jpg'
+                            }
+                        ]
+                    }
+
+                    self.images = content.fileContent;
+                    
+                    self.broadcastPageContent();
                 }).error(function(response){
                     console.log(response);
                 });
                 
             });
-            // http --> get content
-            var content = {
-                textContent:
-                [
-                    {
-                        category: 'home',
-                        element: 'header',
-                        text: 'Say Hello To Acolyte!',
-                        lan: 'en'
-                    },
-                    {
-                        category: 'home',
-                        element: 'subtitle',
-                        text: 'The Angularjs based CMS framework for web-developers',
-                        lan: 'en'
-                    },
-                    {
-                        category: 'home',
-                        element: 'text1',
-                        text: 'Hello, this is just an example text. You should be able to edit this text by clicking and holding the mouse pointer.',
-                        lan: 'en'
-                    },
-                    {
-                        category: 'home',
-                        element: 'text2',
-                        text: 'This is a link.',
-                        lan: 'en'
-                    }
-                ],
-                fileContent:
-                [
-                    {
-                        category: 'home',
-                        element: 'banner',
-                        src: 'src/images/image2.jpg'
-                    },
-                    {
-                        category: 'home',
-                        element: 'image1',
-                        src: 'src/images/eys2.jpg'
-                    },
-                    {
-                        category: 'home',
-                        element: 'image2',
-                        src: 'src/images/image3.jpg'
-                    }
-                ]
-            }
-            
-            self.texts = content.textContent;
-            self.images = content.fileContent;
-            
-            console.log(self.texts);
-            console.log(self.images);
-            
-            self.broadcastPageContent();
         }
         
         self.getText = function(category, element){
@@ -145,6 +113,15 @@ var acolyte = {
                 }
             }
             return text;
+        }
+        self.setText = function(category, element, text){
+            for(var i=0; i<self.texts.length; i++){
+                var tmpText = self.texts[i];
+                if(tmpText.category == category && tmpText.element == element){
+                    self.texts[i].text = text;
+                }
+            }
+            self.broadcastPageContent();
         }
         self.getImage = function(category,element){
             var src = false;

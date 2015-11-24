@@ -145,9 +145,9 @@ $app->group('/content/text', function() use($app){
         
     })->via('GET', 'PUT', 'POST')->name('getText');
     
-    $app->map('/sad/modified/:category/:element'){
+    /*$app->map('/sad/modified/:category/:element'){
         
-    })->via('PUT', 'POST');
+    })->via('PUT', 'POST');*/
     
     $app->put('/set/modified/:catgory/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());

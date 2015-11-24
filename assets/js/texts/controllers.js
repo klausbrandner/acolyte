@@ -2,13 +2,13 @@
     
     angular.module('Acolyte')
     
-    .controller('AcoTextController',['$sce','$scope','$interval','AcoPageContentService','AcoLoginService',function($sce,$scope,$interval,AcoPageContentService,AcoLoginService){
+    .controller('AcoTextController',['$sce','$scope','$interval','$http','AcoPageContentService','AcoLoginService',function($sce,$scope,$interval,$http,AcoPageContentService,AcoLoginService){
         
         var self = this;
         
         // init variables
         self.editable = false;
-        self.timer = {};
+        self.timer = null;
         self.text = acolyte.tmpText;
         
         // click Event on text
@@ -30,29 +30,42 @@
         self.update = function(){
             if(AcoLoginService.getLoginState()){
                 $interval.cancel(self.timer);
+                self.timer = null;
                 UpdateText();
             }
         }
         
         function UpdateText(){
             if(AcoLoginService.getLoginState()){
-                // http -> update text
-                var postData = {
-                    category: $scope.category,
-                    element: $scope.element,
-                    text: self.text
-                }
-                console.log(postData);
+                
+                CreateRequest(function(token){
+                    
+                    var url = acolyte.pathToServer + 'content/text/set/modified/' + $scope.category + '/' + $scope.element;
+                    var postData = {
+                        text: self.text,
+                        token: token
+                    }
+                    
+                    $http.put(url,postData).success(function(response){
+                        AcoPageContentService.setText($scope.category, $scope.element, response.textContent.text);
+                    }).error(function(response){
+                        console.log(response);
+                    });
+                    
+                });
+                
             }
         }
         
         // Listener when PageContent gets updated
         $scope.$on('AcoPageContentChanged',function(){
             var txt = AcoPageContentService.getText($scope.category,$scope.element);
-            if(!txt){
-                txt = acolyte.newText;
+            if(self.timer == null){
+                if(!txt){
+                    txt = acolyte.newText;
+                }
+                self.text = txt;
             }
-            self.text = txt;
         });
         
         // Listener when Edit-Mode gets activated
