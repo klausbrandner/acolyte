@@ -145,11 +145,6 @@ $app->group('/content/text', function() use($app){
         
     })->via('GET', 'PUT', 'POST')->name('getText');
     
-<<<<<<< HEAD
-    /*$app->map('/sad/modified/:category/:element'){
-        
-    })->via('PUT', 'POST');*/
-=======
     $app->map('/edit/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('lan') !== null)                     $lan = $app->getCookie('lan');
@@ -330,7 +325,7 @@ $app->group('/content/text', function() use($app){
 });
 
 $app->group('/content/file', function() use($app){
-    
+    //abcdefg
 });
 
 $app->group('/content/language', function() use($app){
