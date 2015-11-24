@@ -45,10 +45,7 @@
                         text: self.text,
                         token: token
                     }
-                    console.log(postData);
-                    console.log(url);
                     $http.put(url,postData).success(function(response){
-                        console.log(response);
                         AcoPageContentService.setText($scope.category, $scope.element, response.textContent.text);
                     }).error(function(response){
                         console.log(response);

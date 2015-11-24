@@ -2,14 +2,13 @@
     
     angular.module('Acolyte')
     
-    .controller('AcoImageController',['$scope','$timeout','AcoPageContentService','AcoLoginService',function($scope,$timeout,AcoPageContentService,AcoLoginService){
+    .controller('AcoImageController',['$scope','AcoPageContentService','AcoLoginService','AcoImageUploadService',function($scope,AcoPageContentService,AcoLoginService,AcoImageUploadService){
         
         var self = this;
         
         // init variables
         self.editable = false;
         self.src = acolyte.tmpImage;
-        
         
         // click event on image
         self.edit = function(e){
@@ -20,10 +19,10 @@
                     
                     // trigger click event on file upload input
                     $("#aco-img-upload-box").find("#aco-img-upload-input").trigger("click");
+                    AcoImageUploadService.setTmpImage({category: $scope.category, element: $scope.element});
                 }
             }
         }
-        
         
         // Listener when PageContent gets updated
         $scope.$on('AcoPageContentChanged',function(){
@@ -43,8 +42,13 @@
     }])
     
     
+    
+    
+    
+    
+    
     // Background Controller
-    .controller('AcoBackgroundController',['$scope','AcoPageContentService','AcoLoginService',function($scope,AcoPageContentService,AcoLoginService){
+    .controller('AcoBackgroundController',['$scope','AcoPageContentService','AcoLoginService','AcoImageUploadService',function($scope,AcoPageContentService,AcoLoginService,AcoImageUploadService){
         
         var self = this;
         
@@ -54,6 +58,7 @@
             if(AcoLoginService.getLoginState()){
                 // trigger click event on file upload input
                 $("#aco-img-upload-box").find("#aco-img-upload-input").trigger("click");
+                AcoImageUploadService.setTmpImage({category: $scope.category, element: $scope.element});
             }
         }
         
@@ -72,13 +77,19 @@
     }])
     
     
+    
+    
+    
+    
+    
     // Image Upload Controller
-    .controller('AcoImageUploadController',['$scope',function($scope){
+    .controller('AcoImageUploadController',['$scope','AcoNotificationService','AcoImageUploadService',function($scope,AcoNotificationService,AcoImageUploadService){
         
         var self = this;
         
         self.status = "Preparing upload...";
         self.percentage = "please wait";
+        self.tmpImage = {};
         
         init();
         function init(){
@@ -89,7 +100,7 @@
                     self.status = "Preparing upload...";
                     self.percentage = "please wait";
                     $scope.$apply();
-                    $("#aco-img-upload-box").css({"display":"table"});
+                    $("#aco-img-upload-box").css({"display":"table","opacity":"1"});
                     convertImgToBase64URL(files[0],uploadFile,"image/png");
                 }
                 
@@ -120,10 +131,72 @@
         
         function uploadFile(dataUrl){
             self.status = "Uploading image...";
-            self.percentage = "60%";
             $scope.$apply();
+            
+            var url = acolyte.pathToServer + 'content/file/edit/' + self.tmpImage.category + '/' + self.tmpImage.element;
+            var dataPost = JSON.stringify({
+                file: dataUrl
+            });
+            
+            $.ajax({
+                url:url,
+                data:dataPost,
+                type:"PUT",
+                contentType: "application/json",
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            //Do something with upload progress here
+                            $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":percentComplete*100+"%"});
+                            self.percentage = percentComplete * 100 + "%";
+                            $scope.$apply();
+                        }
+                   }, false);
+
+                   xhr.addEventListener("progress", function(evt) {
+                       if (evt.lengthComputable) {
+                           var percentComplete = evt.loaded / evt.total;
+                           //Do something with download progress
+                            $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":percentComplete*100+"%"});
+                            self.percentage = percentComplete * 100 + "%";
+                            $scope.$apply();
+                       }
+                   }, false);
+
+                   return xhr;
+                },
+                success:function(data, textStatus, xhr){
+                    console.log(data);
+                    if(xhr.status == 200){
+                        $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":"0%"});
+                        $("#aco-img-upload-box").animate({"opacity":"0"},400,function(){
+                            $("#aco-img-upload-box").css({"display":"none"});
+                        });
+                        AcoNotificationService.push('success','Image uploaded','Image has been successfully uploaded.');
+                    }else{
+                        AcoNotificationService.push("error","Unknown error","Sorry, an unknown error occured while processing your request!");
+                    }
+                    $scope.$apply();
+                },
+                error:function(data,textStatus,xhr){
+                    console.log(data);
+                    $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":"0%"});
+                    $("#aco-img-upload-box").animate({"opacity":"0"},400,function(){
+                        $("#aco-img-upload-box").css({"display":"none"});
+                    });
+                    AcoNotificationService.push("error","Unknown error","Sorry, an unknown error occured while processing your request!");
+                    $scope.$apply();
+                }
+            });
+            
         }
         
+        // Listener when there is a new image to be uploaded
+        $scope.$on('AcoNewUploadImage',function(){
+            self.tmpImage = AcoImageUploadService.getTmpImage();
+        });
         
     }]);
     

@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .factory('AcoLoginService',['$rootScope','$http',function($rootScope,$http){
+    .factory('AcoLoginService',['$rootScope','$http','AcoNotificationService',function($rootScope,$http,AcoNotificationService){
         
         var self = {};
         
@@ -24,6 +24,7 @@
                     self.broadcastLoginStatus();
                 }).error(function(response){
                     console.log(response);
+                    self.broadcastLoginStatus();
                 });
                 
             });
@@ -40,10 +41,11 @@
                     token: token
                 }
                 
-                $http.get(acolyte.pathToServer + '/user/login').success(function(response){
+                $http.post(acolyte.pathToServer + 'user/login', postData).success(function(response){
                     console.log(response);
                     // http -> login
                     self.loggedIn = true;
+                    AcoNotificationService.push('success','Logged in','You where successfully logged in.');
                     self.broadcastLoginStatus();
                 }).error(function(response){
                     console.log(response);
@@ -55,6 +57,7 @@
         self.logout = function(){
             // http -> logout
             self.loggedIn = false;
+            AcoNotificationService.push('success','Logged out','You where successfully logged out.');
             self.broadcastLoginStatus();
         }
         
