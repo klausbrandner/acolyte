@@ -145,14 +145,44 @@ $app->group('/content/text', function() use($app){
         
     })->via('GET', 'PUT', 'POST')->name('getText');
     
+<<<<<<< HEAD
     /*$app->map('/sad/modified/:category/:element'){
         
     })->via('PUT', 'POST');*/
-    
-    $app->put('/set/modified/:catgory/:element', function($category, $element) use($app){
+=======
+    $app->map('/edit/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('lan') !== null)                     $lan = $app->getCookie('lan');
         if(isset($data->text) && !empty($data->text))           $text = $data->text;
+        try{
+            if(($db = connectTo5Design()) != false){
+                $query = 'SELECT * FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
+                $sql_text = $db->prepare($query);
+                $sql_text->bindParam(1, $lan);
+                $sql_text->bindParam(2, $category);
+                $sql_text->bindParam(3, $element);
+                $sql_text->execute();
+                $sql_text->setFetchMode(PDO::FETCH_OBJ);
+                $result = $sql_text->fetch();
+            }else throw new Exception($e);
+        }catch(Exception $e){
+            $app->halt(503, json_encode(['type' => 'Error',
+                                         'title' => 'Oops, something went wrong!',
+                                         'message' => $e->getMessage()]));
+        }finally{
+            $db = null;
+        }
+        
+        if(!empty($result))         $app->redirect($app->urlFor('setText', array(   'category' => $category,
+                                                                                    'element' => $element)));
+        else                        $app->redirect($app->urlFor('addText', array(   'category' => $category,
+                                                                                    'element' => $element)));
+    })->via('PUT', 'POST')->name('editText');
+    
+    $app->map('/set/modified/:category/:element', function($category, $element) use($app){
+        $data = json_decode($app->request->getBody());
+        if($app->getCookie('lan') !== null)                     $lan = $app->getCookie('lan');
+        if(isset($data->text))                                  $text = $data->text;
         try{
             if(($db = connectTo5Design()) != false){
                 $query = 'UPDATE TextContent SET tmp_text = ? WHERE category = ? AND element = ? AND lan = ?';
@@ -182,10 +212,10 @@ $app->group('/content/text', function() use($app){
         
         $app->redirect($app->urlFor('getText', array(   'category' => $category,
                                                         'element' => $element)));
-    })->name('setText');
+    })->via('PUT', 'POST')->name('setText');
     
     
-    $app->post('/add/modified/:category/:element', function($category, $element) use($app){
+    $app->map('/add/modified/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('lan') !== null)                     $lan = $app->getCookie('lan');
         if(isset($data->text) && !empty($data->text))           $text = $data->text;
@@ -210,7 +240,7 @@ $app->group('/content/text', function() use($app){
         $app->redirect($app->urlFor('getText', array(   'category' => $category,
                                                         'element' => $element)));
         
-    })->name();
+    })->via('PUT', 'POST')->name('addText');
     
     $app->put('/save/:category/:element', function($category, $element) use($app){
         if($app->getCookie('lan') !== null)         $lan = $app->getCookie('lan');
