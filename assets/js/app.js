@@ -53,7 +53,7 @@ var acolyte = {
         self.edit = false;
         
         self.setEdit = function(setTo){
-            if(setTo){
+            if(typeof setTo !== 'undefined'){
                 self.edit = setTo;
             }else{
                 self.edit = !self.edit;
