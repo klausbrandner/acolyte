@@ -1,14 +1,23 @@
-<div id="aco-admin-table" ng-show="acoAdminCtrl.showPanel">
-    <div id="aco-admin-drag">
-        <img id="aco-admin-drag-img" ng-src="{{acoAdminCtrl.dragImg}}" />
+<div id="aco-admin-panel">
+    <div id="aco-admin-table" ng-show="acoAdminCtrl.showPanel">
+        <div id="aco-admin-drag">
+            <img id="aco-admin-drag-img" ng-src="{{acoAdminCtrl.dragImg}}" />
+        </div>
+        <div id="aco-admin-edit" ng-class="(acoAdminCtrl.edit) ? 'active' : ''" ng-click="acoAdminCtrl.setEditMode()">
+            {{(acoAdminCtrl.edit) ? 'done' : 'edit'}}
+        </div>
+        <div id="aco-admin-lan" ng-click="acoAdminCtrl.selectLan()">
+            EN
+        </div>
+        <div id="aco-admin-publish">
+            publish
+        </div>
     </div>
-    <div id="aco-admin-edit" ng-class="(acoAdminCtrl.edit) ? 'active' : ''" ng-click="acoAdminCtrl.setEditMode()">
-        {{(acoAdminCtrl.edit) ? 'done' : 'edit'}}
-    </div>
-    <div id="aco-admin-lan">
-        EN
-    </div>
-    <div id="aco-admin-publish">
-        publish
+    <div id="aco-admin-lan-box" class="aco-lan-bottom">
+        <ul id="aco-admin-lan-list">
+            <li>EN - English</li>
+            <li>DE - Deutsch</li>
+            <li>NL - Netherlands</li>
+        </ul>
     </div>
 </div>

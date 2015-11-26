@@ -2,22 +2,24 @@ aco-admin {
   position: fixed;
   bottom: 50px;
   right: 50px;
-  color: #fff;
-  z-index: 1000;
-  background: url(src/black.png); }
+  z-index: 1000; }
+  aco-admin #aco-admin-panel {
+    position: relative;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    font-family: Gotham;
+    font-weight: 400; }
   aco-admin #aco-admin-table {
     height: 50px;
     display: table;
-    text-align: center; }
+    text-align: center;
+    background: url(src/black.png);
+    color: #fff; }
     aco-admin #aco-admin-table > div {
       display: table-cell;
       vertical-align: middle;
-      font-size: 0.9em;
       line-height: 0px;
       padding: 2px 15px 0;
-      text-transform: uppercase;
-      font-family: Gotham;
-      font-weight: 400;
       cursor: pointer;
       background: transparent;
       transition: background 0.4s; }
@@ -37,6 +39,34 @@ aco-admin {
         background: #36a6d6; }
       aco-admin #aco-admin-table > div.active {
         background: #36a6d6; }
+  aco-admin #aco-admin-lan-box {
+    position: absolute;
+    right: 0px;
+    background: url(src/black.png);
+    color: #fff;
+    width: 100%;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    overflow: auto;
+    display: none; }
+    aco-admin #aco-admin-lan-box.aco-lan-bottom {
+      bottom: 50px; }
+    aco-admin #aco-admin-lan-box.aco-lan-top {
+      top: 50px; }
+    aco-admin #aco-admin-lan-box ul, aco-admin #aco-admin-lan-box li {
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
+      list-style: none; }
+    aco-admin #aco-admin-lan-box #aco-admin-lan-list {
+      width: 100%; }
+      aco-admin #aco-admin-lan-box #aco-admin-lan-list li {
+        display: block;
+        padding: 8px 20px 5px;
+        line-height: 200%;
+        cursor: pointer; }
+        aco-admin #aco-admin-lan-box #aco-admin-lan-list li:hover {
+          background: #36a6d6; }
 
 aco-login-box {
   position: fixed;

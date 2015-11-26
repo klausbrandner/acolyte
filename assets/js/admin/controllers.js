@@ -13,12 +13,40 @@
         function init(){
             $("aco-admin").draggable({ 
                 handle: '#aco-admin-drag',
-                containment: 'document'
+                containment: 'document',
+                stop: function(){
+                    var offPos = $(this).offset().top;
+                    var winPos = $(window).scrollTop();
+                    var screenHeight = screen.availHeight;
+                    if(offPos < winPos){
+                        $(this).css({"top":"0px"});
+                    }
+                    var bottomLimit = winPos + screenHeight;
+                    if(offPos > bottomLimit){
+                        $(this).css({"bottom":"0px"});
+                    }
+                }
             });
         }
         
         self.setEditMode = function(){
             AcoPageContentService.setEdit();
+        }
+        
+        self.selectLan = function(){
+            var lanBox = $("#aco-admin-panel").find("#aco-admin-lan-box");
+            var adminTable = $("#aco-admin-panel").find("#aco-admin-table");
+            
+            var boxHeight = lanBox.outerHeight();
+            var tableOffset = adminTable.offset().top - $(window).scrollTop();
+            if(boxHeight > tableOffset){
+                lanBox.addClass('aco-lan-top');
+                lanBox.removeClass('aco-lan-bottom');
+            }else{
+                lanBox.addClass('aco-lan-bottom');
+                lanBox.removeClass('aco-lan-top');
+            }
+            lanBox.slideToggle(200);
         }
         
         // Listener to Edit Mode

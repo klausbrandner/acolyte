@@ -66,37 +66,12 @@ var acolyte = {
         
         self.fetchContent = function(){
             
-            
             CreateRequest(function(token){
                 
                 $http.get(acolyte.pathToServer + 'content/get').success(function(response){
                     console.log(response);
                     self.texts = response.textContent;
                     self.images = response.fileContent;
-                    console.log(self.images);
-                    /*var content = {
-                        fileContent:
-                        [
-                            {
-                                category: 'home',
-                                element: 'banner',
-                                src: 'src/images/image2.jpg'
-                            },
-                            {
-                                category: 'home',
-                                element: 'image1',
-                                src: 'src/images/eys2.jpg'
-                            },
-                            {
-                                category: 'home',
-                                element: 'image2',
-                                src: 'src/images/image3.jpg'
-                            }
-                        ]
-                    }
-
-                    self.images = content.fileContent;*/
-                    
                     self.broadcastPageContent();
                 }).error(function(response){
                     console.log(response);
