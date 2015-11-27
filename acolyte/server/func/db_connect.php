@@ -1,7 +1,10 @@
 <?php
-    function connectToMySql($host, $db, $user, $pw){
+    require_once("settings.php");
+    require_once("sql_ddl.php");
+
+    function connectToMySql(){
         try{
-            $dbCon = new PDO("mysql:host=" . $host . ";dbname=" . $db, $user, $pw);
+            $dbCon = new PDO("mysql:host=" . HOST . ";dbname=" . DATABASE, USER, PASSWORD);
             $dbCon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $dbCon;
         }catch(PDOException $e){
@@ -10,33 +13,14 @@
         }
     }
 
-    function connectToLocalhost($db){
+    function setupMySql($dbCon){
         try{
-            $host = 'localhost';
-            $user = 'root';
-            $pw = '';
-            $dbCon = new PDO("mysql:host=" . $host . ";dbname=" . $db, $user, $pw);
-            $dbCon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $dbCon;
-        }catch(PDOException $e){
-            //echo $e->getMessage();
+            $query = getSql();
+            $setup = $dbCon->prepare($query);
+            $setup->execute();
+        }catch(Exception $e){
             return false;
         }
-    }
-
-    function connectTo5Design(){
-        try{
-            return connectToLocalHost('acolyte');
-            $host = 'mysqlsvr41.world4you.com';
-            $db = '8580095db1';
-            $user = 'sql8580095';
-            $pw = 'jigb@zx';
-            $dbCon = new PDO("mysql:host=" . $host . ";dbname=" . $db, $user, $pw);
-            $dbCon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $dbCon;
-        }catch(PDOException $e){
-            //echo $e->getMessage();
-            return false;
-        }
+        return $dbCon;
     }
 ?>
