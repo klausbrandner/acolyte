@@ -1,7 +1,7 @@
 <?php
 require "vendor/autoload.php";                  //COMPOSER
 require_once 'func/db_connect.php';             //DATABASE CONNECTIONS
-require_once 'func/base64_decode.php';
+require_once 'func/base64_decode.php';          //BASE 64 IMAGE UPLOAD
 
 $app = new \Slim\Slim(); 
 $app->response->headers->set('Content-Type', 'application/json');

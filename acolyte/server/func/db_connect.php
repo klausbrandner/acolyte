@@ -1,6 +1,6 @@
 <?php
-    require_once("settings.php");
-    require_once("sql_ddl.php");
+    require_once("settings.php");   // FOR THE DATABASE CONNECTION
+    require_once("sql_ddl.php");    // FOR THE DATABASE SETUP
 
     function connectToMySql(){
         try{
