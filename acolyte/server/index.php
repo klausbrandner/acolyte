@@ -6,6 +6,13 @@ require_once 'func/base64_decode.php';
 $app = new \Slim\Slim(); 
 $app->response->headers->set('Content-Type', 'application/json');
 
+$app = new \Slim\Slim(array(
+    'cookies.encrypt' => true,
+    'cookies.secret_key' => 'acolyte-secret-key',
+    'cookies.cipher' => MCRYPT_RIJNDAEL_256,
+    'cookies.cipher_mode' => MCRYPT_MODE_CBC
+));
+
 $app->group('/content', function() use($app){
     $app->map('/get', function() use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
@@ -548,7 +555,8 @@ $app->group('/user', function() use($app){
 
 $app->group('/test', function() use($app){
    $app->get('/function', function() use($app){
-      setupMysql(connectToMySql()); 
+       //$app->setCookie('test','abc');
+       //print_r($app->getCookie('test'));
    }); 
 });
 
