@@ -14,8 +14,8 @@ module.exports = function(grunt){
         sass: {
             dist: {
                 files: {
-                    'styles/app.css': 'assets/styles/app.scss',
-                    'acolyte/acolyte.css': 'assets/styles/acolyte.scss'
+                    'styles/app.css': 'assets/css/app.scss',
+                    'acolyte/acolyte.css': 'assets/css/acolyte.scss'
                 }
             }
         },
@@ -25,7 +25,7 @@ module.exports = function(grunt){
                 tasks: ['uglify']
             },
             styles:{
-                files: ['assets/styles/*.scss'],
+                files: ['assets/css/*.scss', 'assets/css/*/*.scss'],
                 tasks: ['sass']
             }
         }

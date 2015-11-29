@@ -1,27 +1,33 @@
+@import 'aco-fonts';
 @import 'aco-variables';
 
 aco-admin{
     position: fixed;
     bottom: 50px;
     right: 50px;
-    color: #fff;
-    z-index: 1000;
-    background: $color-admin-bg;
+    z-index: 1100;
+    
+    #aco-admin-panel{
+        position: relative;
+        font-size: 0.9em;
+        
+        text-transform: uppercase;
+        font-family: $font-Acolyte;
+        font-weight: 400;
+    }
     
     #aco-admin-table{
         height: 50px;
         display: table;
         text-align: center;
+        background: $color-admin-bg;
+        color: #fff;
         
         & > div{
             display: table-cell;
             vertical-align: middle;
-            font-size: 0.9em;
             line-height: 0px;
             padding: 2px 15px 0;
-            text-transform: uppercase;
-            font-family: Gotham;
-            font-weight: 400;
             cursor: pointer;
             background: transparent;
             transition: background 0.4s;
@@ -59,6 +65,48 @@ aco-admin{
             }
         }
     }
+    
+    
+    #aco-admin-lan-box{
+        position: absolute;
+        right: 0px;
+        background: url(src/black.png);
+        color: #fff;
+        width: 100%;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+        overflow: auto;
+        display: none;
+        
+        &.aco-lan-bottom{
+            bottom: 50px;
+        }
+        &.aco-lan-top{
+            top: 50px;
+        }
+        
+        ul, li{
+            margin:0;
+            padding:0;
+            text-decoration:none;
+            list-style:none;
+        }
+        
+        #aco-admin-lan-list{
+            width: 100%;
+            
+            li{
+                display: block;
+                padding: 8px 20px 5px;
+                line-height: 200%;
+                cursor:pointer;
+                
+                &:hover{
+                    background: $color-blue;
+                }
+            }
+        }
+    }
 }
 
 
@@ -71,6 +119,7 @@ aco-login-box{
     background: url(src/black.png);
     font-family: $font-Acolyte;
     display: none;
+    z-index: 1000;
     
     & > #acoLoginBox{
         position: absolute;
@@ -143,7 +192,7 @@ aco-login-box{
     height: 100%;
     background: url(src/black.png);
     display: none;
-    z-index: 1200;
+    z-index: 1300;
     
     #aco-img-upload-content{
         width: 100%;

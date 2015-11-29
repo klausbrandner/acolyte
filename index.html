@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="Acolyte">
+<html ng-app="AcolyteWeb">
     <head>
         <title>Acolyte</title>
         
@@ -10,42 +10,84 @@
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-sanitize.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.js"></script>
         
         <script src="acolyte/acolyte.min.js"></script>
+        <script src="js/routes.js"></script>
     </head>
     <body>
         
         <aco-root></aco-root>
         
-        <div class="homeBg aco-background" category="home" element="banner">
-            <h1 aco-text category="home" element="header"></h1>
-            <h3 aco-text category="home" element="subtitle"></h3>
-        </div>
+        <header class="aco-background" category="home" element="banner">
+            
+            <a href="#/home">
+                <div id="logo">
+                    Acolyte
+                </div>
+            </a>
+            
+            <div id="menu">
+                <ul>
+                    <li>
+                        <a href="#/gettingstarted">
+                            <div>
+                                <img src="src/icons/playW.png" />
+                                Getting Started
+                            </div>
+                        </a>
+                    </li><li>
+                        <a href="#/download">
+                            <div>
+                                <img src="src/icons/downloadW.png" />
+                                Download
+                            </div>
+                        </a>
+                    </li><li>
+                        <a href="#/documentation">
+                            <div>
+                                <img src="src/icons/docuW.png" />
+                                Documentation
+                            </div>
+                        </a>
+                    </li><!--<li>
+                        <a href="">
+                            <div>
+                                <img src="src/icons/apiW.png" />
+                                API
+                            </div>
+                        </a>
+                    </li>-->
+                </ul>
+            </div>
+            
+            <div id="homeHeader" class="header content">
+                <h1 aco-text category="home" element="header"></h1>
+                <h2 aco-text category="home" element="subtitle"></h2>
+                
+                <a href="">
+                    <div class="downloadBtn">
+                        <img src="src/icons/downloadW.png" />
+                        Download Acolyte 1.0.1<br />
+                        <span>ZIP-File 3.5 MB</span>
+                    </div>
+                </a>
+            </div>
+            
+            <div id="gettingstartedHeader" class="header subheader">
+                <h1>Let's get started!</h1>
+                <h2>Get Acolyte running in 5 easy steps.</h2>
+            </div>
+        </header>
+        
         
         <main>
-            
-            <div class="row">
-                <div class="testText" aco-text category="home" element="text1"></div>
-                <div>
-                    <a href="http://localhost/acolyte/">
-                        <img class="testImage" aco-img category="home" element="image2" />
-                    </a>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="testText" id="clickEvent" aco-text category="home" element="text1"></div>
-                <a href="http://localhost/acolyte/" aco-text category="home" element="text2"></a>
-            </div>
-            <br /><br />
-            <a href="http://localhost/acolyte/"><img aco-img category="home" element="image1" /></a>
-            
+            <div ng-view></div>
         </main>
         
-        <footer>
-            <aco-login></aco-login>
-        </footer>
         
+        
+        <aco-login></aco-login>
         
     </body>
 </html>
