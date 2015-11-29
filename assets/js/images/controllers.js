@@ -106,6 +106,7 @@
                     if(fileExt == "jpg"){
                         fileExt = "jpeg";
                     }
+                    console.log(fileExt);
                     if(fileExt == "jpeg" || fileExt == "png" || fileExt == "gif" || fileExt == "bmp"){
                         convertImgToBase64URL(files[0],uploadFile,"image/" + fileExt);
                     }else{
@@ -146,7 +147,6 @@
             var dataPost = JSON.stringify({
                 file: dataUrl
             });
-            console.log(dataPost);
             
             $.ajax({
                 url:url,

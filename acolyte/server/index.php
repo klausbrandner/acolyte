@@ -36,12 +36,12 @@ $app->group('/content', function() use($app){
                     $sql_text->execute();
                     $sql_text->setFetchMode(PDO::FETCH_OBJ);
 
-                    $query = 'SELECT category, element, url FROM filecontent';
+                    $query = 'SELECT category, element, url FROM FileContent';
                     $sql_file = $db->prepare($query);
                     $sql_file->execute();
                     $sql_file->setFetchMode(PDO::FETCH_OBJ);
 
-                    $query = 'SELECT lan, language FROM language';
+                    $query = 'SELECT lan, language FROM Language';
                     $sql_lan = $db->prepare($query);
                     $sql_lan->execute();
                     $sql_lan->setFetchMode(PDO::FETCH_OBJ);
@@ -94,13 +94,13 @@ $app->group('/content', function() use($app){
 		                            WHEN	tmp_url       = ?    	       THEN url
                             ELSE    tmp_url
        	                    END AS 	url
-                            FROM    Filecontent';
+                            FROM    FileContent';
                 $sql_file = $db->prepare($query);
                 $sql_file->bindParam(1, $case);
                 $sql_file->execute();
                 $sql_file->setFetchMode(PDO::FETCH_OBJ);
                 
-                $query = 'SELECT lan, language FROM language';
+                $query = 'SELECT lan, language FROM Language';
                 $sql_lan = $db->prepare($query);
                 $sql_lan->execute();
                 $sql_lan->setFetchMode(PDO::FETCH_OBJ);
@@ -488,6 +488,7 @@ $app->group('/content/file', function() use($app){
 
         if($db = connectToMySql()){
             try{
+                $query = "test";
                 if(($file = base64_decode_image($file,$directory)) !== null){
                     $query = 'INSERT INTO FileContent(tmp_url, tmp_src, category, element) VALUES(?,?,?,?)';
                     $sql_file = $db->prepare($query);
@@ -501,8 +502,8 @@ $app->group('/content/file', function() use($app){
             }catch(Exception $e){
                 //if($file !== null) if(file_exists($file["src"])) unlink($file["src"]);
                 $app->halt(503, json_encode(['type' => 'Error',
-                                             'title' => 'Oops, something went wrong!',
-                                             'message' => $e->getMessage()]));
+                                             'title' => 'Oops, something went wrong! catch',
+                                             'message' => $query]));
             }finally{$db = null;}
         }else{
             $app->halt(503, json_encode([   'type' => 'Error',
