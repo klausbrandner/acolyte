@@ -1,66 +1,127 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,400italic);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,900,700,300);
 /**
 * Global Variables
 */
+header {
+  position: relative;
+  width: 100%;
+  background: #219ae6;
+  background-position: center;
+  background-size: cover;
+  color: #fff; }
+  header #logo {
+    font-weight: 900;
+    font-size: 2.5em;
+    padding: 25px;
+    font-family: Lato;
+    color: #fff; }
+  header #menu {
+    position: absolute;
+    top: 20px;
+    right: 20px; }
+    header #menu ul li {
+      display: inline-table; }
+      header #menu ul li div {
+        position: relative;
+        color: #fff;
+        font-weight: 400;
+        padding: 10px 18px 10px 58px;
+        transition: all 0.4s; }
+        header #menu ul li div img {
+          position: absolute;
+          top: 17px;
+          left: 20px;
+          width: 25px;
+          height: 25px; }
+        header #menu ul li div:hover {
+          background: #0b82cd; }
+  header .content {
+    width: 90%;
+    padding: 30px 5% 50px;
+    text-align: center; }
+    header .content h1 {
+      padding: 60px 0px 10px;
+      margin: 0;
+      font-size: 6.5em;
+      line-height: 120%; }
+    header .content h2 {
+      margin: 0;
+      padding: 40px 0px;
+      font-weight: 300;
+      font-size: 1.3em; }
+    header .content .downloadBtn {
+      position: relative;
+      margin: auto;
+      background: #219ae6;
+      border-bottom: 2px solid #0b82cd;
+      width: 300px;
+      padding: 20px 20px 18px 90px;
+      font-size: 1.4em;
+      line-height: 90%;
+      font-weight: 400;
+      color: #fff;
+      -webkit-border-radius: 15px;
+      -moz-border-radius: 15px;
+      border-radius: 15px;
+      text-align: left;
+      transition: all 0.4s; }
+      header .content .downloadBtn img {
+        position: absolute;
+        top: 18px;
+        left: 20px;
+        width: 50px;
+        height: 50px; }
+      header .content .downloadBtn span {
+        font-size: 0.5em;
+        line-height: 100%; }
+      header .content .downloadBtn:hover {
+        background: #54b4f2; }
+  header .subheader {
+    padding: 50px 0px;
+    text-align: center;
+    display: none; }
+    header .subheader h1 {
+      font-size: 3em; }
+    header .subheader h2 {
+      font-size: 1.1em;
+      font-weight: 300; }
+
+.gettingStarted {
+  width: 80%;
+  max-width: 800px;
+  padding: 50px;
+  background: #fff;
+  margin: auto;
+  text-align: left; }
+  .gettingStarted xmp {
+    padding: 0;
+    margin: 0;
+    background: #ccc; }
+
 html, body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: Lovato;
-  font-weight: 100;
-  font-size: 100%;
-  line-height: 270%; }
+  font-family: Open Sans;
+  font-weight: 300;
+  font-size: 1.1em;
+  line-height: 200%;
+  background: #ededed; }
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none; }
 
 a {
-  color: burlywood; }
-
-.homeBg {
-  width: 80%;
-  padding: 10%;
-  color: #fff;
-  background-size: cover;
-  background-position: center;
-  text-shadow: 2px 2px #000; }
-  .homeBg h1 {
-    font-family: Vollkorn;
-    font-size: 9em;
-    line-height: 100%;
-    padding: 0;
-    margin: 0px 0px 20px; }
-  .homeBg h3 {
-    font-size: 4em;
-    line-height: 100%;
-    font-weight: 100;
-    padding: 0;
-    margin: 0; }
+  color: #000;
+  text-decoration: none; }
 
 main {
-  display: table;
-  width: 80%;
-  padding: 5% 10%;
-  font-size: 2em; }
-  main .row {
-    display: table-row;
-    width: 100%; }
-    main .row div {
-      display: table-cell;
-      vertical-align: top; }
-  main .testText {
-    width: 50%; }
-  main .testImage {
-    width: 100%;
-    height: 400px; }
-
-img {
-  width: 400px;
-  height: 400px; }
-
-footer {
-  padding: 10px 10% 10px;
-  background: #222;
-  color: #fff;
-  font-size: 1.1em; }
-  footer aco-login-btn {
-    cursor: pointer; }
+  margin: 20px;
+  text-align: center; }
 
 /*# sourceMappingURL=app.css.map */

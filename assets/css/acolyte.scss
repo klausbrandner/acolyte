@@ -1,10 +1,11 @@
+@import 'aco-fonts';
 @import 'aco-variables';
 
 aco-admin{
     position: fixed;
     bottom: 50px;
     right: 50px;
-    z-index: 1000;
+    z-index: 1100;
     
     #aco-admin-panel{
         position: relative;
@@ -118,6 +119,7 @@ aco-login-box{
     background: url(src/black.png);
     font-family: $font-Acolyte;
     display: none;
+    z-index: 1000;
     
     & > #acoLoginBox{
         position: absolute;
@@ -190,7 +192,7 @@ aco-login-box{
     height: 100%;
     background: url(src/black.png);
     display: none;
-    z-index: 1200;
+    z-index: 1300;
     
     #aco-img-upload-content{
         width: 100%;

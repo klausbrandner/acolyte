@@ -1,13 +1,37 @@
+@font-face {
+  font-family: 'Gotham2';
+  src: url("fonts/Gotham/Gotham-Medium.eot");
+  /* IE9 Compat Modes */
+  src: url("fonts/Gotham/Gotham-Medium.eot?#iefix") format("embedded-opentype"), url("fonts/Gotham/Gotham-Medium.woff") format("woff"), url("fonts/Gotham/Gotham-Medium.ttf") format("truetype"), url("fonts/Gotham/Gotham-Medium.svg#bdc473fae2f64b1c45b8886bcff81bae") format("svg");
+  /* Legacy iOS */
+  font-style: normal;
+  font-weight: 400; }
+@font-face {
+  font-family: 'Gotham2';
+  src: url("fonts/Gotham/GothaProLig.eot");
+  /* IE9 Compat Modes */
+  src: url("fonts/Gotham/GothaProLig.eot?#iefix") format("embedded-opentype"), url("fonts/Gotham/GothaProLig.woff") format("woff"), url("fonts/Gotham/GothaProLig.ttf") format("truetype"), url("fonts/Gotham/GothaProLig.svg#8c8858fe2c9577a4d92302d55fb1e2af") format("svg");
+  /* Legacy iOS */
+  font-style: normal;
+  font-weight: 200; }
+@font-face {
+  font-family: 'Gotham2';
+  src: url("fonts/Gotham/Gotham-Thin.eot");
+  /* IE9 Compat Modes */
+  src: url("fonts/Gotham/Gotham-Thin.eot?#iefix") format("embedded-opentype"), url("fonts/Gotham/Gotham-Thin.woff") format("woff"), url("fonts/Gotham/Gotham-Thin.ttf") format("truetype"), url("fonts/Gotham/Gotham-Thin.svg#2612f69d108fca39cb109c03ae310193") format("svg");
+  /* Legacy iOS */
+  font-style: normal;
+  font-weight: 100; }
 aco-admin {
   position: fixed;
   bottom: 50px;
   right: 50px;
-  z-index: 1000; }
+  z-index: 1100; }
   aco-admin #aco-admin-panel {
     position: relative;
     font-size: 0.9em;
     text-transform: uppercase;
-    font-family: Gotham;
+    font-family: Gotham2;
     font-weight: 400; }
   aco-admin #aco-admin-table {
     height: 50px;
@@ -75,8 +99,9 @@ aco-login-box {
   width: 100%;
   height: 100%;
   background: url(src/black.png);
-  font-family: Gotham;
-  display: none; }
+  font-family: Gotham2;
+  display: none;
+  z-index: 1000; }
   aco-login-box > #acoLoginBox {
     position: absolute;
     top: 50%;
@@ -138,7 +163,7 @@ aco-login-box {
   height: 100%;
   background: url(src/black.png);
   display: none;
-  z-index: 1200; }
+  z-index: 1300; }
   #aco-img-upload-box #aco-img-upload-content {
     width: 100%;
     display: table-cell;
@@ -146,7 +171,7 @@ aco-login-box {
     color: #fff;
     text-align: center;
     font-size: 1.2em;
-    font-family: Gotham; }
+    font-family: Gotham2; }
     #aco-img-upload-box #aco-img-upload-content #aco-img-upload-header {
       font-size: 2em; }
     #aco-img-upload-box #aco-img-upload-content #aco-img-upload-bar {
@@ -171,7 +196,7 @@ aco-background > aco-update-img-btn, .aco-background > aco-update-img-btn {
   background: #222;
   font-size: 14px;
   font-weight: 400;
-  font-family: Gotham;
+  font-family: Gotham2;
   text-transform: uppercase;
   letter-spacing: 1px;
   line-height: 20px;
@@ -195,7 +220,7 @@ aco-notification-box {
     background: url(src/black.png);
     color: #fff;
     padding: 30px;
-    font-family: Gotham;
+    font-family: Gotham2;
     text-align: left; }
     aco-notification-box .aco-notification h3 {
       margin: 0 0 10px;
