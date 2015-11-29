@@ -140,6 +140,10 @@ var acolyte = {
             self.broadcastPageContent();
         }
         
+        self.refreshContent = function(){
+            self.fetchContent();
+        }
+        
         self.broadcastPageContent = function(){
             $rootScope.$broadcast('AcoPageContentChanged');
         }

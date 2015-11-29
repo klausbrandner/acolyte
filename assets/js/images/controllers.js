@@ -178,6 +178,7 @@
                    return xhr;
                 },
                 success:function(data, textStatus, xhr){
+                    var data = JSON.parse(data);
                     console.log(data);
                     if(xhr.status == 200){
                         $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":"0%"});

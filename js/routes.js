@@ -8,7 +8,15 @@
         })
         .when('/gettingstarted',{
             title: 'gettingstarted',
-            templateUrl: 'pages/intro.html'
+            templateUrl: 'pages/install.html'
+        })
+        .when('/download',{
+            title: 'download',
+            templateUrl: 'pages/download.html'
+        })
+        .when('/documentation',{
+            title: 'documentation',
+            templateUrl: 'pages/documentation.html'
         })
         .when('/',{
             title: 'home',
@@ -18,7 +26,7 @@
     })
     
     
-    .run(['$rootScope', function($rootScope) {
+    .run(['$rootScope','AcoPageContentService', function($rootScope,AcoPageContentService) {
         
         $rootScope.$on("$routeChangeStart", function(event, next, current) {
             
@@ -32,6 +40,8 @@
             });
             
             $("#" + $rootScope.title + "Header").show();
+            
+            AcoPageContentService.refreshContent();
             
         });
         

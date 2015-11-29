@@ -6,9 +6,70 @@
     margin: auto;
     text-align: left;
     
-    xmp{
-        padding: 0;
-        margin: 0;
+    .step{
+        padding: 20px 0px;
+        
+        &:first-child{
+            padding-top: 0;
+        }
+        
+        h2{
+            padding: 0;
+            margin: 0;
+        }
+        h3{
+            padding: 0;
+            margin: 0;
+        }
+    }
+    
+    .code{
+        padding: 10px 20px;
         background: $color-code;
+        color: $color-code-font;
+        overflow: auto;
+        white-space:nowrap;
+        
+        .blue{
+            color: $color-blue;
+        }
+        .green{
+            color: green;
+        }
+        .orange{
+            color: orange;
+        }
+    }
+    
+    
+    .requirements{
+        display: table;
+        font-size: 0.9em;
+        
+        .row{
+            display: table-row;
+            
+            & > div{
+                display: table-cell;
+                padding: 8px 20px 0px 20px;
+                background: $color-body;
+                border-bottom: 1px solid #fff;
+                
+                &:last-child{
+                    padding-bottom: 8px;
+                }
+            }
+            .reqHeader{
+                border-right: 1px solid #fff;
+                font-weight: 400;
+            }
+        }
+    }
+    
+    
+    .readytogo{
+        font-size: 1.5em;
+        font-weight: 400;
+        font-style: italic;
     }
 }

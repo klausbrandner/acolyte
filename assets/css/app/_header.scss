@@ -7,11 +7,15 @@ header{
     color: #fff;
     
     #logo{
+        width: 200px;
         font-weight: 900;
         font-size: 2.5em;
         padding: 25px;
         font-family: $second-font-family;
-        color: #fff;
+        
+        a{
+            color: #fff;
+        }
     }
     
     #menu{
@@ -24,7 +28,7 @@ header{
             li{
                 display: inline-table;
                 
-                div{
+                .menuItem{
                     position: relative;
                     color: #fff;
                     font-weight: 400;
@@ -40,6 +44,9 @@ header{
                         height: 25px;
                     }
                     &:hover{
+                        background: $color-blue-dark;
+                    }
+                    &.active{
                         background: $color-blue-dark;
                     }
                 }

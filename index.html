@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="styles/app.css" />
         <link rel="stylesheet" href="acolyte/acolyte.css" />
         
+        
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
@@ -21,43 +22,37 @@
         
         <header class="aco-background" category="home" element="banner">
             
-            <a href="#/home">
-                <div id="logo">
+            
+            <div id="logo">
+                <a href="#/home">
                     Acolyte
-                </div>
-            </a>
+                </a>
+            </div>
             
             <div id="menu">
                 <ul>
                     <li>
                         <a href="#/gettingstarted">
-                            <div>
+                            <div class="menuItem" ng-class="(title == 'gettingstarted') ? 'active' : ''">
                                 <img src="src/icons/playW.png" />
-                                Getting Started
+                                <span aco-text category="menu" element="install"></span>
                             </div>
                         </a>
                     </li><li>
                         <a href="#/download">
-                            <div>
+                            <div class="menuItem" ng-class="(title == 'download') ? 'active' : ''">
                                 <img src="src/icons/downloadW.png" />
-                                Download
+                                <span aco-text category="menu" element="download"></span>
                             </div>
                         </a>
                     </li><li>
                         <a href="#/documentation">
-                            <div>
+                            <div class="menuItem" ng-class="(title == 'documentation') ? 'active' : ''">
                                 <img src="src/icons/docuW.png" />
-                                Documentation
+                                <span aco-text category="menu" element="docu"></span>
                             </div>
                         </a>
-                    </li><!--<li>
-                        <a href="">
-                            <div>
-                                <img src="src/icons/apiW.png" />
-                                API
-                            </div>
-                        </a>
-                    </li>-->
+                    </li>
                 </ul>
             </div>
             
@@ -65,18 +60,28 @@
                 <h1 aco-text category="home" element="header"></h1>
                 <h2 aco-text category="home" element="subtitle"></h2>
                 
-                <a href="">
+                <a href="acolyte.zip">
                     <div class="downloadBtn">
                         <img src="src/icons/downloadW.png" />
-                        Download Acolyte 1.0.1<br />
-                        <span>ZIP-File 3.5 MB</span>
+                        <div aco-text category="download" element="btnText"></div>
+                        <span aco-text category="download" element="info"></span>
                     </div>
                 </a>
             </div>
             
             <div id="gettingstartedHeader" class="header subheader">
-                <h1>Let's get started!</h1>
-                <h2>Get Acolyte running in 5 easy steps.</h2>
+                <h1 aco-text category="install" element="header"></h1>
+                <h2 aco-text category="install" element="header2"></h2>
+            </div>
+            
+            <div id="downloadHeader" class="header subheader">
+                <h1 aco-text category="download" element="header"></h1>
+                <h2 aco-text category="download" element="header2"></h2>
+            </div>
+            
+            <div id="documentationHeader" class="header subheader">
+                <h1 aco-text category="documentation" element="header"></h1>
+                <h2 aco-text category="documentation" element="header2"></h2>
             </div>
         </header>
         
@@ -86,8 +91,38 @@
         </main>
         
         
+        <footer>
+            <a href="http://www.5-designs.com" target="_blank">
+                <img src="src/images/5-designs.png" class="logo" />
+            </a>
+            <ul class="menu">
+                <li>
+                    <a href="#/gettingstarted">
+                        <div aco-text category="menu" element="install"></div>
+                    </a>
+                </li><li>
+                    <a href="#/download">
+                        <div aco-text category="menu" element="download"></div>
+                    </a>
+                </li><li>
+                    <a href="#/documentation">
+                        <div aco-text category="menu" element="docu"></div>
+                    </a>
+                </li><li>
+                    <a href="#/impressum">
+                        <div>
+                            Impressum
+                        </div>
+                    </a>
+                </li><li>
+                    <aco-login></aco-login>
+                </li>
+            </ul>
+            <div class="copy">&copy; by 5-designs. All rights reserved.</div>
+        </footer>
         
-        <aco-login></aco-login>
+        
+        
         
     </body>
 </html>
