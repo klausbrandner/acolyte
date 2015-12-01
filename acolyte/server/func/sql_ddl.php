@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS Language(
     
                 	tmp_lan         			VARCHAR(255),
                 	tmp_language    			VARCHAR(255),
+			toggle					TINYINT(1),
     
                 	PRIMARY KEY(lan)
 );
@@ -25,7 +26,7 @@ CREATE TABLE IF NOT EXISTS TextContent(
 
                 	PRIMARY KEY(category, element, lan),
                 	FOREIGN KEY (lan) REFERENCES language(lan) ON DELETE CASCADE ON 
-	    		    UPDATE CASCADE
+	    		UPDATE CASCADE
 );
 
 

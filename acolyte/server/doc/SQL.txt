@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS Language(
     
                 	tmp_lan         			VARCHAR(255),
                 	tmp_language    			VARCHAR(255),
+			toggle					TINYINT(1),
     
                 	PRIMARY KEY(lan)
 );

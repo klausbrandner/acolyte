@@ -15,6 +15,7 @@
 
     function setupMySql($dbCon){
         try{
+            //chmod(realpath(__DIR__ . '/src'),0755);
             $query = getSql();
             $setup = $dbCon->prepare($query);
             $setup->execute();
