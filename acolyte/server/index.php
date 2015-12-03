@@ -36,12 +36,12 @@ $app->group('/content', function() use($app){
                     $sql_text->execute();
                     $sql_text->setFetchMode(PDO::FETCH_OBJ);
 
-                    $query = 'SELECT category, element, url FROM filecontent';
+                    $query = 'SELECT category, element, url FROM FileContent';
                     $sql_file = $db->prepare($query);
                     $sql_file->execute();
                     $sql_file->setFetchMode(PDO::FETCH_OBJ);
 
-                    $query = 'SELECT lan, language FROM language';
+                    $query = 'SELECT lan, language FROM Language';
                     $sql_lan = $db->prepare($query);
                     $sql_lan->execute();
                     $sql_lan->setFetchMode(PDO::FETCH_OBJ);
@@ -94,13 +94,13 @@ $app->group('/content', function() use($app){
 		                            WHEN	tmp_url       = ?    	       THEN url
                             ELSE    tmp_url
        	                    END AS 	url
-                            FROM    Filecontent';
+                            FROM    FileContent';
                 $sql_file = $db->prepare($query);
                 $sql_file->bindParam(1, $case);
                 $sql_file->execute();
                 $sql_file->setFetchMode(PDO::FETCH_OBJ);
                 
-                $query = 'SELECT lan, language FROM language';
+                $query = 'SELECT lan, language FROM Language';
                 $sql_lan = $db->prepare($query);
                 $sql_lan->execute();
                 $sql_lan->setFetchMode(PDO::FETCH_OBJ);
