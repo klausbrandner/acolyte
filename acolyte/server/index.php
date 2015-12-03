@@ -558,7 +558,8 @@ $app->group('/content/file', function() use($app){
 
 $app->group('/content/language', function() use($app){
    $app->map('/set/:lan', function($lan) use($app){
-       if(($db = connectToMySql()) !== false){
+       $app->setCookie('aco-lan','en','180 days');
+       /*if(($db = connectToMySql()) !== false){
            try{
            }catch(Exception $e){
                 $app->halt(503, json_encode(['type' => 'Error',
@@ -570,7 +571,7 @@ $app->group('/content/language', function() use($app){
                                          'title' => 'Oops, sadsomething went wrong!',
                                          'message' => 'No database connection']));
         }
-       $app->setCookie('aco-lan', 'en', '180 days');
+       $app->setCookie('aco-lan', 'en', '180 days');*/
        $app->redirect($app->urlFor('getContent'));
    })->via('GET', 'PUT', 'POST', 'DELETE')->name('setLanguage');
 });
