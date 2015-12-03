@@ -14,9 +14,9 @@
             $file = str_replace('data:image/jpeg;base64,','',$file);
             $file_type = '.jpeg';
         }
+        $file = str_replace(' ', '+', $file);
 
-        $file = base64_decode($file);
-
+        $file = base64_decode($file);      
 
         if($file !== false){
             do{
