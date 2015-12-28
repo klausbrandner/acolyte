@@ -26,4 +26,11 @@
 
     // YOUR DATABASE PASSWORD
     define("PASSWORD", "");
+
+
+    //YOUR ACOLYTE USER 
+    define("ACOUSER", "admin");
+
+    //YOUR ACOLYTE PW
+    define("ACOPASSWORD", "admin")
 ?>
