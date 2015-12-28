@@ -15,7 +15,7 @@ $app = new \Slim\Slim(array(
 
 $app->group('/content', function() use($app){
     $app->map('/get', function() use($app){
-        if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
+        if($app->getCookie('aco-lan') !== null)     $lan = $app->getCookie('aco-lan');
         else                                        $app->redirect($app->urlFor('setLanguage', array('lan' =>
                                                     substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)))); 
         
@@ -41,14 +41,8 @@ $app->group('/content', function() use($app){
                     $sql_file->execute();
                     $sql_file->setFetchMode(PDO::FETCH_OBJ);
 
-                    $query = 'SELECT lan, language FROM Language WHERE toggle != 0';
-                    $sql_lan = $db->prepare($query);
-                    $sql_lan->execute();
-                    $sql_lan->setFetchMode(PDO::FETCH_OBJ);
-
                     $textcontent = $sql_text->fetchAll();
                     $filecontent = $sql_file->fetchAll();
-                    $language = $sql_lan->fetchAll();
                 }catch(Exception $e){
                     setupMySql($db);
                     $app->redirect($app->urlFor('getContent'));
@@ -63,9 +57,7 @@ $app->group('/content', function() use($app){
             }
         
         $app->response->status(200);
-        $app->response->body(json_encode([  'lan' => $lan,
-                                            'language' => $language,
-                                            'textContent' => $textcontent, 
+        $app->response->body(json_encode([  'textContent' => $textcontent, 
                                             'fileContent'=> $filecontent]));
         
     })->via('GET', 'PUT', 'POST')->name('getFinished');
@@ -100,14 +92,8 @@ $app->group('/content', function() use($app){
                 $sql_file->execute();
                 $sql_file->setFetchMode(PDO::FETCH_OBJ);
                 
-                $query = 'SELECT lan, language FROM Language WHERE toggle != 0';
-                $sql_lan = $db->prepare($query);
-                $sql_lan->execute();
-                $sql_lan->setFetchMode(PDO::FETCH_OBJ);
-                
                 $textcontent = $sql_text->fetchAll();
                 $filecontent = $sql_file->fetchAll();
-                $language = $sql_lan->fetchAll();
             }catch(Exception $e){
                 setupMySql($db); 
                 $app->redirect($app->urlFor('getContent'));
@@ -122,9 +108,7 @@ $app->group('/content', function() use($app){
         }
         
         $app->response->status(200);
-        $app->response->body(json_encode([  'lan' => $lan,
-                                            'language' => $language,
-                                            'textContent' => $textcontent, 
+        $app->response->body(json_encode([  'textContent' => $textcontent, 
                                             'fileContent'=> $filecontent]));
     })->via('GET', 'PUT', 'POST')->name('getModified');
     
@@ -557,23 +541,72 @@ $app->group('/content/file', function() use($app){
 });
 
 $app->group('/content/language', function() use($app){
-   $app->map('/set/:lan', function($lan) use($app){
-       $app->setCookie('aco-lan','en','180 days');
-       /*if(($db = connectToMySql()) !== false){
-           try{
-           }catch(Exception $e){
+    
+    $app->map('/set/:lan', function($lan) use($app){
+        $app->setCookie('aco-lan','en','180 days');
+        $app->redirect($app->urlFor('getContent'));
+    })->via('GET', 'PUT', 'POST', 'DELETE')->name('setLanguage');
+    
+    $app->put('/set/toggle/:lan', function($lan) use($app){
+        
+    });
+    
+    $app-put('/set/default/:lan', function($lan) use($app){
+        if(($db = connectToMySql()) !== false){
+                try{
+                    
+                }catch(Exception $e){ 
+                $app->redirect($app->urlFor('getContent'));
                 $app->halt(503, json_encode(['type' => 'Error',
-                                             'title' => 'Oops, something went wrong!',
-                                             'message' => $e->getMessage()]));
-            }finally{$db = null;}
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => $e->getMessage()]));
+            }finally {$db = null;}
         }else{
-            $app->halt(503, json_encode([   'type' => 'Error',
-                                         'title' => 'Oops, sadsomething went wrong!',
-                                         'message' => 'No database connection']));
+                $app->halt(503, json_encode([   'type' => 'Error',
+                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'message' => 'No database connection']));
         }
-       $app->setCookie('aco-lan', 'en', '180 days');*/
-       $app->redirect($app->urlFor('getContent'));
-   })->via('GET', 'PUT', 'POST', 'DELETE')->name('setLanguage');
+    });
+    
+    $app->get('/get/lan',function() use($app){
+        $lan = $app->getCookie('aco-lan');
+        $app->response->status(200);
+        $app->response->body(json_encode(['lan'=>$lan]));
+    });
+    
+    $app->get('/get/language',function() use($app){
+        if(($db = connectToMySql()) !== false){
+                try{
+                    
+                }catch(Exception $e){ 
+                $app->redirect($app->urlFor('getContent'));
+                $app->halt(503, json_encode(['type' => 'Error',
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => $e->getMessage()]));
+            }finally {$db = null;}
+        }else{
+                $app->halt(503, json_encode([   'type' => 'Error',
+                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'message' => 'No database connection']));
+        }
+    });
+    
+    $app->get('/get/languages',function() use($app){
+        if(($db = connectToMySql()) !== false){
+                try{
+                    
+                }catch(Exception $e){ 
+                $app->redirect($app->urlFor('getContent'));
+                $app->halt(503, json_encode(['type' => 'Error',
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => $e->getMessage()]));
+            }finally {$db = null;}
+        }else{
+                $app->halt(503, json_encode([   'type' => 'Error',
+                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'message' => 'No database connection']));
+        }
+    });
 });
 
 
@@ -589,7 +622,8 @@ $app->group('/content/language', function() use($app){
 
 $app->group('/user', function() use($app){
     $app->post('/login', function() use($app){
-       $app->setCookie('aco-user','1');
+        
+        $app->setCookie('aco-user','1');
     });
     
     $app->get('/view', function() use($app){
