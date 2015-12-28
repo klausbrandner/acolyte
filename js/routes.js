@@ -26,7 +26,7 @@
     })
     
     
-    .run(['$rootScope','AcoPageContentService', function($rootScope,AcoPageContentService) {
+    .run(['$rootScope', function($rootScope) {
         
         $rootScope.$on("$routeChangeStart", function(event, next, current) {
             
@@ -40,8 +40,6 @@
             });
             
             $("#" + $rootScope.title + "Header").show();
-            
-            AcoPageContentService.refreshContent();
             
         });
         

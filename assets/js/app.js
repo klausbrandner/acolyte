@@ -197,8 +197,6 @@ function CreateRequest(callback){
 
 $(document).ready(function(){
     
-    $("#clickEvent").click(function(){
-        alert("this is a jQuery click event");
-    });
+    
     
 });

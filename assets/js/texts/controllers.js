@@ -11,6 +11,18 @@
         self.timer = null;
         self.text = acolyte.tmpText;
         
+        // init controller to fetch text
+        init();
+        function init(){
+            var txt = AcoPageContentService.getText($scope.category,$scope.element);
+            if(self.timer == null){
+                if(!txt){
+                    txt = acolyte.newText;
+                }
+                self.text = txt;
+            }
+        }
+        
         // click Event on text
         self.edit = function(e){
             if(AcoLoginService.getLoginState()){

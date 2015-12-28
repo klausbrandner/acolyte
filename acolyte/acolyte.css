@@ -57,8 +57,6 @@ aco-admin {
         padding: inherit 0;
         width: 23px;
         cursor: move; }
-      aco-admin #aco-admin-table > div#aco-admin-lan:hover {
-        background: #219ae6; }
       aco-admin #aco-admin-table > div#aco-admin-publish:hover {
         background: #219ae6; }
       aco-admin #aco-admin-table > div.active {
@@ -69,8 +67,8 @@ aco-admin {
     background: url(src/black.png);
     color: #fff;
     width: 100%;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
     overflow: auto;
     display: none; }
     aco-admin #aco-admin-lan-box.aco-lan-bottom {
@@ -86,11 +84,56 @@ aco-admin {
       width: 100%; }
       aco-admin #aco-admin-lan-box #aco-admin-lan-list li {
         display: block;
-        padding: 8px 20px 5px;
-        line-height: 200%;
         cursor: pointer; }
-        aco-admin #aco-admin-lan-box #aco-admin-lan-list li:hover {
-          background: #219ae6; }
+        aco-admin #aco-admin-lan-box #aco-admin-lan-list li input {
+          width: 90%;
+          padding: 0 5%;
+          height: 40px;
+          font-size: 15px;
+          background: transparent;
+          border: 0;
+          color: #fff; }
+    aco-admin #aco-admin-lan-box .aco-lan-container {
+      display: table;
+      width: 100%;
+      padding: 6px 0 4px;
+      line-height: 200%;
+      font-size: 14px; }
+      aco-admin #aco-admin-lan-box .aco-lan-container > div {
+        display: table-cell;
+        widht: 25px;
+        vertical-align: middle; }
+      aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-text {
+        width: 100%; }
+      aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-btn {
+        width: 16px;
+        height: 16px;
+        margin: 0px 10px 0 0; }
+        aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-btn.checkbox {
+          background: url(src/uncheckedW.png);
+          background-size: cover;
+          margin-left: 10px; }
+          aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-btn.checkbox.active {
+            background: url(src/checkedW.png);
+            background-size: cover; }
+        aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-btn.edit {
+          background: url(src/editW.png);
+          background-size: cover; }
+        aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-btn.delete {
+          background: url(src/deleteW.png);
+          background-size: cover; }
+      aco-admin #aco-admin-lan-box .aco-lan-container:hover {
+        background: #219ae6; }
+      aco-admin #aco-admin-lan-box .aco-lan-container.active {
+        background: #219ae6; }
+    aco-admin #aco-admin-lan-box .aco-lan-result-container {
+      line-height: 200%;
+      font-size: 14px;
+      padding: 4px 10px;
+      max-height: 200px;
+      overflow: auto; }
+      aco-admin #aco-admin-lan-box .aco-lan-result-container:hover {
+        background: #219ae6; }
 
 aco-login-box {
   position: fixed;
