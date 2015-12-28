@@ -37,14 +37,19 @@
             var lanBox = $("#aco-admin-panel").find("#aco-admin-lan-box");
             var adminTable = $("#aco-admin-panel").find("#aco-admin-table");
             
-            var boxHeight = lanBox.outerHeight();
-            var tableOffset = adminTable.offset().top - $(window).scrollTop();
-            if(boxHeight > tableOffset){
-                lanBox.addClass('aco-lan-top');
-                lanBox.removeClass('aco-lan-bottom');
+            if(lanBox.css("display") == "none"){
+                adminTable.find("#aco-admin-lan").addClass("active");
+                var boxHeight = lanBox.outerHeight();
+                var tableOffset = adminTable.offset().top - $(window).scrollTop();
+                if(boxHeight > tableOffset){
+                    lanBox.addClass('aco-lan-top');
+                    lanBox.removeClass('aco-lan-bottom');
+                }else{
+                    lanBox.addClass('aco-lan-bottom');
+                    lanBox.removeClass('aco-lan-top');
+                }
             }else{
-                lanBox.addClass('aco-lan-bottom');
-                lanBox.removeClass('aco-lan-top');
+                adminTable.find("#aco-admin-lan").removeClass("active");
             }
             lanBox.slideToggle(200);
         }

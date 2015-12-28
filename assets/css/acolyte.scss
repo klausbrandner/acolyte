@@ -48,10 +48,6 @@ aco-admin{
             &#aco-admin-edit{
             }
             &#aco-admin-lan{
-                
-                &:hover{
-                    background: $color-blue;
-                }
             }
             &#aco-admin-publish{
                 
@@ -73,8 +69,8 @@ aco-admin{
         background: url(src/black.png);
         color: #fff;
         width: 100%;
-        border-top: 1px solid #000;
-        border-bottom: 1px solid #000;
+        border-top: 1px solid #222;
+        border-bottom: 1px solid #222;
         overflow: auto;
         display: none;
         
@@ -97,15 +93,83 @@ aco-admin{
             
             li{
                 display: block;
-                padding: 8px 20px 5px;
-                line-height: 200%;
                 cursor:pointer;
                 
-                &:hover{
-                    background: $color-blue;
+                input{
+                    width: 90%;
+                    padding: 0 5%;
+                    height: 40px;
+                    font-size: 15px;
+                    background: transparent;
+                    border: 0;
+                    color: #fff;
                 }
             }
         }
+        
+        .aco-lan-container{
+            display: table;
+            width: 100%;
+            padding: 6px 0 4px;
+            line-height: 200%;
+            font-size: 14px;
+            
+            & > div{
+                display: table-cell;
+                width: 25px;
+                vertical-align: middle;
+            }
+            .aco-lan-text{
+                width: 100%;
+            }
+            
+            .aco-lan-btn{
+                width: 16px;
+                height: 16px;
+                margin: 0px 10px 0 0;
+                
+                
+                &.checkbox{
+                    background: url(src/uncheckedW.png);
+                    background-size: cover;
+                    margin-left: 10px;
+                    
+                    &.active{
+                        background: url(src/checkedW.png);
+                        background-size: cover;
+                    }
+                }
+                &.edit{
+                    background: url(src/editW.png);
+                    background-size: cover;
+                }
+                &.delete{
+                    background: url(src/deleteW.png);
+                    background-size: cover;
+                }
+            }
+            
+            &:hover{
+                background: $color-blue;
+            }
+            &.active{
+                background: $color-blue;
+            }
+        }
+        
+        .aco-lan-result-container{
+            line-height: 200%;
+            font-size: 14px;
+            padding: 4px 10px;
+            max-height: 200px;
+            overflow: auto;
+            
+            &:hover{
+                background: $color-blue;
+            }
+        }
+        
+        
     }
 }
 
