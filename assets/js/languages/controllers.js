@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .controller('AcoLanguageController',['$scope','AcoLanguageService',function($scope,AcoLanguageService){
+    .controller('AcoLanguageController',['$scope','$timeout','AcoLanguageService','AcoMessageBoxService',function($scope,$timeout,AcoLanguageService,AcoMessageBoxService){
         
         var self = this;
         self.lan = 'en';
@@ -12,8 +12,46 @@
         
         init();
         function init(){
-            self.lan = AcoLanguageService.getLan();
-            self.languages = AcoLanguageService.getLanguages();
+            // http -> get all language data
+            
+            var data = {
+                lan: 'en',
+                language: [
+                    {
+                        lan: 'de',
+                        language: 'Deutsch',
+                        toggle: 1,
+                        preset: 0
+                    },{
+                        lan: 'en',
+                        language: 'English',
+                        toggle: 1,
+                        preset: 1
+                    },{
+                        lan: 'nl',
+                        language: 'Dutch',
+                        toggle: 0,
+                        preset: 0
+                    }
+                ],
+                languages: [
+                    {
+                        lan: 'de',
+                        language: 'Deutsch'
+                    },{
+                        lan: 'en',
+                        language: 'English'
+                    },{
+                        lan: 'nl',
+                        language: 'Dutch'
+                    }
+                ]
+            }
+            
+            $timeout(function(){
+                AcoLanguageService.initLanguages(data.lan,data.language);
+                AcoLanguageService.initAvailLanguages(data.languages);
+            });
         }
         
         self.setLan = function(lan){
@@ -23,6 +61,28 @@
             AcoLanguageService.setToggle(lan);
         }
         self.deleteLanguage = function(lan){
+            AcoMessageBoxService.pushMessage({
+                title: "Delete Language",
+                message: "Do you want to keep the texts in the database or delete them permanently?",
+                buttons: [
+                    {
+                        title: "Delete texts",
+                        callback: function(){
+                            DeleteLanPermanently(lan);
+                        }
+                    },{
+                        title: "Keep texts",
+                        callback: function(){
+                            AcoLanguageService(lan);
+                        }
+                    }
+                ]
+            });
+        }
+        function DeleteLanPermanently(lan){
+            AcoLanguageService.deleteLanguage(lan);
+        }
+        function DeleteLanKeepTexts(lan){
             AcoLanguageService.deleteLanguage(lan);
         }
         self.searchLan = function(){

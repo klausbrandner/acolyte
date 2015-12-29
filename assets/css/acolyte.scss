@@ -174,6 +174,75 @@ aco-admin{
 }
 
 
+aco-message-box{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(src/black.png);
+    font-family: $font-Acolyte;
+    z-index: 1500;
+    display: none;
+    
+    #aco-message-container{
+        width: 100%;
+        height: 100%;
+        display: table;
+        
+        #aco-message-cell{
+            width: 100%;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+    }
+    
+    #aco-message-content{
+        max-width: 600px;
+        padding: 20px 30px;
+        border-bottom: 2px solid #999;
+        background: #fff;
+        margin: auto;
+        text-align: left;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        
+        h1{
+            font-size: 30px;
+            line-height: 100%;
+            padding: 10px 0 5px;
+            margin: 0;
+        }
+        
+        #aco-message-buttons{
+            padding-top: 10px;
+        }
+        .aco-message-btn{
+            display: inline-table;
+            background: $color-blue;
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 2px 15px 0;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+            
+            &:hover{
+                color: #ededed;
+            }
+            
+            &.cancel{
+                background: #666;
+            }
+        }
+    }
+}
+
 aco-login-box{
     position: fixed;
     top: 0;

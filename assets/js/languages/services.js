@@ -2,42 +2,39 @@
     
     angular.module('Acolyte')
     
-    .factory('AcoLanguageService',['$rootScope',function($rootScope){
+    .factory('AcoLanguageService',['$rootScope','AcoPageContentService',function($rootScope,AcoPageContentService){
         
         var self = this;
         
         self.lan = 'en';
         self.languages = [
             {
-                lan: 'de',
-                language: 'Deutsch',
-                toggle: 1
-            },{
                 lan: 'en',
                 language: 'English',
                 toggle: 1
-            },{
-                lan: 'nl',
-                language: 'Dutch',
-                toggle: 0
             }
         ];
-        self.availableLanguages = [
-            {
-                lan: 'de',
-                language: 'Deutsch'
-            },{
-                lan: 'en',
-                language: 'English'
-            },{
-                lan: 'nl',
-                language: 'Dutch'
-            }
-        ];
+        self.availableLanguages = [];
+        
+        self.initLanguages = function(lancode, languages){
+            self.lan = lancode;
+            self.languages = languages;
+            self.broadcastLanguagesChanged();
+        }
+        self.initAvailLanguages = function(languages){
+            self.availableLanguages = languages;
+        }
         
         self.getLan = function(){
             return self.lan;
         }
+        self.setLan = function(lancode){
+            // http -> setLan
+            self.lan = lancode;
+            AcoPageContentService.fetchContent();
+            self.broadcastLanguagesChanged();
+        }
+        
         self.getLanguages = function(){
             return self.languages;
         }
@@ -54,15 +51,8 @@
             }
             return result;
         }
-        self.setLan = function(lancode){
-            // http -> setLan
-            self.lan = lancode;
-            self.broadcastLanguagesChanged();
-        }
-        self.setLanguages = function(languages){
-            self.languages = languages;
-            self.broadcastLanguagesChanged();
-        }
+        
+        
         self.setToggle = function(lancode){
             // http -> set toggle
             for(var l in self.languages){
