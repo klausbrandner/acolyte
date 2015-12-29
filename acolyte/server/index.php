@@ -42,12 +42,12 @@ $app->group('/content', function() use($app){
                     $sql_file->execute();
                     $sql_file->setFetchMode(PDO::FETCH_OBJ);
                     
-                    $query = 'SELECT lan, language FROM Language WHERE toggle = 1';
+                    /*$query = 'SELECT lan, language FROM Language WHERE toggle != 0 AND toggle IS NOT NULL';
                     $sql_lan = $db->prepare($query);
                     $sql_lan->execute();
-                    $sql_lan->setFetchMode(PDO::FETCH_OBJ);
+                    $sql_lan->setFetchMode(PDO::FETCH_OBJ);*/
 
-                    $language = $sql_lan->fetchAll();
+                    //$language = $sql_lan->fetchAll();
                     $textcontent = $sql_text->fetchAll();
                     $filecontent = $sql_file->fetchAll();
                 }catch(Exception $e){
@@ -64,8 +64,8 @@ $app->group('/content', function() use($app){
             }
         
         $app->response->status(200);
-        $app->response->body(json_encode([  'lan' => $lan,
-                                            'language'  => $language,
+        $app->response->body(json_encode([  //'lan' => $lan,
+                                            //'language'  => $language,
                                             'textContent' => $textcontent, 
                                             'fileContent'=> $filecontent]));
         
@@ -100,12 +100,12 @@ $app->group('/content', function() use($app){
                 $sql_file->execute();
                 $sql_file->setFetchMode(PDO::FETCH_OBJ);
                 
-                $query = 'SELECT lan, language, toggle, preset FROM Language';
+                /*$query = 'SELECT lan, language, toggle, preset FROM Language';
                 $sql_lan = $db->prepare($query);
                 $sql_lan->execute();
-                $sql_lan->setFetchMode(PDO::FETCH_OBJ);
+                $sql_lan->setFetchMode(PDO::FETCH_OBJ);*/
 
-                $language = $sql_lan->fetchAll();  
+                //$language = $sql_lan->fetchAll();  
                 $textcontent = $sql_text->fetchAll();
                 $filecontent = $sql_file->fetchAll();
             }catch(Exception $e){
@@ -122,8 +122,8 @@ $app->group('/content', function() use($app){
         }
         
         $app->response->status(200);
-        $app->response->body(json_encode([  'lan' => $lan,
-                                            'language'  => $language,
+        $app->response->body(json_encode([  //'lan' => $lan,
+                                            //'language'  => $language,
                                             'textContent' => $textcontent, 
                                             'fileContent'=> $filecontent]));
     })->via('GET', 'PUT', 'POST')->name('getModified');
@@ -558,12 +558,70 @@ $app->group('/content/file', function() use($app){
 
 $app->group('/content/language', function() use($app){
     
+    $app->map('/get', function() use($app){
+        $lan = $app->getCookie('aco-lan');
+        if(($db = connectToMySql()) !== false){
+                try{
+                    $query = 'SELECT * FROM Language';
+                    $sql_lan = $db->prepare($query);
+                    $sql_lan->execute();
+                    $sql_lan->setFetchMode(PDO::FETCH_OBJ);
+                    $language = $sql_lan->fetchAll();
+                    
+                    $query = 'SELECT * FROM Languages';
+                    $sql_lans = $db->prepare($query);
+                    $sql_lans->execute();
+                    $sql_lans->setFetchMode(PDO::FETCH_OBJ);
+                    $languages = $sql_lans->fetchAll();
+                }catch(Exception $e){ 
+                $app->halt(503, json_encode(['type' => 'Error',
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => $e->getMessage()]));
+            }finally {$db = null;}
+        }else{
+                $app->halt(503, json_encode([   'type' => 'Error',
+                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'message' => 'No database connection']));
+        }
+        $app->response->status(200);
+        $app->response->body(json_encode([  'lan' => $lan,
+                                            'language'  => $language,
+                                            'languages' => $languages]));
+    })->via('GET', 'PUT')->name('getLanguage');
+    
     $app->map('/set/:lan', function($lan) use($app){
-        $app->setCookie('aco-lan','en','180 days');
+        if(($db = connectToMySql()) !== false){
+                try{
+                    $query = 'SELECT lan FROM Language WHERE lan = ?';
+                    $sql_lan = $db->prepare($query);
+                    $sql_lan->bindParam(1, $lan);
+                    $sql_lan->execute();
+                    $sql_lan->setFetchMode(PDO::FETCH_OBJ);
+                    $result = $sql_lan->fetch();
+                    
+                    $query = 'SELECT lan FROM language WHERE preset != 0 AND preset IS NOT NULL'; 
+                    $sql_lan = $db->prepare($query);
+                    $sql_lan->execute();
+                    $sql_lan->setFetchMode(PDO::FETCH_OBJ);
+                    $presult = $sql_lan->fetch();
+                }catch(Exception $e){ 
+                $app->halt(503, json_encode(['type' => 'Error',
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => $e->getMessage()]));
+            }finally {$db = null;}
+        }else{
+                $app->halt(503, json_encode([   'type' => 'Error',
+                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'message' => 'No database connection']));
+        }
+        if(empty($result)) $app->setCookie('aco-lan', $presult->lan, '180 days');
+        else $app->setCookie('aco-lan', $result->lan, '180 days');
         $app->redirect($app->urlFor('getContent'));
-    })->via('GET', 'PUT', 'POST', 'DELETE')->name('setLanguage');
+    })->via('GET', 'PUT')->name('setLanguage');
     
     $app->put('/set/toggle/:lan', function($lan) use($app){
+        $data = json_decode($app->request->getBody());
+        if(isset($data->toggle) && !empty($data->toggle))           $toggle = $data->toggle;
         
     });
     
@@ -584,47 +642,6 @@ $app->group('/content/language', function() use($app){
         }
     });
     
-    
-    
-    $app->get('/get/lan',function() use($app){
-        $lan = $app->getCookie('aco-lan');
-        $app->response->status(200);
-        $app->response->body(json_encode(['lan'=>$lan]));
-    });
-    
-    $app->get('/get/language',function() use($app){
-        if(($db = connectToMySql()) !== false){
-                try{
-                    
-                }catch(Exception $e){ 
-                $app->redirect($app->urlFor('getContent'));
-                $app->halt(503, json_encode(['type' => 'Error',
-                                            'title' => 'Oops, something went wrong!',
-                                            'message' => $e->getMessage()]));
-            }finally {$db = null;}
-        }else{
-                $app->halt(503, json_encode([   'type' => 'Error',
-                                                'title' => 'Oops, sadsomething went wrong!',
-                                                'message' => 'No database connection']));
-        }
-    });
-    
-    $app->get('/get/languages',function() use($app){
-        if(($db = connectToMySql()) !== false){
-                try{
-                    
-                }catch(Exception $e){ 
-                $app->redirect($app->urlFor('getContent'));
-                $app->halt(503, json_encode(['type' => 'Error',
-                                            'title' => 'Oops, something went wrong!',
-                                            'message' => $e->getMessage()]));
-            }finally {$db = null;}
-        }else{
-                $app->halt(503, json_encode([   'type' => 'Error',
-                                                'title' => 'Oops, sadsomething went wrong!',
-                                                'message' => 'No database connection']));
-        }
-    });
 });
 
 

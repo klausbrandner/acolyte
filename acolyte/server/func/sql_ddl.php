@@ -103,7 +103,7 @@ INSERT INTO Languages (lan, language) VALUES('gn', 'Guarani') ON DUPLICATE KEY U
 INSERT INTO Languages (lan, language) VALUES('gu', 'Gujarati') ON DUPLICATE KEY UPDATE lan = 'gu', language = 'Gujarati';
 INSERT INTO Languages (lan, language) VALUES('ht', 'Haitian Creole') ON DUPLICATE KEY UPDATE lan = 'ht', language = 'Haitian Creole';
 INSERT INTO Languages (lan, language) VALUES('ha', 'Hausa') ON DUPLICATE KEY UPDATE lan = 'ha', language = 'Hausa';
-INSERT INTO Languages (lan, language) VALUES('he, iw', 'Hebrew') ON DUPLICATE KEY UPDATE lan = 'he, iw', language = 'Hebrew';
+##INSERT INTO Languages (lan, language) VALUES('he, iw', 'Hebrew') ON DUPLICATE KEY UPDATE lan = 'he, iw', language = 'Hebrew';
 INSERT INTO Languages (lan, language) VALUES('hi', 'Hindi') ON DUPLICATE KEY UPDATE lan = 'hi', language = 'Hindi';
 INSERT INTO Languages (lan, language) VALUES('hu', 'Hungarian') ON DUPLICATE KEY UPDATE lan = 'hu', language = 'Hungarian';
 INSERT INTO Languages (lan, language) VALUES('is', 'Icelandic') ON DUPLICATE KEY UPDATE lan = 'is', language = 'Icelandic';
@@ -128,7 +128,7 @@ INSERT INTO Languages (lan, language) VALUES('ku', 'Kurdish') ON DUPLICATE KEY U
 INSERT INTO Languages (lan, language) VALUES('lo', 'Laothian') ON DUPLICATE KEY UPDATE lan = 'lo', language = 'Laothian';
 INSERT INTO Languages (lan, language) VALUES('la', 'Latin') ON DUPLICATE KEY UPDATE lan = 'la', language = 'Latin';
 INSERT INTO Languages (lan, language) VALUES('lv', 'Latvian (Lettish)') ON DUPLICATE KEY UPDATE lan = 'lv', language = 'Latvian (Lettish)';
-INSERT INTO Languages (lan, language) VALUES('li', 'Limburgish ( Limburger)') ON DUPLICATE KEY UPDATE lan = 'li', language = 'Limburgish ( Limburger)';
+INSERT INTO Languages (lan, language) VALUES('li', 'Limburgish (Limburger)') ON DUPLICATE KEY UPDATE lan = 'li', language = 'Limburgish ( Limburger)';
 INSERT INTO Languages (lan, language) VALUES('ln', 'Lingala') ON DUPLICATE KEY UPDATE lan = 'ln', language = 'Lingala';
 INSERT INTO Languages (lan, language) VALUES('lt', 'Lithuanian') ON DUPLICATE KEY UPDATE lan = 'lt', language = 'Lithuanian';
 INSERT INTO Languages (lan, language) VALUES('mk', 'Macedonian') ON DUPLICATE KEY UPDATE lan = 'mk', language = 'Macedonian';
@@ -202,7 +202,7 @@ INSERT INTO Languages (lan, language) VALUES('yi, ji', 'Yiddish') ON DUPLICATE K
 INSERT INTO Languages (lan, language) VALUES('yo', 'Yoruba') ON DUPLICATE KEY UPDATE lan = 'yo', language = 'Yoruba';
 INSERT INTO Languages (lan, language) VALUES('zu', 'Zulu') ON DUPLICATE KEY UPDATE lan = 'zu', language = 'Zulu';
 
-INSERT INTO Language (lan, language, toggle, standard) VALUES ('en', 'English', 1, 1) ON DUPLICATE KEY UPDATE lan = 'en', language = 'english', toggle = 1, standard = 1;
+INSERT INTO Language (lan, language, toggle, preset) VALUES ('en', 'English', 1, 1) ON DUPLICATE KEY UPDATE lan = 'en', language = 'english', toggle = 1, preset = 1;
 ";
 }
 ?>
