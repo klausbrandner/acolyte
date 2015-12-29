@@ -24,7 +24,7 @@ $app->group('/content', function() use($app){
         if($app->getCookie('aco-user') !== null)    $app->redirect($app->urlFor('getModified'));
         else                                        $app->redirect($app->urlFor('getFinished'));       
         
-    })->via('GET', 'PUT', 'POST')->name('getContent');
+    })->via('GET', 'PUT', 'POST', 'DELETE')->name('getContent');
     
     $app->map('/get/finished', function() use($app){
         if($app->getCookie('aco-lan') !== null)          $lan = $app->getCookie('aco-lan');
@@ -64,7 +64,7 @@ $app->group('/content', function() use($app){
             }
         
         $app->response->status(200);
-        $app->response->body(json_encode([  //'lan' => $lan,
+        $app->response->body(json_encode([  'lan' => $lan,
                                             //'language'  => $language,
                                             'textContent' => $textcontent, 
                                             'fileContent'=> $filecontent]));
@@ -122,7 +122,7 @@ $app->group('/content', function() use($app){
         }
         
         $app->response->status(200);
-        $app->response->body(json_encode([  //'lan' => $lan,
+        $app->response->body(json_encode([  'lan' => $lan,
                                             //'language'  => $language,
                                             'textContent' => $textcontent, 
                                             'fileContent'=> $filecontent]));
@@ -622,15 +622,88 @@ $app->group('/content/language', function() use($app){
     $app->put('/set/toggle/:lan', function($lan) use($app){
         $data = json_decode($app->request->getBody());
         if(isset($data->toggle) && !empty($data->toggle))           $toggle = $data->toggle;
+        if(($db = connectToMySql()) !== false){
+                try{
+                    $query = 'UPDATE Language SET toggle = ? WHERE lan = ?';
+                    $sql_lan = $db->prepare($query);
+                    $sql_lan->bindParam(1, $toggle);
+                    $sql_lan->bindParam(2, $lan);
+                    if($sql_lan->execute())     $result = 1;
+                    else                        $result = 0;
+                }catch(Exception $e){ 
+                $app->halt(503, json_encode(['type' => 'Error',
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => $e->getMessage()]));
+            }finally {$db = null;}
+        }else{
+                $app->halt(503, json_encode([   'type' => 'Error',
+                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'message' => 'No database connection']));
+        } 
+        $app->response->status(400);
+        $app->response->body(json_encode([  'type' => 'Error',
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => 'The text could not been saved!']));
         
+        if($result === 0 || empty($result)) $app->stop();
+        
+        $app->redirect($app->urlFor('getLanguage'));    
     });
     
-    $app->put('/set/default/:lan', function($lan) use($app){
+    $app->delete('/remove/text', function() use ($app){
+        $lan = $app->getCookie('aco-lan');
+        if(($db = connectToMySql()) !== false){
+                try{
+                    $query = 'DELETE FROM Language WHERE lan =?';
+                    $sql_lan = $db->prepare($query);
+                    $sql_lan->bindParam(1, $lan);
+                    $sql_lan->execute();
+                    
+                    $query = 'DELETE FROM Textcontent WHERE lan = ?';
+                    $sql_text = $db->prepare($query);
+                    $sql_text->bindParam(1, $lan);
+                    $sql_text->execute();
+                }catch(Exception $e){ 
+                $app->halt(503, json_encode(['type' => 'Error',
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => $e->getMessage()]));
+            }finally {$db = null;}
+        }else{
+                $app->halt(503, json_encode([   'type' => 'Error',
+                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'message' => 'No database connection']));
+        } 
+        $app->deleteCookie('aco-lan');
+        $app->redirect($app->urlFor('getContent'));
+    });
+    
+    $app->delete('/remove/lan', function() use ($app){
+        $lan = $app->getCookie('aco-lan');
+        if(($db = connectToMySql()) !== false){
+                try{
+                    $query = 'DELETE FROM Language WHERE lan =?';
+                    $sql_lan = $db->prepare($query);
+                    $sql_lan->bindParam(1, $lan);
+                    $sql_lan->execute();
+                }catch(Exception $e){ 
+                $app->halt(503, json_encode(['type' => 'Error',
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => $e->getMessage()]));
+            }finally {$db = null;}
+        }else{
+                $app->halt(503, json_encode([   'type' => 'Error',
+                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'message' => 'No database connection']));
+        } 
+        $app->deleteCookie('aco-lan');
+        $app->redirect($app->urlFor('getContent'));
+    });
+    
+    /*$app->put('/set/default/:lan', function($lan) use($app){
         if(($db = connectToMySql()) !== false){
                 try{
                     
                 }catch(Exception $e){ 
-                $app->redirect($app->urlFor('getContent'));
                 $app->halt(503, json_encode(['type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
@@ -640,7 +713,7 @@ $app->group('/content/language', function() use($app){
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
         }
-    });
+    });*/
     
 });
 
