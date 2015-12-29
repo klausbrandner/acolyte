@@ -66,11 +66,11 @@
                 }
             }
         }
-        self.deleteLanguage = function(lancode){
+        self.deleteLanguage = function(lan){
             // http -> delete language
             var i = 0;
             for(var l in self.languages){
-                if(self.languages[l].lan == lancode){
+                if(self.languages[l].lan == lan.lan){
                     self.languages.splice(i,1);
                 }
                 i++;

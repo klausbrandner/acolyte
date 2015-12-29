@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .controller('AcoLanguageController',['$scope','$timeout','AcoLanguageService','AcoMessageBoxService',function($scope,$timeout,AcoLanguageService,AcoMessageBoxService){
+    .controller('AcoLanguageController',['$scope','$timeout','AcoLanguageService','AcoMessageBoxService','AcoNotificationService',function($scope,$timeout,AcoLanguageService,AcoMessageBoxService,AcoNotificationService){
         
         var self = this;
         self.lan = 'en';
@@ -61,23 +61,27 @@
             AcoLanguageService.setToggle(lan);
         }
         self.deleteLanguage = function(lan){
-            AcoMessageBoxService.pushMessage({
-                title: "Delete Language",
-                message: "Do you want to keep the texts in the database or delete them permanently?",
-                buttons: [
-                    {
-                        title: "Delete texts",
-                        callback: function(){
-                            DeleteLanPermanently(lan);
+            if(lan.preset != 1){
+                AcoMessageBoxService.pushMessage({
+                    title: "Delete Language",
+                    message: "Do you want to keep the texts in the database or delete them permanently?",
+                    buttons: [
+                        {
+                            title: "Delete texts",
+                            callback: function(){
+                                DeleteLanPermanently(lan);
+                            }
+                        },{
+                            title: "Keep texts",
+                            callback: function(){
+                                DeleteLanKeepTexts(lan);
+                            }
                         }
-                    },{
-                        title: "Keep texts",
-                        callback: function(){
-                            AcoLanguageService(lan);
-                        }
-                    }
-                ]
-            });
+                    ]
+                });
+            }else{
+                AcoNotificationService.push("error","Can not be deleted","Sorry, but this language is set as default language and can not be deleted.")
+            }
         }
         function DeleteLanPermanently(lan){
             AcoLanguageService.deleteLanguage(lan);
