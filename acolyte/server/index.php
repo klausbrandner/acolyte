@@ -2,6 +2,7 @@
 require "vendor/autoload.php";                  //COMPOSER
 require_once 'func/db_connect.php';             //DATABASE CONNECTIONS
 require_once 'func/base64_decode.php';          //BASE 64 IMAGE UPLOAD
+require_once 'func/security_csrf.php';
 
 $app = new \Slim\Slim(); 
 $app->response->headers->set('Content-Type', 'application/json');
@@ -40,7 +41,13 @@ $app->group('/content', function() use($app){
                     $sql_file = $db->prepare($query);
                     $sql_file->execute();
                     $sql_file->setFetchMode(PDO::FETCH_OBJ);
+                    
+                    $query = 'SELECT lan, language FROM Language WHERE toggle = 1';
+                    $sql_lan = $db->prepare($query);
+                    $sql_lan->execute();
+                    $sql_lan->setFetchMode(PDO::FETCH_OBJ);
 
+                    $language = $sql_lan->fetchAll();
                     $textcontent = $sql_text->fetchAll();
                     $filecontent = $sql_file->fetchAll();
                 }catch(Exception $e){
@@ -57,14 +64,15 @@ $app->group('/content', function() use($app){
             }
         
         $app->response->status(200);
-        $app->response->body(json_encode([  'textContent' => $textcontent, 
+        $app->response->body(json_encode([  'lan' => $lan,
+                                            'language'  => $language,
+                                            'textContent' => $textcontent, 
                                             'fileContent'=> $filecontent]));
         
     })->via('GET', 'PUT', 'POST')->name('getFinished');
     
     $app->map('/get/modified', function() use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
-        
         if(($db = connectToMySql()) != false){
             try{
                 $case = '';
@@ -92,6 +100,12 @@ $app->group('/content', function() use($app){
                 $sql_file->execute();
                 $sql_file->setFetchMode(PDO::FETCH_OBJ);
                 
+                $query = 'SELECT lan, language, toggle, preset FROM Language';
+                $sql_lan = $db->prepare($query);
+                $sql_lan->execute();
+                $sql_lan->setFetchMode(PDO::FETCH_OBJ);
+
+                $language = $sql_lan->fetchAll();  
                 $textcontent = $sql_text->fetchAll();
                 $filecontent = $sql_file->fetchAll();
             }catch(Exception $e){
@@ -108,7 +122,9 @@ $app->group('/content', function() use($app){
         }
         
         $app->response->status(200);
-        $app->response->body(json_encode([  'textContent' => $textcontent, 
+        $app->response->body(json_encode([  'lan' => $lan,
+                                            'language'  => $language,
+                                            'textContent' => $textcontent, 
                                             'fileContent'=> $filecontent]));
     })->via('GET', 'PUT', 'POST')->name('getModified');
     
@@ -259,7 +275,7 @@ $app->group('/content/text', function() use($app){
     $app->map('/add/modified/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('aco-lan') !== null)                     $lan = $app->getCookie('aco-lan');
-        if(isset($data->text) && !empty($data->text))           $text = $data->text;
+        if(isset($data->text))                  $text = $data->text;
 
         if(($db = connectToMySql()) != false){
             try{
@@ -551,7 +567,7 @@ $app->group('/content/language', function() use($app){
         
     });
     
-    $app-put('/set/default/:lan', function($lan) use($app){
+    $app->put('/set/default/:lan', function($lan) use($app){
         if(($db = connectToMySql()) !== false){
                 try{
                     
@@ -567,6 +583,8 @@ $app->group('/content/language', function() use($app){
                                                 'message' => 'No database connection']));
         }
     });
+    
+    
     
     $app->get('/get/lan',function() use($app){
         $lan = $app->getCookie('aco-lan');
@@ -622,8 +640,17 @@ $app->group('/content/language', function() use($app){
 
 $app->group('/user', function() use($app){
     $app->post('/login', function() use($app){
+        $data = json_decode($app->request->getBody());
+        if(isset($data->username) && !empty($data->username))           $user = $data->username;
+        if(isset($data->password) && !empty($data->password))           $password = $data->password;
         
-        $app->setCookie('aco-user','1');
+        if(security_login($user, $password)) $app->setCookie('aco-user','acodmin');
+        $app->redirect($app->urlFor('getContent'));
+    });
+    
+    $app->put('/logout', function() use($app){
+        $app->deleteCookie('aco-user');
+        $app->redirect($app->urlFor('getContent'));
     });
     
     $app->get('/view', function() use($app){
@@ -634,11 +661,11 @@ $app->group('/user', function() use($app){
 
 $app->group('/test', function() use($app){
    $app->get('/function', function() use($app){
-       //$app->setCookie('test','abc');
-       //print_r($app->getCookie('test'));
+       $app->setCookie('test','abc', null, null, null, 'abc');
+       print_r($app->getCookie('test'));
        //$path = realpath(__DIR__.'/src');
        //chmod($path, 0755);
-       print_r($path);
+       //print_r($path);
    }); 
 });
 
