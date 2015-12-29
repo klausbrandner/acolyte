@@ -14,6 +14,7 @@
     define("PASSWORD", "p00ky0s");
     */
 
+//----------------------------------------------------
 
     // YOUR WEBHOST
     define("HOST", "localhost");
@@ -27,6 +28,7 @@
     // YOUR DATABASE PASSWORD
     define("PASSWORD", "");
 
+//----------------------------------------------------
 
     //YOUR ACOLYTE USER 
     define("ACOUSER", "admin");

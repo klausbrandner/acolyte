@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS Language(
                 	language       	 		VARCHAR(255) NOT NULL,    
 
 		toggle				TINYINT(1),
-		standard			TINYINT(1),
+		preset			TINYINT(1),
     
                 	PRIMARY KEY(lan),
 		FOREIGN KEY (lan) REFERENCES Languages(lan) ON DELETE CASCADE ON 		UPDATE CASCADE
