@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .controller('AcoAdminController',['$scope','AcoPageContentService','AcoLoginService',function($scope,AcoPageContentService,AcoLoginService){
+    .controller('AcoAdminController',['$scope','AcoPageContentService','AcoLoginService','AcoMessageBoxService',function($scope,AcoPageContentService,AcoLoginService,AcoMessageBoxService){
         
         var self = this;
         self.edit = false;
@@ -52,6 +52,30 @@
                 adminTable.find("#aco-admin-lan").removeClass("active");
             }
             lanBox.slideToggle(200);
+        }
+        
+        self.publish = function(){
+            AcoMessageBoxService.pushMessage({
+                title: "Publish page",
+                message: "Do you want to publish all languages or just the current one?",
+                buttons: [
+                    {
+                        title: "Publish all",
+                        callback: PublishAll
+                    },{
+                        title: "Publish current",
+                        callback: PublishCurrent
+                    }
+                ]
+            });
+        }
+        
+        function PublishAll(){
+            alert("all published");
+            //http
+        }
+        function PublishCurrent(){
+            alert("publish current");
         }
         
         // Listener to Edit Mode

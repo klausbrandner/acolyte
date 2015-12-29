@@ -80,6 +80,12 @@ var acolyte = {
             });
         }
         
+        self.setContent = function(content){
+            self.texts = content.textContent;
+            self.images = content.fileContent;
+            self.broadcastPageContent();
+        }
+        
         self.getText = function(category, element){
             var text = false;
             for(var i=0; i<self.texts.length; i++){
@@ -140,10 +146,6 @@ var acolyte = {
             self.broadcastPageContent();
         }
         
-        self.refreshContent = function(){
-            self.fetchContent();
-        }
-        
         self.broadcastPageContent = function(){
             $rootScope.$broadcast('AcoPageContentChanged');
         }
@@ -190,7 +192,7 @@ function CreateRequest(callback){
         var i = Math.floor(Math.random() * chars.length);
         token += chars.charAt(i);
     }
-    document.cookie = "aco-key=" + token + ";path=/";
+    document.cookie = "aco-token=" + token + ";path=/";
     callback(token);
 }
 
