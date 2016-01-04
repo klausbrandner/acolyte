@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .controller('AcoLanguageController',['$scope','$timeout','AcoLanguageService','AcoMessageBoxService','AcoNotificationService',function($scope,$timeout,AcoLanguageService,AcoMessageBoxService,AcoNotificationService){
+    .controller('AcoLanguageController',['$scope','$http','AcoLanguageService','AcoMessageBoxService','AcoNotificationService',function($scope,$http,AcoLanguageService,AcoMessageBoxService,AcoNotificationService){
         
         var self = this;
         self.lan = 'en';
@@ -12,46 +12,21 @@
         
         init();
         function init(){
-            // http -> get all language data
             
-            var data = {
-                lan: 'en',
-                language: [
-                    {
-                        lan: 'de',
-                        language: 'Deutsch',
-                        toggle: 1,
-                        preset: 0
-                    },{
-                        lan: 'en',
-                        language: 'English',
-                        toggle: 1,
-                        preset: 1
-                    },{
-                        lan: 'nl',
-                        language: 'Dutch',
-                        toggle: 0,
-                        preset: 0
-                    }
-                ],
-                languages: [
-                    {
-                        lan: 'de',
-                        language: 'Deutsch'
-                    },{
-                        lan: 'en',
-                        language: 'English'
-                    },{
-                        lan: 'nl',
-                        language: 'Dutch'
-                    }
-                ]
-            }
-            
-            $timeout(function(){
-                AcoLanguageService.initLanguages(data.lan,data.language);
-                AcoLanguageService.initAvailLanguages(data.languages);
+            // fetch languages for the first time
+            CreateRequest(function(token){
+                
+                $http.get(acolyte.pathToServer + 'content/language/get').success(function(response){
+                    console.log("get languages");
+                    console.log(response);
+                    AcoLanguageService.initLanguages(response.lan,response.language);
+                    AcoLanguageService.initAvailLanguages(response.languages);
+                }).error(function(response){
+                    console.log(response);
+                });
+                
             });
+            
         }
         
         self.setLan = function(lan){
@@ -87,7 +62,7 @@
             AcoLanguageService.deleteLanguage(lan);
         }
         function DeleteLanKeepTexts(lan){
-            AcoLanguageService.deleteLanguage(lan);
+            AcoLanguageService.deleteAndTexts(lan);
         }
         self.searchLan = function(){
             self.searchResults = AcoLanguageService.searchAvailLans(self.newLanKeyword);
@@ -104,6 +79,34 @@
             self.languages = AcoLanguageService.getLanguages();
         });
         
+    }])
+    
+    .controller('AcolyteLanguageController',['$scope','AcoLanguageService',function($scope,AcoLanguageService){
+        
+        var self = this;
+        
+        self.active = 'en';
+        self.languages = [
+            {
+                lan: 'en',
+                language: 'English'
+            },{
+                lan: 'de',
+                language: 'Deutsch'
+            }
+        ];
+        
+        self.select = function(language){
+            AcoLanguageService.setLan(language.lan);
+        }
+        
+        // Listener to Language Changes
+        $scope.$on('AcoLanguagesChanged',function(){
+            //self.active = AcoLanguageService.getLan();
+            //self.languages = AcoLanguageService.getLanguages();
+        });
+        
     }]);
+    
     
 })();

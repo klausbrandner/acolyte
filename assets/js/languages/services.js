@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .factory('AcoLanguageService',['$rootScope','AcoPageContentService',function($rootScope,AcoPageContentService){
+    .factory('AcoLanguageService',['$rootScope','$http','AcoPageContentService',function($rootScope,$http,AcoPageContentService){
         
         var self = this;
         
@@ -29,10 +29,15 @@
             return self.lan;
         }
         self.setLan = function(lancode){
-            // http -> setLan
-            self.lan = lancode;
-            AcoPageContentService.fetchContent();
-            self.broadcastLanguagesChanged();
+            CreateRequest(function(token){
+                $http.put(acolyte.pathToServer + 'content/language/set/' + lancode).success(function(response){
+                    AcoPageContentService.setContent(response);
+                    self.lan = response.lan;
+                    self.broadcastLanguagesChanged();
+                }).error(function(response){
+                    console.log(response);
+                });
+            });
         }
         
         self.getLanguages = function(){
@@ -67,6 +72,17 @@
             }
         }
         self.deleteLanguage = function(lan){
+            // http -> delete language
+            var i = 0;
+            for(var l in self.languages){
+                if(self.languages[l].lan == lan.lan){
+                    self.languages.splice(i,1);
+                }
+                i++;
+            }
+            self.broadcastLanguagesChanged();
+        }
+        self.deleteAndText = function(lan){
             // http -> delete language
             var i = 0;
             for(var l in self.languages){
