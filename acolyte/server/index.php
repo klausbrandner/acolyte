@@ -162,7 +162,7 @@ $app->group('/content', function() use($app){
         }
     });
     
-    $app-put('/save/all', function() use($app){
+    $app->put('/save/all', function() use($app){
         if(($db = connectToMySql()) != false){
             try{
                 $case = '';
@@ -746,6 +746,12 @@ $app->group('/content/language', function() use($app){
                                                 'message' => 'No database connection']));
         }
     });*/
+    
+    $app->post('/add', function() use($app){
+        $data = json_decode($app->request->getBody());
+        if(isset($data->lan) && !empty($data->lan))           $lan = $data->lan;
+        if(isset($data->language) && !empty($data->language))           $language = $data->language;
+    });
     
 });
 
