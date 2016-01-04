@@ -655,7 +655,7 @@ $app->group('/language', function() use($app){
     
     $app->put('/set/toggle/:lan', function($lan) use($app){
         $data = json_decode($app->request->getBody());
-        if(isset($data->toggle) && !empty($data->toggle))           $toggle = $data->toggle;
+        if(isset($data->toggle))           $toggle = $data->toggle;
         if(($db = connectToMySql()) !== false){
                 try{
                     $query = 'UPDATE Language SET toggle = ? WHERE lan = ?';
