@@ -1,10 +1,9 @@
 <?php
-require_once("settings.php");   
+require_once("settings.php"); 
 
 function security_token($token){
-    return $_COOKIE['aco-token'];
-    //if($token === $_SESSION['token']) return true;
-    //else return false;
+    if($token === $_COOKIE['aco-token']) return true;
+    return false;
 }
 
 function security_login($user, $password){
