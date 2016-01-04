@@ -108,7 +108,7 @@ INSERT INTO Languages (lan, language) VALUES('hi', 'Hindi') ON DUPLICATE KEY UPD
 INSERT INTO Languages (lan, language) VALUES('hu', 'Hungarian') ON DUPLICATE KEY UPDATE lan = 'hu', language = 'Hungarian';
 INSERT INTO Languages (lan, language) VALUES('is', 'Icelandic') ON DUPLICATE KEY UPDATE lan = 'is', language = 'Icelandic';
 INSERT INTO Languages (lan, language) VALUES('io', 'Ido') ON DUPLICATE KEY UPDATE lan = 'io', language = 'Ido';
-INSERT INTO Languages (lan, language) VALUES('id, in', 'Indonesian') ON DUPLICATE KEY UPDATE lan = 'id, in', language = 'Indonesian';
+##INSERT INTO Languages (lan, language) VALUES('id, in', 'Indonesian') ON DUPLICATE KEY UPDATE lan = 'id, in', language = 'Indonesian';
 INSERT INTO Languages (lan, language) VALUES('ia', 'Interlingua') ON DUPLICATE KEY UPDATE lan = 'ia', language = 'Interlingua';
 INSERT INTO Languages (lan, language) VALUES('ie', 'Interlingue') ON DUPLICATE KEY UPDATE lan = 'ie', language = 'Interlingue';
 INSERT INTO Languages (lan, language) VALUES('iu', 'Inuktitut') ON DUPLICATE KEY UPDATE lan = 'iu', language = 'Inuktitut';
@@ -198,7 +198,7 @@ INSERT INTO Languages (lan, language) VALUES('wa', 'Wallon') ON DUPLICATE KEY UP
 INSERT INTO Languages (lan, language) VALUES('cy', 'Welsh') ON DUPLICATE KEY UPDATE lan = 'cy', language = 'Welsh';
 INSERT INTO Languages (lan, language) VALUES('wo', 'Wolof') ON DUPLICATE KEY UPDATE lan = 'wo', language = 'Wolof';
 INSERT INTO Languages (lan, language) VALUES('xh', 'Xhosa') ON DUPLICATE KEY UPDATE lan = 'xh', language = 'Xhosa';
-INSERT INTO Languages (lan, language) VALUES('yi, ji', 'Yiddish') ON DUPLICATE KEY UPDATE lan = 'yi, ji', language = 'Yiddish';
+##INSERT INTO Languages (lan, language) VALUES('yi, ji', 'Yiddish') ON DUPLICATE KEY UPDATE lan = 'yi, ji', language = 'Yiddish';
 INSERT INTO Languages (lan, language) VALUES('yo', 'Yoruba') ON DUPLICATE KEY UPDATE lan = 'yo', language = 'Yoruba';
 INSERT INTO Languages (lan, language) VALUES('zu', 'Zulu') ON DUPLICATE KEY UPDATE lan = 'zu', language = 'Zulu';
 
