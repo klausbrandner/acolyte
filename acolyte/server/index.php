@@ -810,6 +810,7 @@ $app->group('/user', function() use($app){
                 $query = 'SELECT * FROM Language WHERE lan = ?';
                 $sql_user = $db->prepare($query);
                 $sql_user->bindParam(1, $lan);
+                $sql_user->execute();
                 $sql_user->setFetchMode(PDO::FETCH_OBJ);
                 $result = $sql_user->fetch();
             }catch(Exception $e){
@@ -821,9 +822,10 @@ $app->group('/user', function() use($app){
             $app->halt(503, json_encode([   'type' => 'Error',
                                              'title' => 'Oops, sadsomething went wrong!',
                                              'message' => 'No database connection']));
+        }    
+        if($result->toggle == 0){
+            $app->deleteCookie('aco-lan'); 
         }
-        $app->deleteCookie('aco-lan');     
-        if($result->toggle !== 0) $app->setCookie('aco-lan', $result->lan, '180 days');
         $app->deleteCookie('aco-user');
         $app->redirect($app->urlFor('getContent'));
     });
