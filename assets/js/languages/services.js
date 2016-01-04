@@ -58,45 +58,87 @@
         }
         
         
-        self.setToggle = function(lancode){
+        self.setToggle = function(lan){
             // http -> set toggle
-            for(var l in self.languages){
-                var tmpLan = self.languages[l];
-                if(tmpLan.lan == lancode){
-                    var setTo = 0;
-                    if(self.languages[l].toggle == 0){
-                        setTo = 1;
-                    }
-                    self.languages[l].toggle = setTo;
+            CreateRequest(function(token){
+                
+                var setTo = 0;
+                if(self.languages[l].toggle == 0){
+                    setTo = 1;
                 }
-            }
+                
+                var postData = {
+                    toggle: toggle,
+                    token: token
+                };
+                $http.put(acolyte.pathToServer + 'language/set/toggle/' + lan.lan, postData).success(function(response){
+                    console.log(response);
+                    for(var l in self.languages){
+                        if(self.languages[l].lan == lancode){
+                            self.languages[l].toggle = setTo;
+                        }
+                    }
+                }).error(function(response){
+                    console.log(response);
+                });
+            });
+            
         }
         self.deleteLanguage = function(lan){
             // http -> delete language
-            var i = 0;
-            for(var l in self.languages){
-                if(self.languages[l].lan == lan.lan){
-                    self.languages.splice(i,1);
-                }
-                i++;
-            }
-            self.broadcastLanguagesChanged();
+            
+            CreateRequest(function(token){
+                $http.delete(acolyte.pathToServer + 'language/remove/lan/' + lan.lan).success(function(response){
+                    console.log(response);
+                    /*var i = 0;
+                    for(var l in self.languages){
+                        if(self.languages[l].lan == lan.lan){
+                            self.languages.splice(i,1);
+                        }
+                        i++;
+                    }*/
+                    self.languages = response.language;
+                    self.broadcastLanguagesChanged();
+                }).error(function(response){
+                    console.log(response);
+                });
+            });
         }
         self.deleteAndText = function(lan){
             // http -> delete language
-            var i = 0;
-            for(var l in self.languages){
-                if(self.languages[l].lan == lan.lan){
-                    self.languages.splice(i,1);
-                }
-                i++;
-            }
-            self.broadcastLanguagesChanged();
+            CreateRequest(function(token){
+                $http.delete(acolyte.pathToServer + 'language/remove/all/' + lan.lan).success(function(response){
+                    console.log(response);
+                    /*var i = 0;
+                    for(var l in self.languages){
+                        if(self.languages[l].lan == lan.lan){
+                            self.languages.splice(i,1);
+                        }
+                        i++;
+                    }*/
+                    self.languages = response.language;
+                    self.broadcastLanguagesChanged();
+                }).error(function(response){
+                    console.log(response);
+                });
+            });
         }
         self.addLanguage = function(lan){
             // http -> add lan
-            lan.toggle = 0;
-            self.languages.push(lan);
+            CreateRequest(function(token){
+                var postData = {
+                    lan: lan.lan,
+                    language: lan.language,
+                    token: token
+                };
+                $http.post(acolyte.pathToServer + 'language/add', postData).success(function(response){
+                    console.log(response);
+                    lan.toggle = 0;
+                    self.languages.push(lan);
+                }).error(function(response){
+                    console.log(response);
+                });
+            });
         }
         
         
