@@ -710,7 +710,7 @@ $app->group('/language', function() use($app){
             $app->deleteCookie('aco-lan');
             $app->redirect($app->urlFor('getContent'));
         }else{
-            $app->redirect($app->urlFor('getLanguage'));
+            $app->redirect($app->urlFor('getContent'));
         }
     });
     
@@ -735,7 +735,7 @@ $app->group('/language', function() use($app){
             $app->deleteCookie('aco-lan');
             $app->redirect($app->urlFor('getContent'));
         }else{
-            $app->redirect($app->urlFor('getLanguage'));
+            $app->redirect($app->urlFor('getContent'));
         }
     });  
     
