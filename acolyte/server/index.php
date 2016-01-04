@@ -333,7 +333,7 @@ $app->group('/content/text', function() use($app){
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
-                                            'message' => 'The text could not been updated!']));
+                                            'message' => 'The text could not been inserted!']));
         
         if($result === 0) $app->stop();
         
@@ -588,7 +588,7 @@ $app->group('/content/file', function() use($app){
     })->via('PUT', 'POST')->name('addFile');
 });
 
-$app->group('/content/language', function() use($app){
+$app->group('/language', function() use($app){
     
     $app->map('/get', function() use($app){
         $lan = $app->getCookie('aco-lan');
@@ -606,7 +606,9 @@ $app->group('/content/language', function() use($app){
                     $sql_lans->setFetchMode(PDO::FETCH_OBJ);
                     $languages = $sql_lans->fetchAll();
                 }catch(Exception $e){ 
-                $app->halt(503, json_encode(['type' => 'Error',
+                    setupMySql($db);
+                    $app->redirect($app->urlFor('getLanguage'));
+                    $app->halt(503, json_encode(['type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
             }finally {$db = null;}
@@ -729,12 +731,21 @@ $app->group('/content/language', function() use($app){
         } 
         $app->deleteCookie('aco-lan');
         $app->redirect($app->urlFor('getContent'));
-    });
+    });  
     
-    /*$app->put('/set/default/:lan', function($lan) use($app){
+    $app->post('/add', function() use($app){
+        $data = json_decode($app->request->getBody());
+        if(isset($data->lan) && !empty($data->lan))                     $lan = $data->lan;
+        if(isset($data->language) && !empty($data->language))           $language = $data->language;
+        
         if(($db = connectToMySql()) !== false){
                 try{
-                    
+                    $query = 'INSERT INTO Language(lan, language, toggle, preset) VALUES (?, ?, 0, 0)';
+                    $sql_lan = $db->prepare($query);
+                    $sql_lan->bindParam(1, $lan);
+                    $sql_lan->bindParam(2, $language);
+                    $sql_lan->execute();
+                    $result = $sql_lan->rowCount();
                 }catch(Exception $e){ 
                 $app->halt(503, json_encode(['type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
@@ -744,13 +755,15 @@ $app->group('/content/language', function() use($app){
                 $app->halt(503, json_encode([   'type' => 'Error',
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
-        }
-    });*/
-    
-    $app->post('/add', function() use($app){
-        $data = json_decode($app->request->getBody());
-        if(isset($data->lan) && !empty($data->lan))           $lan = $data->lan;
-        if(isset($data->language) && !empty($data->language))           $language = $data->language;
+        } 
+        $app->response->status(400);
+        $app->response->body(json_encode([  'type' => 'Error',
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => 'The language could not been inserted!']));
+        
+        if($result === 0) $app->stop();
+        
+        $app->redirect($app->urlFor('getLanguage'));
     });
     
 });
@@ -772,8 +785,16 @@ $app->group('/user', function() use($app){
         if(isset($data->username) && !empty($data->username))           $user = $data->username;
         if(isset($data->password) && !empty($data->password))           $password = $data->password;
         
-        if(security_login($user, $password)) $app->setCookie('aco-user','acodmin');
-        $app->redirect($app->urlFor('getContent'));
+        if(security_login($user, $password)){
+            $app->setCookie('aco-user','acodmin');
+            $app->redirect($app->urlFor('getContent'));
+        }
+        else{
+            $app->response->status(400);
+            $app->response->body(json_encode([  'type' => 'Error',
+                                                'title' => 'Oops, something went wrong!',
+                                                'message' => 'The Login coulld not been proceeded!']));
+        }
     });
     
     $app->put('/logout', function() use($app){
