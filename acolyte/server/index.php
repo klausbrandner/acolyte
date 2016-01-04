@@ -767,7 +767,7 @@ $app->group('/language', function() use($app){
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The language could not been inserted!']));
         
-        if($result === 0) $app->stop();
+        if($result === 0 ) $app->stop();
         
         $app->redirect($app->urlFor('getLanguage'));
     });
