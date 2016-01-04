@@ -99,7 +99,14 @@
         // Listener to Language Changes
         $scope.$on('AcoLanguagesChanged',function(){
             self.active = AcoLanguageService.getLan();
-            self.languages = AcoLanguageService.getLanguages();
+            //self.languages = AcoLanguageService.getLanguages();
+            self.languages = [];
+            var languages = AcoLanguageService.getLanguages();
+            for(var l in languages){
+                if(languages[l].toggle == 1){
+                    self.languages.push(languages[l]);
+                }
+            }
         });
         
     }]);
