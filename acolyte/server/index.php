@@ -684,8 +684,7 @@ $app->group('/language', function() use($app){
         $app->redirect($app->urlFor('getLanguage'));    
     });
     
-    $app->delete('/remove/all', function() use ($app){
-        $lan = $app->getCookie('aco-lan');
+    $app->delete('/remove/all/:lan', function($lan) use ($app){
         if(($db = connectToMySql()) !== false){
                 try{
                     $query = 'DELETE FROM Language WHERE lan =?';
@@ -707,12 +706,15 @@ $app->group('/language', function() use($app){
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
         } 
-        $app->deleteCookie('aco-lan');
-        $app->redirect($app->urlFor('getContent'));
+        if($app->getCookie('aco-lan') === $lan){
+            $app->deleteCookie('aco-lan');
+            $app->redirect($app->urlFor('getContent'));
+        }else{
+            $app->redirect($app->urlFor('getLanguage'));
+        }
     });
     
-    $app->delete('/remove/lan', function() use ($app){
-        $lan = $app->getCookie('aco-lan');
+    $app->delete('/remove/lan/:lan', function($lan) use ($app){
         if(($db = connectToMySql()) !== false){
                 try{
                     $query = 'DELETE FROM Language WHERE lan =?';
@@ -729,8 +731,12 @@ $app->group('/language', function() use($app){
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
         } 
-        $app->deleteCookie('aco-lan');
-        $app->redirect($app->urlFor('getContent'));
+        if($app->getCookie('aco-lan') === $lan){
+            $app->deleteCookie('aco-lan');
+            $app->redirect($app->urlFor('getContent'));
+        }else{
+            $app->redirect($app->urlFor('getLanguage'));
+        }
     });  
     
     $app->post('/add', function() use($app){
