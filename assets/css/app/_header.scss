@@ -1,20 +1,29 @@
 #eyebrow{
+    position: relative;
     widht: 100%;
     height: 30px;
-    background: #ccc;
+    background: #222;
     
     #languages{
-        float: right;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0;
+        margin: 0;
         
         & > div{
             display: inline-table;
             font-size: 0.8em;
-            line-height: 100%;
-            color: #fff;
+            line-height: 50%;
+            color: #999;
             font-weight: 600;
             text-transform: uppercase;
             padding: 0 8px 0 0;
             cursor: pointer;
+            
+            &.active{
+                color: #fff;
+            }
         }
     }
 }
