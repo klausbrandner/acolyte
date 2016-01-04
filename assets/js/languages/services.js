@@ -30,7 +30,7 @@
         }
         self.setLan = function(lancode){
             CreateRequest(function(token){
-                $http.put(acolyte.pathToServer + 'content/language/set/' + lancode).success(function(response){
+                $http.put(acolyte.pathToServer + 'language/set/' + lancode).success(function(response){
                     AcoPageContentService.setContent(response);
                     self.lan = response.lan;
                     self.broadcastLanguagesChanged();
@@ -62,19 +62,19 @@
             // http -> set toggle
             CreateRequest(function(token){
                 
-                var setTo = 0;
-                if(self.languages[l].toggle == 0){
-                    setTo = 1;
+                var setTo = 1;
+                if(lan.toggle == 1){
+                    setTo = 0;
                 }
                 
                 var postData = {
-                    toggle: toggle,
+                    toggle: lan.toggle,
                     token: token
                 };
                 $http.put(acolyte.pathToServer + 'language/set/toggle/' + lan.lan, postData).success(function(response){
                     console.log(response);
                     for(var l in self.languages){
-                        if(self.languages[l].lan == lancode){
+                        if(self.languages[l].lan == lan.lan){
                             self.languages[l].toggle = setTo;
                         }
                     }
@@ -86,17 +86,9 @@
         }
         self.deleteLanguage = function(lan){
             // http -> delete language
-            
             CreateRequest(function(token){
                 $http.delete(acolyte.pathToServer + 'language/remove/lan/' + lan.lan).success(function(response){
                     console.log(response);
-                    /*var i = 0;
-                    for(var l in self.languages){
-                        if(self.languages[l].lan == lan.lan){
-                            self.languages.splice(i,1);
-                        }
-                        i++;
-                    }*/
                     self.languages = response.language;
                     self.broadcastLanguagesChanged();
                 }).error(function(response){
@@ -109,13 +101,6 @@
             CreateRequest(function(token){
                 $http.delete(acolyte.pathToServer + 'language/remove/all/' + lan.lan).success(function(response){
                     console.log(response);
-                    /*var i = 0;
-                    for(var l in self.languages){
-                        if(self.languages[l].lan == lan.lan){
-                            self.languages.splice(i,1);
-                        }
-                        i++;
-                    }*/
                     self.languages = response.language;
                     self.broadcastLanguagesChanged();
                 }).error(function(response){
@@ -133,8 +118,9 @@
                 };
                 $http.post(acolyte.pathToServer + 'language/add', postData).success(function(response){
                     console.log(response);
-                    lan.toggle = 0;
-                    self.languages.push(lan);
+                    //lan.toggle = 0;
+                    //self.languages.push(lan);
+                    self.languages = response.language;
                 }).error(function(response){
                     console.log(response);
                 });

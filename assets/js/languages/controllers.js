@@ -16,9 +16,7 @@
             // fetch languages for the first time
             CreateRequest(function(token){
                 
-                $http.get(acolyte.pathToServer + 'content/language/get').success(function(response){
-                    console.log("get languages");
-                    console.log(response);
+                $http.get(acolyte.pathToServer + 'language/get').success(function(response){
                     AcoLanguageService.initLanguages(response.lan,response.language);
                     AcoLanguageService.initAvailLanguages(response.languages);
                 }).error(function(response){
@@ -33,6 +31,7 @@
             AcoLanguageService.setLan(lan);
         }
         self.setToggle = function(lan){
+            console.log(lan);
             AcoLanguageService.setToggle(lan);
         }
         self.deleteLanguage = function(lan){
