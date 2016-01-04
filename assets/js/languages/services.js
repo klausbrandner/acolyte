@@ -62,13 +62,13 @@
             // http -> set toggle
             CreateRequest(function(token){
                 
-                var setTo = 1;
-                if(lan.toggle == 1){
-                    setTo = 0;
+                var setTo = 0;
+                if(lan.toggle == 0){
+                    setTo = 1;
                 }
                 
                 var postData = {
-                    toggle: lan.toggle,
+                    toggle: setTo,
                     token: token
                 };
                 $http.put(acolyte.pathToServer + 'language/set/toggle/' + lan.lan, postData).success(function(response){
@@ -96,7 +96,7 @@
                 });
             });
         }
-        self.deleteAndText = function(lan){
+        self.deleteAndTexts = function(lan){
             // http -> delete language
             CreateRequest(function(token){
                 $http.delete(acolyte.pathToServer + 'language/remove/all/' + lan.lan).success(function(response){
@@ -121,6 +121,8 @@
                     //lan.toggle = 0;
                     //self.languages.push(lan);
                     self.languages = response.language;
+                    console.log(self.languages);
+                    self.broadcastLanguagesChanged();
                 }).error(function(response){
                     console.log(response);
                 });

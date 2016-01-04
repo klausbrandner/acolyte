@@ -58,10 +58,10 @@
             }
         }
         function DeleteLanPermanently(lan){
-            AcoLanguageService.deleteLanguage(lan);
+            AcoLanguageService.deleteAndTexts(lan);
         }
         function DeleteLanKeepTexts(lan){
-            AcoLanguageService.deleteAndTexts(lan);
+            AcoLanguageService.deleteLanguage(lan);
         }
         self.searchLan = function(){
             self.searchResults = AcoLanguageService.searchAvailLans(self.newLanKeyword);
