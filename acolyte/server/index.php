@@ -128,7 +128,7 @@ $app->group('/content', function() use($app){
                                             'fileContent'=> $filecontent]));
     })->via('GET', 'PUT', 'POST')->name('getModified');
     
-    $app->put('/save', function() use($app){
+    $app->put('/save/lan', function() use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
         
         if(($db = connectToMySql()) != false){
@@ -140,6 +140,38 @@ $app->group('/content', function() use($app){
                 $sql_text = $db->prepare($query);
                 $sql_text->bindParam(1,$case);
                 $sql_text->bindParam(2,$lan);
+                $sql_text->execute();
+                
+                $query = 'UPDATE FileContent f SET f.url = f.tmp_url, f.src = f.tmp_src, 
+                f.tmp_url = NULL, f.tmp_src = NULL 
+                WHERE f.tmp_url IS NOT NULL AND f.tmp_src IS NOT NULL 
+                AND f.tmp_url != ? AND f.tmp_src != ?';
+                $sql_file = $db->prepare($query);
+                $sql_file->bindParam(1,$case);
+                $sql_file->bindParam(2,$case);
+                $sql_file->execute();
+            }catch(Exception $e){
+                $app->halt(503, json_encode(['type' => 'Error',
+                                            'title' => 'Oops, something went wrong!',
+                                            'message' => $e->getMessage()]));
+            }finally{ $db = null;}
+        }else{
+            $app->halt(503, json_encode([ 'type' => 'Error',
+                                         'title' => 'Oops, sadsomething went wrong!',
+                                         'message' => 'No database connection']));
+        }
+    });
+    
+    $app-put('/save/all', function() use($app){
+        if(($db = connectToMySql()) != false){
+            try{
+                $case = '';
+                
+                $query = 'UPDATE TextContent t SET t.text = t.tmp_text, t.tmp_text = NULL 
+                WHERE t.tmp_text IS NOT NULL AND t.tmp_text != ?';
+                $sql_text = $db->prepare($query);
+                $sql_text->bindParam(1,$case);
+                //$sql_text->bindParam(2,$lan);
                 $sql_text->execute();
                 
                 $query = 'UPDATE FileContent f SET f.url = f.tmp_url, f.src = f.tmp_src, 
@@ -650,7 +682,7 @@ $app->group('/content/language', function() use($app){
         $app->redirect($app->urlFor('getLanguage'));    
     });
     
-    $app->delete('/remove/text', function() use ($app){
+    $app->delete('/remove/all', function() use ($app){
         $lan = $app->getCookie('aco-lan');
         if(($db = connectToMySql()) !== false){
                 try{
@@ -659,7 +691,7 @@ $app->group('/content/language', function() use($app){
                     $sql_lan->bindParam(1, $lan);
                     $sql_lan->execute();
                     
-                    $query = 'DELETE FROM Textcontent WHERE lan = ?';
+                    $query = 'DELETE FROM TextContent WHERE lan = ?';
                     $sql_text = $db->prepare($query);
                     $sql_text->bindParam(1, $lan);
                     $sql_text->execute();
