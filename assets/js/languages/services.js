@@ -39,6 +39,11 @@
                 });
             });
         }
+        self.setLanOnly = function(lancode){
+            console.log(lancode);
+            self.lan = lancode;
+            self.broadcastLanguagesChanged();
+        }
         
         self.getLanguages = function(){
             return self.languages;
