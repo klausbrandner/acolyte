@@ -89,7 +89,7 @@
             CreateRequest(function(token){
                 $http.delete(acolyte.pathToServer + 'language/remove/lan/' + lan.lan).success(function(response){
                     console.log(response);
-                    self.languages = response.language;
+                    DeleteLanguage(lan,response);
                     self.broadcastLanguagesChanged();
                 }).error(function(response){
                     console.log(response);
@@ -101,13 +101,27 @@
             CreateRequest(function(token){
                 $http.delete(acolyte.pathToServer + 'language/remove/all/' + lan.lan).success(function(response){
                     console.log(response);
-                    self.languages = response.language;
+                    DeleteLanguage(lan,response);
                     self.broadcastLanguagesChanged();
                 }).error(function(response){
                     console.log(response);
                 });
             });
         }
+        
+        function DeleteLanguage(lan, content){
+            console.log("delete lan: " + lan.lan);
+            var i = 0;
+            for(var l in self.languages){
+                if(self.languages[l].lan == lan.lan){
+                    self.languages.splice(i,1);
+                }
+                i++;
+            }
+            self.lan = content.lan;
+            AcoPageContentService.setContent(content);
+        }
+        
         self.addLanguage = function(lan){
             // http -> add lan
             CreateRequest(function(token){
