@@ -812,7 +812,6 @@ $app->group('/user', function() use($app){
                 $sql_user->bindParam(1, $lan);
                 $sql_user->setFetchMode(PDO::FETCH_OBJ);
                 $result = $sql_user->fetch();
-                }else throw new Exception($e);
             }catch(Exception $e){
                 $app->halt(503, json_encode(['type' => 'Error',
                                              'title' => 'Oops, something went wrong! catch',
