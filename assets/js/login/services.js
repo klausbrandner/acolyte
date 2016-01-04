@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .factory('AcoLoginService',['$rootScope','$http','AcoNotificationService',function($rootScope,$http,AcoNotificationService){
+    .factory('AcoLoginService',['$rootScope','$http','AcoNotificationService','AcoLanguageService',function($rootScope,$http,AcoNotificationService,AcoLanguageService){
         
         var self = {};
         
@@ -55,6 +55,7 @@
             CreateRequest(function(token){
                 $http.put(acolyte.pathToServer + 'user/logout').success(function(response){
                     self.loggedIn = false;
+                    AcoLanguageService.setLanOnly(response.lan);
                     AcoNotificationService.push('success','Logged out','You where successfully logged out.');
                     self.broadcastLoginStatus();
                 }).error(function(response){
