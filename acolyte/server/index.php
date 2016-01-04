@@ -69,7 +69,7 @@ $app->group('/content', function() use($app){
                                             'textContent' => $textcontent, 
                                             'fileContent'=> $filecontent]));
         
-    })->via('GET', 'PUT', 'POST')->name('getFinished');
+    })->via('GET', 'PUT', 'POST', 'DELETE')->name('getFinished');
     
     $app->map('/get/modified', function() use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
@@ -126,7 +126,7 @@ $app->group('/content', function() use($app){
                                             //'language'  => $language,
                                             'textContent' => $textcontent, 
                                             'fileContent'=> $filecontent]));
-    })->via('GET', 'PUT', 'POST')->name('getModified');
+    })->via('GET', 'PUT', 'POST', 'DELETE')->name('getModified');
     
     $app->put('/save/lan', function() use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
@@ -651,7 +651,7 @@ $app->group('/language', function() use($app){
         if(empty($result)) $app->setCookie('aco-lan', $presult->lan, '180 days');
         else $app->setCookie('aco-lan', $result->lan, '180 days');
         $app->redirect($app->urlFor('getContent'));
-    })->via('GET', 'PUT')->name('setLanguage');
+    })->via('GET', 'PUT', 'DELETE')->name('setLanguage');
     
     $app->put('/set/toggle/:lan', function($lan) use($app){
         $data = json_decode($app->request->getBody());
@@ -717,7 +717,7 @@ $app->group('/language', function() use($app){
     $app->delete('/remove/lan/:lan', function($lan) use ($app){
         if(($db = connectToMySql()) !== false){
                 try{
-                    $query = 'DELETE FROM Language WHERE lan =?';
+                    $query = 'DELETE FROM Language WHERE lan = ?';
                     $sql_lan = $db->prepare($query);
                     $sql_lan->bindParam(1, $lan);
                     $sql_lan->execute();
