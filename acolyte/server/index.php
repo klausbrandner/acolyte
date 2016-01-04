@@ -73,7 +73,7 @@ $app->group('/content', function() use($app){
     
     $app->map('/get/modified', function() use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
             try{
                 $case = '';
                 
@@ -131,7 +131,7 @@ $app->group('/content', function() use($app){
     $app->put('/save/lan', function() use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
         
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
             try{
                 $case = '';
                 
@@ -163,7 +163,7 @@ $app->group('/content', function() use($app){
     });
     
     $app->put('/save/all', function() use($app){
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
             try{
                 $case = '';
                 
@@ -199,7 +199,7 @@ $app->group('/content/text', function() use($app){
     $app->map('/get/modified/:category/:element', function($category, $element) use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
        
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
              try{
                 $query = 'SELECT category, element, tmp_text AS text FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
                 $sql_text = $db->prepare($query);
@@ -236,7 +236,7 @@ $app->group('/content/text', function() use($app){
         if($app->getCookie('aco-lan') !== null)                     $lan = $app->getCookie('aco-lan');
         if(isset($data->text) && !empty($data->text))           $text = $data->text;
          
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
             try{
                 $query = 'SELECT * FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
                 $sql_text = $db->prepare($query);
@@ -269,7 +269,7 @@ $app->group('/content/text', function() use($app){
         if($app->getCookie('aco-lan') !== null)                     $lan = $app->getCookie('aco-lan');
         if(isset($data->text))                                  $text = $data->text;
 
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
             try{
                 $query = 'UPDATE TextContent SET tmp_text = ? WHERE category = ? AND element = ? AND lan = ?';
                 $sql_text = $db->prepare($query);
@@ -309,7 +309,7 @@ $app->group('/content/text', function() use($app){
         if($app->getCookie('aco-lan') !== null)                     $lan = $app->getCookie('aco-lan');
         if(isset($data->text))                  $text = $data->text;
 
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
             try{
                 $query = 'INSERT INTO TextContent(category, element, tmp_text, lan) VALUES(?,?,?,?)';
                 $sql_text = $db->prepare($query);
@@ -345,7 +345,7 @@ $app->group('/content/text', function() use($app){
     $app->put('/save/:category/:element', function($category, $element) use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
 
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
             try{
                 $query = 'SELECT * FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
                 $sql_text = $db->prepare($query);
@@ -392,7 +392,7 @@ $app->group('/content/text', function() use($app){
     $app->put('/undo/:category/:element', function($category, $element) use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
 
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
             try{
                 $query = 'SELECT * FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
                 $sql_text = $db->prepare($query);
@@ -438,7 +438,7 @@ $app->group('/content/text', function() use($app){
 $app->group('/content/file', function() use($app){
     $app->map('/get/modified/:category/:element', function($category, $element) use($app){
         
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
             try{
                 $query = 'SELECT category, element, tmp_url AS url FROM FileContent WHERE category = ? AND element = ?'; 
                 $sql_file = $db->prepare($query);
@@ -472,7 +472,7 @@ $app->group('/content/file', function() use($app){
         $data = json_decode($app->request->getBody());
         if(isset($data->file) && !empty($data->file))           $file = $data->file;
         
-        if(($db = connectToMySql()) != false){
+        if(($db = connectToMySql()) !== false){
             try{
                 $query = 'SELECT * FROM FileContent WHERE category = ? AND element = ?'; 
                 $sql_file = $db->prepare($query);
@@ -508,7 +508,7 @@ $app->group('/content/file', function() use($app){
         if(isset($data->file) && !empty($data->file))           $file = $data->file;
         $directory = '/acolyte/acolyte/server'.'/src/';
         
-        if($db = connectToMySql()){
+        if(($db = connectToMySql()) !== false){
             try{
                 if(($file = base64_decode_image($file,$directory)) !== null){
                     $query = 'UPDATE FileContent SET tmp_url = ?, tmp_src = ? WHERE category = ? AND element = ?';
@@ -549,7 +549,7 @@ $app->group('/content/file', function() use($app){
         if(isset($data->file) && !empty($data->file))           $file = $data->file;
         $directory = '/acolyte/acolyte/server'.'/src/';
 
-        if($db = connectToMySql()){
+        if(($db = connectToMySql()) !== false){
             try{
                 $query = "test";
                 if(($file = base64_decode_image($file,$directory)) !== null){
@@ -621,7 +621,7 @@ $app->group('/language', function() use($app){
         $app->response->body(json_encode([  'lan' => $lan,
                                             'language'  => $language,
                                             'languages' => $languages]));
-    })->via('GET', 'PUT')->name('getLanguage');
+    })->via('GET', 'PUT', 'DELETE')->name('getLanguage');
     
     $app->map('/set/:lan', function($lan) use($app){
         if(($db = connectToMySql()) !== false){
@@ -767,7 +767,7 @@ $app->group('/language', function() use($app){
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The language could not been inserted!']));
         
-        if($result === 0) $app->stop();
+        if($result === 0 ) $app->stop();
         
         $app->redirect($app->urlFor('getLanguage'));
     });
