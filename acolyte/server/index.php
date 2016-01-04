@@ -710,7 +710,7 @@ $app->group('/language', function() use($app){
             $app->deleteCookie('aco-lan');
             $app->redirect($app->urlFor('getContent'));
         }else{
-            $app->redirect($app->urlFor('getLanguage'));
+            $app->redirect($app->urlFor('getContent'));
         }
     });
     
@@ -735,7 +735,7 @@ $app->group('/language', function() use($app){
             $app->deleteCookie('aco-lan');
             $app->redirect($app->urlFor('getContent'));
         }else{
-            $app->redirect($app->urlFor('getLanguage'));
+            $app->redirect($app->urlFor('getContent'));
         }
     });  
     
@@ -804,6 +804,27 @@ $app->group('/user', function() use($app){
     });
     
     $app->put('/logout', function() use($app){
+        if($app->getCookie('aco-lan') !== null)          $lan = $app->getCookie('aco-lan');
+         if(($db = connectToMySql()) !== false){
+            try{
+                $query = 'SELECT * FROM Language WHERE lan = ?';
+                $sql_user = $db->prepare($query);
+                $sql_user->bindParam(1, $lan);
+                $sql_user->setFetchMode(PDO::FETCH_OBJ);
+                $result = $sql_user->fetch();
+                }else throw new Exception($e);
+            }catch(Exception $e){
+                $app->halt(503, json_encode(['type' => 'Error',
+                                             'title' => 'Oops, something went wrong! catch',
+                                             'message' => $query]));
+            }finally{$db = null;}
+        }else{
+            $app->halt(503, json_encode([   'type' => 'Error',
+                                             'title' => 'Oops, sadsomething went wrong!',
+                                             'message' => 'No database connection']));
+        }
+              
+        if($result->toggle === 0) $app->deleteCookie('aco-lan');
         $app->deleteCookie('aco-user');
         $app->redirect($app->urlFor('getContent'));
     });
@@ -816,8 +837,9 @@ $app->group('/user', function() use($app){
 
 $app->group('/test', function() use($app){
    $app->get('/function', function() use($app){
-       $app->setCookie('test','abc', null, null, null, 'abc');
-       print_r($app->getCookie('test'));
+        print_r(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
+       //$app->setCookie('test','abc', null, null, null, 'abc');
+       //print_r($app->getCookie('test'));
        //$path = realpath(__DIR__.'/src');
        //chmod($path, 0755);
        //print_r($path);
