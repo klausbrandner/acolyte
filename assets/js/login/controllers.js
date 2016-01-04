@@ -40,6 +40,7 @@
         // Listener to Login State
         $scope.$on('AcoLoginStateChanged',function(){
             $("aco-login-box").fadeOut();
+            self.loginData = {};
         });
         
     }]);

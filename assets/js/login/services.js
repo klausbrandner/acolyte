@@ -17,7 +17,6 @@
             CreateRequest(function(token){
                 
                 $http.get(acolyte.pathToServer + 'user/view').success(function(response){
-                    console.log(response);
                     if(response.user != null){
                         self.loggedIn = true;
                     }
@@ -42,8 +41,8 @@
                 }
                 
                 $http.post(acolyte.pathToServer + 'user/login', postData).success(function(response){
-                    console.log(response);
-                    // http -> login
+                    //console.log(response);
+                    console.log("logged in");
                     self.loggedIn = true;
                     AcoNotificationService.push('success','Logged in','You where successfully logged in.');
                     self.broadcastLoginStatus();
@@ -55,10 +54,15 @@
             
         }
         self.logout = function(){
-            // http -> logout
-            self.loggedIn = false;
-            AcoNotificationService.push('success','Logged out','You where successfully logged out.');
-            self.broadcastLoginStatus();
+            CreateRequest(function(token){
+                $http.put(acolyte.pathToServer + 'user/logout').success(function(response){
+                    self.loggedIn = false;
+                    AcoNotificationService.push('success','Logged out','You where successfully logged out.');
+                    self.broadcastLoginStatus();
+                }).error(function(response){
+                    console.log(response);
+                });
+            });
         }
         
         self.broadcastLoginStatus = function(){

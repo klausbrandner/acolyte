@@ -3,11 +3,27 @@
 /**
 * Global Variables
 */
+#eyebrow {
+  widht: 100%;
+  height: 30px;
+  background: #ccc; }
+  #eyebrow #languages {
+    float: right; }
+    #eyebrow #languages > div {
+      display: inline-table;
+      font-size: 0.8em;
+      line-height: 100%;
+      color: #fff;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 0 8px 0 0;
+      cursor: pointer; }
+
 header {
   position: relative;
   width: 100%;
   background: #219ae6;
-  background-position: center;
+  background-position: top center;
   background-size: cover;
   color: #fff; }
   header #logo {

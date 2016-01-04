@@ -2,7 +2,7 @@
     
     angular.module('Acolyte')
     
-    .controller('AcoAdminController',['$scope','AcoPageContentService','AcoLoginService','AcoMessageBoxService',function($scope,AcoPageContentService,AcoLoginService,AcoMessageBoxService){
+    .controller('AcoAdminController',['$scope','$http','AcoPageContentService','AcoLoginService','AcoMessageBoxService','AcoNotificationService',function($scope,$http,AcoPageContentService,AcoLoginService,AcoMessageBoxService,AcoNotificationService){
         
         var self = this;
         self.edit = false;
@@ -71,11 +71,22 @@
         }
         
         function PublishAll(){
-            alert("all published");
-            //http
+            CreateRequest(function(token){
+                $http.put(acolyte.pathToServer + 'content/save').success(function(response){
+                    AcoNotificationService.push("success","Page published","Yeah, your page content is now visible for everyone.");
+                }).error(function(response){
+                    console.log(response);
+                });
+            });
         }
         function PublishCurrent(){
-            alert("publish current");
+            CreateRequest(function(token){
+                $http.put(acolyte.pathToServer + 'content/save').success(function(response){
+                    AcoNotificationService.push("success","Page published","Yeah, your page content is now visible for everyone.");
+                }).error(function(response){
+                    console.log(response);
+                });
+            });
         }
         
         // Listener to Edit Mode

@@ -65,22 +65,21 @@ var acolyte = {
         }
         
         self.fetchContent = function(){
-            
             CreateRequest(function(token){
-                
                 $http.get(acolyte.pathToServer + 'content/get').success(function(response){
-                    console.log(response);
-                    self.texts = response.textContent;
-                    self.images = response.fileContent;
-                    self.broadcastPageContent();
+                    SetNewContent(response);
                 }).error(function(response){
                     console.log(response);
                 });
-                
             });
         }
         
         self.setContent = function(content){
+            SetNewContent(content);
+        }
+        
+        function SetNewContent(content){
+            console.log(content);
             self.texts = content.textContent;
             self.images = content.fileContent;
             self.broadcastPageContent();
