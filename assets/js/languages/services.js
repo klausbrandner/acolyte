@@ -78,6 +78,7 @@
                             self.languages[l].toggle = setTo;
                         }
                     }
+                    self.broadcastLanguagesChanged();
                 }).error(function(response){
                     console.log(response);
                 });

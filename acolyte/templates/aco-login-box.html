@@ -1,7 +1,7 @@
 <div id="acoLoginBox">
     <h1>Login</h1>
     <h2>Acolyte CMS</h2>
-    <form>
+    <form ng-submit="acoLoginBoxCtrl.login()">
         <input type="text" ng-model="acoLoginBoxCtrl.loginData.username" placeholder="username" /><br />
         <input type="password" ng-model="acoLoginBoxCtrl.loginData.password" placeholder="password" /><br />
         <div ng-click="acoLoginBoxCtrl.login()" id="acoLoginBtn">Login</div>
