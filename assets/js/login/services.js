@@ -39,15 +39,13 @@
                     password: password,
                     token: token
                 }
-                
                 $http.post(acolyte.pathToServer + 'user/login', postData).success(function(response){
                     //console.log(response);
-                    console.log("logged in");
                     self.loggedIn = true;
                     AcoNotificationService.push('success','Logged in','You where successfully logged in.');
                     self.broadcastLoginStatus();
                 }).error(function(response){
-                    console.log(response);
+                    AcoNotificationService.push(response.type,response.title,response.message);
                 });
                 
             });

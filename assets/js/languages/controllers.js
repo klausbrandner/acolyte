@@ -89,9 +89,6 @@
             {
                 lan: 'en',
                 language: 'English'
-            },{
-                lan: 'de',
-                language: 'Deutsch'
             }
         ];
         
@@ -101,8 +98,8 @@
         
         // Listener to Language Changes
         $scope.$on('AcoLanguagesChanged',function(){
-            //self.active = AcoLanguageService.getLan();
-            //self.languages = AcoLanguageService.getLanguages();
+            self.active = AcoLanguageService.getLan();
+            self.languages = AcoLanguageService.getLanguages();
         });
         
     }]);

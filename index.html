@@ -23,7 +23,7 @@
         
         <div id="eyebrow">
             <div id="languages" ng-controller="AcolyteLanguageController as lanCtrl">
-                <div ng-repeat="lan in lanCtrl.languages" ng-class="(lan.lan == lanCtrl.lan) ? 'active' : ''" ng-click="lanCtrl.select(lan)">
+                <div ng-repeat="lan in lanCtrl.languages" ng-class="(lan.lan == lanCtrl.active) ? 'active' : ''" ng-click="lanCtrl.select(lan)">
                     {{lan.lan}}
                 </div>
             </div>
