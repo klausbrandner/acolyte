@@ -31,8 +31,12 @@
             AcoLanguageService.setLan(lan);
         }
         self.setToggle = function(lan){
-            console.log(lan);
-            AcoLanguageService.setToggle(lan);
+            if(lan.preset != 1){
+                console.log(lan);
+                AcoLanguageService.setToggle(lan);
+            }else{
+                AcoNotificationService.push("error","Can not be deactivated","Sorry, but this language is set as default language and can not be deactivated.")
+            }
         }
         self.deleteLanguage = function(lan){
             if(lan.preset != 1){
