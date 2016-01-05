@@ -633,7 +633,7 @@ $app->group('/language', function() use($app){
                     $sql_lan->setFetchMode(PDO::FETCH_OBJ);
                     $result = $sql_lan->fetch();
                     
-                    $query = 'SELECT lan FROM language WHERE preset != 0 AND preset IS NOT NULL'; 
+                    $query = 'SELECT lan FROM Language WHERE preset != 0 AND preset IS NOT NULL'; 
                     $sql_lan = $db->prepare($query);
                     $sql_lan->execute();
                     $sql_lan->setFetchMode(PDO::FETCH_OBJ);
