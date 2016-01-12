@@ -392,7 +392,7 @@ $app->group('/content/file', function() use($app){
     $app->map('/edit/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('aco-lan') !== null)                 $lan = $app->getCookie('aco-lan');
-        if(isset($data->file) && !empty($data->image))           $file = $data->image;
+        if(isset($data->image) && !empty($data->image))           $file = $data->image;
         
         if(($db = connectToMySql()) !== false){
             try{
