@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS TextContent(
                	tmp_text    			TEXT,
 
                 	PRIMARY KEY(category, element, lan),
-                	FOREIGN KEY (lan) REFERENCES language(lan) ON 
+                	FOREIGN KEY (lan) REFERENCES Language(lan) ON 
 	    	UPDATE CASCADE
 );
 
