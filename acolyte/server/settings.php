@@ -1,19 +1,7 @@
 <?php
     
-/*
-    // YOUR WEBHOST
-    define("HOST", "mysqlsvr50.world4you.com ");
-
-    // YOUR USERNAME
-    define("USER", "sql8580095");
-
-    // YOUR DATABASE
-    define("DATABASE", "8580095db2");
-
-    // YOUR DATABASE PASSWORD
-    define("PASSWORD", "p00ky0s");
-    */
-
+//----------------------------------------------------
+//                  CONNECTION SETTINGS
 //----------------------------------------------------
 
     // YOUR WEBHOST
@@ -29,10 +17,27 @@
     define("PASSWORD", "");
 
 //----------------------------------------------------
+//                  USER SETTINGS
+//----------------------------------------------------
 
-    //YOUR ACOLYTE USER 
+    // YOUR ACOLYTE USER 
     define("ACOUSER", "admin");
 
-    //YOUR ACOLYTE PW
-    define("ACOPASSWORD", "admin")
+    // YOUR ACOLYTE PW
+    define("ACOPASSWORD", "admin");
+
+//----------------------------------------------------
+//                  SECURITY SETTINGS
+//----------------------------------------------------
+
+    // true = ALLOW CROSS SITE REQUEST FORGERY
+    // false = DENY CROSS SITE REQUEST FORGERY
+    define("CSRF", true);
+    
+    // true = COOKIES ARE ENCRYPTED
+    // false = COKIES ARE NOT ENCRYPTED
+    define("COOKIECRYPT", true);
+    
+    // KEY FOR COOKIE ENCRYPTION
+    define("COOKIEKEY", "acolyte-secret-key");
 ?>

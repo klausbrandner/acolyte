@@ -8,21 +8,21 @@ return "
 
 
 CREATE TABLE IF NOT EXISTS Languages(
-		lan             			VARCHAR(255) NOT NULL,    
-                	language       	 		VARCHAR(255) NOT NULL,   
+		            lan             			VARCHAR(255) NOT NULL,    
+                	language       	 		    VARCHAR(255) NOT NULL,   
 
-		PRIMARY KEY (lan, language)
+		            PRIMARY KEY (lan, language)
 );
 
 CREATE TABLE IF NOT EXISTS Language(
                 	lan             			VARCHAR(255) NOT NULL,    
-                	language       	 		VARCHAR(255) NOT NULL,    
+                	language       	 		    VARCHAR(255) NOT NULL,    
 
-		toggle				TINYINT(1),
-		preset			TINYINT(1),
+		            toggle				        TINYINT(1),
+		            preset			            TINYINT(1),
     
-                	PRIMARY KEY(lan),
-		FOREIGN KEY (lan) REFERENCES Languages(lan) ON DELETE CASCADE ON 		UPDATE CASCADE
+                	PRIMARY KEY(lan)
+                    ##,FOREIGN KEY (lan) REFERENCES Languages(lan) 
 );
 
 CREATE TABLE IF NOT EXISTS TextContent(
@@ -31,11 +31,10 @@ CREATE TABLE IF NOT EXISTS TextContent(
                 	text        			TEXT,            
                 	lan         			VARCHAR(255)    NOT NULL,
 
-               	tmp_text    			TEXT,
+                 	tmp_text    			TEXT,
 
-                	PRIMARY KEY(category, element, lan),
-                	FOREIGN KEY (lan) REFERENCES language(lan) ON 
-	    	UPDATE CASCADE
+                	PRIMARY KEY(category, element, lan)
+                    ##,FOREIGN KEY (lan) REFERENCES Language(lan) 
 );
 
 
@@ -45,12 +44,14 @@ CREATE TABLE IF NOT EXISTS FileContent(
                 	url         			VARCHAR(255),    
                 	src         			VARCHAR(255),    
                 	width       			INT(11),         
-                	height     			INT(11),         
+                	height     			    INT(11),  
+                    lan         			VARCHAR(255)    NOT NULL,
 
                 	tmp_url     			VARCHAR(255),
                 	tmp_src     			VARCHAR(255),
 
-                	PRIMARY KEY(category, element)
+                	PRIMARY KEY(category, element, lan)
+                    ##,FOREIGN KEY (lan) REFERENCES Language(lan) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 
 

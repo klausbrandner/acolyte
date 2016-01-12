@@ -2,7 +2,9 @@
 require_once("settings.php"); 
 
 function security_token($token){
-    if($token === $_COOKIE['aco-token']) return true;
+    if(CSRF === true){    
+        if($token === $_COOKIE['aco-token']) return true;
+    }
     return false;
 }
 
