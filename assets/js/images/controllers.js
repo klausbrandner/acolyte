@@ -139,9 +139,9 @@
             $scope.$apply();
             
             var url = acolyte.pathToServer + 'content/file/edit/' + self.tmpImage.category + '/' + self.tmpImage.element;
-            var dataPost = {
+            var dataPost = JSON.stringify({
                 image: dataUrl
-            };
+            });
             
             $.ajax({
                 url:url,
@@ -173,21 +173,19 @@
                    return xhr;
                 },
                 success: function(data){
-                    var data = JSON.parse(data);
+                    //var data = JSON.parse(data);
+                    console.log("Success");
                     console.log(data);
-                    if(xhr.status == 200){
-                        $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":"0%"});
-                        $("#aco-img-upload-box").animate({"opacity":"0"},400,function(){
-                            $("#aco-img-upload-box").css({"display":"none"});
-                        });
-                        AcoPageContentService.setImage(self.tmpImage.category, self.tmpImage.element, data.fileContent.url)
-                        AcoNotificationService.push('success','Image uploaded','Image has been successfully uploaded.');
-                    }else{
-                        AcoNotificationService.push("error","Unknown error","Sorry, an unknown error occured while processing your request!");
-                    }
+                    $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":"0%"});
+                    $("#aco-img-upload-box").animate({"opacity":"0"},400,function(){
+                        $("#aco-img-upload-box").css({"display":"none"});
+                    });
+                    AcoPageContentService.setImage(self.tmpImage.category, self.tmpImage.element, data.fileContent.url)
+                    AcoNotificationService.push('success','Image uploaded','Image has been successfully uploaded.');
                     $scope.$apply();
                 },
                 error:function(data,textStatus,xhr){
+                    console.log("success");
                     console.log(data);
                     $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":"0%"});
                     $("#aco-img-upload-box").animate({"opacity":"0"},400,function(){

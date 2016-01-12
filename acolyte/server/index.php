@@ -394,6 +394,7 @@ $app->group('/content/file', function() use($app){
         if($app->getCookie('aco-lan') !== null)                 $lan = $app->getCookie('aco-lan');
         if(isset($data->image) && !empty($data->image))           $file = $data->image;
         
+        
         if(($db = connectToMySql()) !== false){
             try{
                 $query = 'SELECT * FROM FileContent WHERE category = ? AND element = ? AND lan = ?'; 
