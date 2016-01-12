@@ -1,4 +1,4 @@
-(function(){
+(function (){
     
     angular.module('Acolyte')
     
@@ -75,11 +75,6 @@
         });
         
     }])
-    
-    
-    
-    
-    
     
     
     // Image Upload Controller
@@ -177,7 +172,7 @@
 
                    return xhr;
                 },
-                success:function(data, textStatus, xhr){
+                success: function(data){
                     var data = JSON.parse(data);
                     console.log(data);
                     if(xhr.status == 200){

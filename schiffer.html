@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app="Acolyte">
+    <head>
+        <title>Stefan Schiffer</title>
+        
+        <link rel="stylesheet" href="schiffer.css" />
+        <link rel="stylesheet" href="acolyte/acolyte.css" />
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-sanitize.js"></script>
+        
+        <script src="acolyte/acolyte.min.js"></script>
+        
+    </head>
+    <body>
+        
+        <aco-root></aco-root>
+        
+        <div class="table">
+            <div class="nav">
+                <div class="header">
+                    <img src="schiffer.jpg" id="avatar" />
+                    <br />
+                    <h1 aco-text category="navigation" element="name"></h1>
+                    <h4 aco-text category="navigation" element="nameTitle"></h4>
+                </div>
+                <ul id="menu">
+                    <li>
+                        <a href="">
+                            <div aco-text category="navigation" element="menuItem1"></div>
+                        </a>
+                    </li><li>
+                        <a href="">
+                            <div aco-text category="navigation" element="menuItem2"></div>
+                        </a>
+                    </li><li>
+                        <a href="">
+                            <div aco-text category="navigation" element="menuItem3"></div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="content">
+                <h1 aco-text category="publikationen" element="header"></h1>
+                
+                
+                <!-- Bücher -->
+                <h2 aco-text category="publikationen" element="kategorie1"></h2>
+                <div class="publikation">
+                    <h4 aco-text category="publikationen" element="kategorie1autoren1"></h4>
+                    <h3 aco-text category="publikationen" element="kategorie1item1"></h3>
+                    <p aco-text category="publikationen" element="kategorie1item1text"></p>
+                </div>
+                
+                
+                <!-- Beiträge zum Informatik Handbuch -->
+                <h2 aco-text category="publikationen" element="kategorie2"></h2>
+                <div class="publikation">
+                    <h4 aco-text category="publikationen" element="kategorie2autoren1"></h4>
+                    <h3 aco-text category="publikationen" element="kategorie2item1"></h3>
+                    <p aco-text category="publikationen" element="kategorie12tem1text"></p>
+                </div>
+                <div class="publikation">
+                    <h4 aco-text category="publikationen" element="kategorie2autoren1"></h4>
+                    <h3 aco-text category="publikationen" element="kategorie2item1"></h3>
+                    <p aco-text category="publikationen" element="kategorie12tem1text"></p>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+        
+        <footer>
+            &copy; <span aco-text category="footer" element="copyright"></span> - <aco-login></aco-login>
+        </footer>
+        
+    </body>
+</html>
