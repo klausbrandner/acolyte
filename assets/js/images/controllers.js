@@ -139,9 +139,9 @@
             $scope.$apply();
             
             var url = acolyte.pathToServer + 'content/file/edit/' + self.tmpImage.category + '/' + self.tmpImage.element;
-            var dataPost = JSON.stringify({
-                file: dataUrl
-            });
+            var dataPost = {
+                image: dataUrl
+            };
             
             $.ajax({
                 url:url,
