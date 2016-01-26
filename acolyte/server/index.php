@@ -431,7 +431,11 @@ $app->group('/content/file', function() use($app){
         $data = json_decode($app->request->getBody());
         if(isset($data->image) && !empty($data->image))           $file = $data->image;
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
-        $directory = '/acolyte/acolyte/server'.'/src/';
+        
+        $dirname = dirname(__FILE__);
+        $server = $_SERVER["DOCUMENT_ROOT"]; 
+
+        $directory = str_replace($server,'',$dirname).'/src/';
         
         if(($db = connectToMySql()) !== false){
             try{
@@ -476,7 +480,11 @@ $app->group('/content/file', function() use($app){
         $data = json_decode($app->request->getBody());
         if(isset($data->image) && !empty($data->image))           $file = $data->image;
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
-        $directory = '/acolyte/acolyte/server'.'/src/';
+        
+        $dirname = dirname(__FILE__);
+        $server = $_SERVER["DOCUMENT_ROOT"]; 
+
+        $directory = str_replace($server,'',$dirname).'/src/';
 
         if(($db = connectToMySql()) !== false){
             try{
