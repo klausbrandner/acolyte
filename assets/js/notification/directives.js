@@ -6,8 +6,8 @@
         return{
             restrict: 'E',
             controller: 'AcoNotificationController',
-            controllerAs: 'acoNotifyCtrl',
-            templateUrl: acolyte.pathToAcolyte + 'templates/aco-notification-box.html'
+            controllerAs: 'notifyCtrl',
+            templateUrl: acolyte.pathToAcolyte + 'templates/notification-panel.html'
         };
     });
     

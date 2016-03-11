@@ -1,0 +1,19 @@
+<div id="acoLoginPanel">
+    <div id="acoLoginBox">
+        <div class="acoCloseBtn" ng-click="loginCtrl.close()">
+            <img src="acolyte/src/close.svg" />
+        </div>
+        <div class="acoLoginBoxHeader">Get started</div>
+        <a href="http://acolyte.5-designs.com" target="_blank">Acolyte CMS</a>
+        
+        <form ng-submit="loginCtrl.login()">
+            <div class="acoLoginInputTitle">Username</div>
+            <input type="text" ng-model="loginCtrl.loginData.username" placeholder="admin" />
+            <div class="acoLoginInputTitle">Password</div>
+            <input type="password" ng-model="loginCtrl.loginData.password" placeholder="*******" />
+            <div id="acoLoginSubmitBox">
+                <input type="submit" value="Let's go!" id="acoLoginBtn" />
+            </div>
+        </form>
+    </div>
+</div>

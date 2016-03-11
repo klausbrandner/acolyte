@@ -1,139 +1,484 @@
+/**
+
+	5-designs - company
+	Acolyte
+	created with love in Austria
+    
+    Website: http://www.acolyte.5-designs.com
+	Github: https://github.com/5-designs/acolyte
+*/
 @font-face {
-  font-family: 'Gotham2';
-  src: url("fonts/Gotham/Gotham-Medium.eot");
+  font-family: 'Open Sans';
+  src: url("OpenSans/OpenSans-Light.eot");
   /* IE9 Compat Modes */
-  src: url("fonts/Gotham/Gotham-Medium.eot?#iefix") format("embedded-opentype"), url("fonts/Gotham/Gotham-Medium.woff") format("woff"), url("fonts/Gotham/Gotham-Medium.ttf") format("truetype"), url("fonts/Gotham/Gotham-Medium.svg#bdc473fae2f64b1c45b8886bcff81bae") format("svg");
-  /* Legacy iOS */
-  font-style: normal;
-  font-weight: 400; }
-@font-face {
-  font-family: 'Gotham2';
-  src: url("fonts/Gotham/GothaProLig.eot");
-  /* IE9 Compat Modes */
-  src: url("fonts/Gotham/GothaProLig.eot?#iefix") format("embedded-opentype"), url("fonts/Gotham/GothaProLig.woff") format("woff"), url("fonts/Gotham/GothaProLig.ttf") format("truetype"), url("fonts/Gotham/GothaProLig.svg#8c8858fe2c9577a4d92302d55fb1e2af") format("svg");
+  src: url("OpenSans/OpenSans-Light.eot?#iefix") format("embedded-opentype"), url("OpenSans/OpenSans-Light.woff") format("woff"), url("OpenSans/OpenSans-Light.ttf") format("truetype"), url("OpenSans/OpenSans-Light.svg#09be4bfe8975a657af6444a6f1d73848") format("svg");
   /* Legacy iOS */
   font-style: normal;
   font-weight: 200; }
 @font-face {
-  font-family: 'Gotham2';
-  src: url("fonts/Gotham/Gotham-Thin.eot");
+  font-family: 'Open Sans';
+  src: url("OpenSans/OpenSans-Regular.eot");
   /* IE9 Compat Modes */
-  src: url("fonts/Gotham/Gotham-Thin.eot?#iefix") format("embedded-opentype"), url("fonts/Gotham/Gotham-Thin.woff") format("woff"), url("fonts/Gotham/Gotham-Thin.ttf") format("truetype"), url("fonts/Gotham/Gotham-Thin.svg#2612f69d108fca39cb109c03ae310193") format("svg");
+  src: url("OpenSans/OpenSans-Regular.eot?#iefix") format("embedded-opentype"), url("OpenSans/OpenSans-Regular.woff") format("woff"), url("OpenSans/OpenSans-Regular.ttf") format("truetype"), url("OpenSans/OpenSans-Regular.svg#dc56f0938c09c27a4156bb0f8f5176a2") format("svg");
   /* Legacy iOS */
   font-style: normal;
-  font-weight: 100; }
-aco-admin {
+  font-weight: 400; }
+@font-face {
+  font-family: 'Open Sans';
+  src: url("OpenSans/OpenSans-Semibold.eot");
+  /* IE9 Compat Modes */
+  src: url("OpenSans/OpenSans-Semibold.eot?#iefix") format("embedded-opentype"), url("OpenSans/OpenSans-Semibold.woff") format("woff"), url("OpenSans/OpenSans-Semibold.ttf") format("truetype"), url("OpenSans/OpenSans-Semibold.svg#b96880fafbf6b051ff49d9fe8a31137c") format("svg");
+  /* Legacy iOS */
+  font-style: normal;
+  font-weight: 600; }
+@font-face {
+  font-family: 'Open Sans';
+  src: url("OpenSans/OpenSans-Bold.eot");
+  /* IE9 Compat Modes */
+  src: url("OpenSans/OpenSans-Bold.eot?#iefix") format("embedded-opentype"), url("OpenSans/OpenSans-Bold.woff") format("woff"), url("OpenSans/OpenSans-Bold.ttf") format("truetype"), url("OpenSans/OpenSans-Bold.svg#72800b665ba60a9a58674e2a6befde3a") format("svg");
+  /* Legacy iOS */
+  font-style: normal;
+  font-weight: 700; }
+#acoAdminPanel {
   position: fixed;
   bottom: 50px;
   right: 50px;
+  font-family: Open Sans;
+  font-size: 16px;
+  line-height: 100%;
   z-index: 1100; }
-  aco-admin #aco-admin-panel {
-    position: relative;
-    font-size: 0.9em;
-    text-transform: uppercase;
-    font-family: Gotham2;
-    font-weight: 400; }
-  aco-admin #aco-admin-table {
-    height: 50px;
+  #acoAdminPanel #acoAdminTable {
     display: table;
     text-align: center;
-    background: url(src/black.png);
-    color: #fff; }
-    aco-admin #aco-admin-table > div {
+    color: #fff;
+    text-transform: uppercase;
+    background: #111;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+    height: 40px; }
+    #acoAdminPanel #acoAdminTable > div {
       display: table-cell;
+      background: #111;
       vertical-align: middle;
-      line-height: 0px;
-      padding: 2px 15px 0;
-      cursor: pointer;
-      background: transparent;
+      cursor: pointer; }
+    #acoAdminPanel #acoAdminTable #acoAdminDragBtn {
+      padding: 0 3px;
+      cursor: move; }
+      #acoAdminPanel #acoAdminTable #acoAdminDragBtn img {
+        padding: 2px 0 0;
+        height: 26px; }
+    #acoAdminPanel #acoAdminTable #acoAdminEditBtn {
+      padding: 0 10px;
       transition: background 0.4s; }
-      aco-admin #aco-admin-table > div > #aco-admin-drag-img {
-        height: 24px;
-        width: 24px;
-        padding: 0;
-        margin: 0;
-        border: 0; }
-      aco-admin #aco-admin-table > div#aco-admin-drag {
-        padding: inherit 0;
-        width: 23px;
-        cursor: move; }
-      aco-admin #aco-admin-table > div#aco-admin-publish:hover {
+      #acoAdminPanel #acoAdminTable #acoAdminEditBtn.active {
         background: #219ae6; }
-      aco-admin #aco-admin-table > div.active {
+      #acoAdminPanel #acoAdminTable #acoAdminEditBtn img {
+        padding: 2px 0 0;
+        width: 18px;
+        height: 18px; }
+    #acoAdminPanel #acoAdminTable #acoAdminLanBtn {
+      padding: 0 10px;
+      transition: background 0.4s; }
+      #acoAdminPanel #acoAdminTable #acoAdminLanBtn.active {
         background: #219ae6; }
-  aco-admin #aco-admin-lan-box {
+    #acoAdminPanel #acoAdminTable #acoAdminPublishBtn {
+      padding: 0 10px;
+      transition: background 0.4s; }
+      #acoAdminPanel #acoAdminTable #acoAdminPublishBtn:hover {
+        background: #219ae6; }
+  #acoAdminPanel #acoAdminLanBox {
     position: absolute;
     right: 0px;
     background: url(src/black.png);
     color: #fff;
     width: 100%;
-    border-top: 1px solid #222;
-    border-bottom: 1px solid #222;
     overflow: auto;
     display: none; }
-    aco-admin #aco-admin-lan-box.aco-lan-bottom {
-      bottom: 50px; }
-    aco-admin #aco-admin-lan-box.aco-lan-top {
-      top: 50px; }
-    aco-admin #aco-admin-lan-box ul, aco-admin #aco-admin-lan-box li {
+    #acoAdminPanel #acoAdminLanBox.aco-lan-bottom {
+      bottom: 40px; }
+    #acoAdminPanel #acoAdminLanBox.aco-lan-top {
+      top: 40px; }
+    #acoAdminPanel #acoAdminLanBox ul, #acoAdminPanel #acoAdminLanBox li {
       margin: 0;
       padding: 0;
       text-decoration: none;
       list-style: none; }
-    aco-admin #aco-admin-lan-box #aco-admin-lan-list {
+    #acoAdminPanel #acoAdminLanBox #aco-admin-lan-list {
       width: 100%; }
-      aco-admin #aco-admin-lan-box #aco-admin-lan-list li {
+      #acoAdminPanel #acoAdminLanBox #aco-admin-lan-list li {
         display: block;
         cursor: pointer; }
-        aco-admin #aco-admin-lan-box #aco-admin-lan-list li input {
+        #acoAdminPanel #acoAdminLanBox #aco-admin-lan-list li input {
           width: 90%;
           padding: 0 5%;
           height: 40px;
           font-size: 15px;
           background: transparent;
           border: 0;
-          color: #fff; }
-    aco-admin #aco-admin-lan-box .aco-lan-container {
+          color: #fff;
+          font-family: Open Sans;
+          font-size: 0.85em; }
+    #acoAdminPanel #acoAdminLanBox .aco-lan-container {
       display: table;
       width: 100%;
-      padding: 6px 0 4px;
+      padding: 4px 0 3px;
       line-height: 200%;
-      font-size: 14px; }
-      aco-admin #aco-admin-lan-box .aco-lan-container > div {
+      font-size: 0.75em;
+      text-transform: uppercase; }
+      #acoAdminPanel #acoAdminLanBox .aco-lan-container > div {
         display: table-cell;
         width: 25px;
         vertical-align: middle; }
-      aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-text {
+      #acoAdminPanel #acoAdminLanBox .aco-lan-container .aco-lan-text {
         width: 100%; }
-      aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-btn {
-        width: 16px;
-        height: 16px;
+      #acoAdminPanel #acoAdminLanBox .aco-lan-container .aco-lan-btn {
+        width: 14px;
+        height: 14px;
         margin: 0px 10px 0 0; }
-        aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-btn.checkbox {
+        #acoAdminPanel #acoAdminLanBox .aco-lan-container .aco-lan-btn.checkbox {
           background: url(src/uncheckedW.png);
           background-size: cover;
           margin-left: 10px; }
-          aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-btn.checkbox.active {
+          #acoAdminPanel #acoAdminLanBox .aco-lan-container .aco-lan-btn.checkbox.active {
             background: url(src/checkedW.png);
             background-size: cover; }
-        aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-btn.edit {
+        #acoAdminPanel #acoAdminLanBox .aco-lan-container .aco-lan-btn.edit {
           background: url(src/editW.png);
           background-size: cover; }
-        aco-admin #aco-admin-lan-box .aco-lan-container .aco-lan-btn.delete {
+        #acoAdminPanel #acoAdminLanBox .aco-lan-container .aco-lan-btn.delete {
           background: url(src/deleteW.png);
           background-size: cover; }
-      aco-admin #aco-admin-lan-box .aco-lan-container:hover {
+      #acoAdminPanel #acoAdminLanBox .aco-lan-container:hover {
         background: #219ae6; }
-      aco-admin #aco-admin-lan-box .aco-lan-container.active {
+      #acoAdminPanel #acoAdminLanBox .aco-lan-container.active {
         background: #219ae6; }
-    aco-admin #aco-admin-lan-box .aco-lan-result-container {
+    #acoAdminPanel #acoAdminLanBox .aco-lan-result-container {
       line-height: 200%;
-      font-size: 14px;
-      padding: 4px 10px;
+      font-size: 0.75em;
+      text-transform: uppercase;
+      padding: 3px 10px;
       max-height: 200px;
       overflow: auto; }
-      aco-admin #aco-admin-lan-box .aco-lan-result-container:hover {
+      #acoAdminPanel #acoAdminLanBox .aco-lan-result-container:hover {
         background: #219ae6; }
+
+/*
+aco-admin{
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 1100;
+    
+    #aco-admin-panel{
+        position: relative;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        font-family: $font-acolyte;
+        font-weight: 400;
+    }
+    
+    #aco-admin-table{
+        height: 40px;
+        display: table;
+        text-align: center;
+        background: $color-admin-bg;
+        color: #fff;
+        
+        & > div{
+            display: table-cell;
+            vertical-align: middle;
+            line-height: 0px;
+            padding: 2px 15px 0;
+            cursor: pointer;
+            background: transparent;
+            transition: background 0.4s;
+            
+            & > #aco-admin-drag-img{
+                height: 24px;
+                width: 10px;
+                padding: 0;
+                margin: 0;
+                border: 0;
+            }
+            
+            &#aco-admin-drag{
+                padding: inherit 0;
+                width: 10px;
+                cursor: move;
+            }
+            &#aco-admin-edit{
+            }
+            &#aco-admin-lan{
+            }
+            &#aco-admin-publish{
+                
+                &:hover{
+                    background: $color-blue;
+                }
+            }
+            
+            &.active{
+                background: $color-blue;
+            }
+        }
+    }
+    
+    
+    #aco-admin-lan-box{
+        position: absolute;
+        right: 0px;
+        background: url(src/black.png);
+        color: #fff;
+        width: 100%;
+        border-top: 1px solid #222;
+        border-bottom: 1px solid #222;
+        overflow: auto;
+        display: none;
+        
+        &.aco-lan-bottom{
+            bottom: 50px;
+        }
+        &.aco-lan-top{
+            top: 50px;
+        }
+        
+        ul, li{
+            margin:0;
+            padding:0;
+            text-decoration:none;
+            list-style:none;
+        }
+        
+        #aco-admin-lan-list{
+            width: 100%;
+            
+            li{
+                display: block;
+                cursor:pointer;
+                
+                input{
+                    width: 90%;
+                    padding: 0 5%;
+                    height: 40px;
+                    font-size: 15px;
+                    background: transparent;
+                    border: 0;
+                    color: #fff;
+                }
+            }
+        }
+        
+        .aco-lan-container{
+            display: table;
+            width: 100%;
+            padding: 6px 0 4px;
+            line-height: 200%;
+            font-size: 14px;
+            
+            & > div{
+                display: table-cell;
+                width: 25px;
+                vertical-align: middle;
+            }
+            .aco-lan-text{
+                width: 100%;
+            }
+            
+            .aco-lan-btn{
+                width: 16px;
+                height: 16px;
+                margin: 0px 10px 0 0;
+                
+                
+                &.checkbox{
+                    background: url(src/uncheckedW.png);
+                    background-size: cover;
+                    margin-left: 10px;
+                    
+                    &.active{
+                        background: url(src/checkedW.png);
+                        background-size: cover;
+                    }
+                }
+                &.edit{
+                    background: url(src/editW.png);
+                    background-size: cover;
+                }
+                &.delete{
+                    background: url(src/deleteW.png);
+                    background-size: cover;
+                }
+            }
+            
+            &:hover{
+                background: $color-blue;
+            }
+            &.active{
+                background: $color-blue;
+            }
+        }
+        
+        .aco-lan-result-container{
+            line-height: 200%;
+            font-size: 14px;
+            padding: 4px 10px;
+            max-height: 200px;
+            overflow: auto;
+            
+            &:hover{
+                background: $color-blue;
+            }
+        }
+        
+        
+    }
+}*/
+#acoLoginPanel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url(src/black.png);
+  font-family: Open Sans;
+  font-size: 16px;
+  display: none;
+  z-index: 1000; }
+  #acoLoginPanel > #acoLoginBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: -175px;
+    background: #fff;
+    width: 250px;
+    padding: 40px 40px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px; }
+    #acoLoginPanel > #acoLoginBox .acoLoginBoxHeader {
+      font-size: 2.2em;
+      font-weight: 400;
+      line-height: 130%;
+      margin: 0;
+      padding: 0 0 5px; }
+    #acoLoginPanel > #acoLoginBox a {
+      color: #219ae6;
+      text-decoration: none; }
+    #acoLoginPanel > #acoLoginBox form {
+      padding: 15px 0 0;
+      margin: 0; }
+    #acoLoginPanel > #acoLoginBox .acoLoginInputTitle {
+      font-size: 0.8em;
+      font-weight: 600;
+      width: 100%;
+      color: #666; }
+    #acoLoginPanel > #acoLoginBox input {
+      width: 100%;
+      padding: 0px 15px;
+      margin: 5px 0px;
+      height: 45px;
+      font-size: 16px;
+      font-family: Open Sans;
+      font-weight: 400;
+      box-sizing: border-box;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      border: 1px solid #ddd; }
+  #acoLoginPanel .acoCloseBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 12px;
+    cursor: pointer;
+    width: 17px;
+    height: 17px;
+    line-height: 17px;
+    transition: transform 0.4s; }
+    #acoLoginPanel .acoCloseBtn img {
+      width: 17px;
+      height: 17px; }
+    #acoLoginPanel .acoCloseBtn:hover {
+      transform: rotate(90deg); }
+  #acoLoginPanel #acoLoginSubmitBox {
+    margin: 20px 0 0;
+    width: 100%;
+    text-align: center; }
+    #acoLoginPanel #acoLoginSubmitBox #acoLoginBtn {
+      width: 150px;
+      height: 45px;
+      text-align: center;
+      line-height: 45px;
+      font-weight: 400;
+      background: #219ae6;
+      color: #fff;
+      border: 0;
+      margin: 0 auto 0;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.4s; }
+      #acoLoginPanel #acoLoginSubmitBox #acoLoginBtn:hover {
+        background: #1D89CC; }
+
+#acoNotificationPanel {
+  position: fixed;
+  bottom: 40px;
+  left: 0px;
+  width: 330px;
+  z-index: 1500;
+  display: none; }
+  #acoNotificationPanel .acoNotificationBox {
+    font-family: Open Sans;
+    font-size: 16px;
+    text-align: left; }
+  #acoNotificationPanel .acoNotificationTable {
+    display: table;
+    width: 100%;
+    min-height: 60px; }
+    #acoNotificationPanel .acoNotificationTable > div {
+      display: table-cell;
+      vertical-align: middle; }
+  #acoNotificationPanel .acoNotificationSign {
+    background: #666;
+    width: 60px;
+    text-align: center;
+    -webkit-border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-bottom-right-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-right-radius: 5px; }
+    #acoNotificationPanel .acoNotificationSign img {
+      width: 35px;
+      height: 35px;
+      margin: 3px auto 0; }
+    #acoNotificationPanel .acoNotificationSign.success {
+      background: #219ae6; }
+    #acoNotificationPanel .acoNotificationSign.error {
+      background: #f92c53; }
+  #acoNotificationPanel .acoNotificationInfo {
+    padding: 15px 18px;
+    background: #111; }
+  #acoNotificationPanel .acoNotificationHeader {
+    margin: 0 0 7px;
+    padding: 0;
+    line-height: 110%;
+    font-weight: 400;
+    font-weight: 600;
+    font-size: 0.95em; }
+    #acoNotificationPanel .acoNotificationHeader.success {
+      color: #219ae6; }
+    #acoNotificationPanel .acoNotificationHeader.error {
+      color: #f92c53; }
+  #acoNotificationPanel .acoNotificationMessage {
+    font-size: 0.75em;
+    line-height: 140%;
+    margin: 0;
+    padding: 0;
+    color: #ddd; }
 
 aco-message-box {
   position: fixed;
@@ -142,7 +487,7 @@ aco-message-box {
   width: 100%;
   height: 100%;
   background: url(src/black.png);
-  font-family: Gotham2;
+  font-family: Open Sans;
   z-index: 1500;
   display: none; }
   aco-message-box #aco-message-container {
@@ -188,67 +533,6 @@ aco-message-box {
       aco-message-box #aco-message-content .aco-message-btn.cancel {
         background: #666; }
 
-aco-login-box {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url(src/black.png);
-  font-family: Gotham2;
-  display: none;
-  z-index: 1000; }
-  aco-login-box > #acoLoginBox {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -200px;
-    margin-left: -200px;
-    background: #fff;
-    width: 300px;
-    height: 300px;
-    padding: 50px; }
-    aco-login-box > #acoLoginBox > h1 {
-      font-size: 50px;
-      font-weight: 600;
-      line-height: 100%;
-      margin: 0;
-      padding: 0;
-      color: #000;
-      text-transform: uppercase; }
-    aco-login-box > #acoLoginBox > h2 {
-      font-size: 25px;
-      font-weight: 200;
-      line-height: 160%;
-      margin: 0;
-      padding: 0;
-      color: #000;
-      text-transform: inherit; }
-    aco-login-box > #acoLoginBox > form {
-      padding-top: 20px;
-      text-align: center; }
-    aco-login-box > #acoLoginBox > form > input {
-      width: 266px;
-      padding: 0px 15px;
-      margin: 5px 0px;
-      height: 50px;
-      font-size: 18px; }
-    aco-login-box > #acoLoginBox > form > #acoLoginBtn {
-      width: 150px;
-      height: 50px;
-      text-align: center;
-      line-height: 50px;
-      font-weight: 400;
-      background: #219ae6;
-      color: #fff;
-      font-size: 18px;
-      border: 0;
-      margin: 10px auto 0;
-      -webkit-border-radius: 25px;
-      -moz-border-radius: 25px;
-      border-radius: 25px;
-      cursor: pointer; }
-
 #aco-img-upload-box {
   position: fixed;
   top: 0;
@@ -267,7 +551,7 @@ aco-login-box {
     color: #fff;
     text-align: center;
     font-size: 1.2em;
-    font-family: Gotham2; }
+    font-family: Open Sans; }
     #aco-img-upload-box #aco-img-upload-content #aco-img-upload-header {
       font-size: 2em; }
     #aco-img-upload-box #aco-img-upload-content #aco-img-upload-bar {
@@ -292,7 +576,7 @@ aco-background > aco-update-img-btn, .aco-background > aco-update-img-btn {
   background: #222;
   font-size: 14px;
   font-weight: 400;
-  font-family: Gotham2;
+  font-family: Open Sans;
   text-transform: uppercase;
   letter-spacing: 1px;
   line-height: 20px;
@@ -304,34 +588,5 @@ aco-background > aco-update-img-btn, .aco-background > aco-update-img-btn {
   z-index: 1000; }
   aco-background > aco-update-img-btn:hover, .aco-background > aco-update-img-btn:hover {
     background: #444; }
-
-aco-notification-box {
-  position: fixed;
-  bottom: 40px;
-  left: 0px;
-  width: 330px;
-  z-index: 1500;
-  display: none; }
-  aco-notification-box .aco-notification {
-    background: url(src/black.png);
-    color: #fff;
-    padding: 30px;
-    font-family: Gotham2;
-    text-align: left; }
-    aco-notification-box .aco-notification h3 {
-      margin: 0 0 10px;
-      padding: 0;
-      font-size: 1.2em;
-      line-height: 110%;
-      font-weight: 400; }
-      aco-notification-box .aco-notification h3.success {
-        color: #219ae6; }
-      aco-notification-box .aco-notification h3.error {
-        color: #f92c53; }
-    aco-notification-box .aco-notification p {
-      font-size: 1em;
-      line-height: 150%;
-      margin: 0;
-      padding: 0; }
 
 /*# sourceMappingURL=acolyte.css.map */

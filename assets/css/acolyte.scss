@@ -1,177 +1,22 @@
+/**
+
+	5-designs - company
+	Acolyte
+	created with love in Austria
+    
+    Website: http://www.acolyte.5-designs.com
+	Github: https://github.com/5-designs/acolyte
+*/
+
 @import 'aco-fonts';
 @import 'aco-variables';
 
-aco-admin{
-    position: fixed;
-    bottom: 50px;
-    right: 50px;
-    z-index: 1100;
-    
-    #aco-admin-panel{
-        position: relative;
-        font-size: 0.9em;
-        
-        text-transform: uppercase;
-        font-family: $font-Acolyte;
-        font-weight: 400;
-    }
-    
-    #aco-admin-table{
-        height: 50px;
-        display: table;
-        text-align: center;
-        background: $color-admin-bg;
-        color: #fff;
-        
-        & > div{
-            display: table-cell;
-            vertical-align: middle;
-            line-height: 0px;
-            padding: 2px 15px 0;
-            cursor: pointer;
-            background: transparent;
-            transition: background 0.4s;
-            
-            & > #aco-admin-drag-img{
-                height: 24px;
-                width: 24px;
-                padding: 0;
-                margin: 0;
-                border: 0;
-            }
-            
-            &#aco-admin-drag{
-                padding: inherit 0;
-                width: 23px;
-                cursor: move;
-            }
-            &#aco-admin-edit{
-            }
-            &#aco-admin-lan{
-            }
-            &#aco-admin-publish{
-                
-                &:hover{
-                    background: $color-blue;
-                }
-            }
-            
-            &.active{
-                background: $color-blue;
-            }
-        }
-    }
-    
-    
-    #aco-admin-lan-box{
-        position: absolute;
-        right: 0px;
-        background: url(src/black.png);
-        color: #fff;
-        width: 100%;
-        border-top: 1px solid #222;
-        border-bottom: 1px solid #222;
-        overflow: auto;
-        display: none;
-        
-        &.aco-lan-bottom{
-            bottom: 50px;
-        }
-        &.aco-lan-top{
-            top: 50px;
-        }
-        
-        ul, li{
-            margin:0;
-            padding:0;
-            text-decoration:none;
-            list-style:none;
-        }
-        
-        #aco-admin-lan-list{
-            width: 100%;
-            
-            li{
-                display: block;
-                cursor:pointer;
-                
-                input{
-                    width: 90%;
-                    padding: 0 5%;
-                    height: 40px;
-                    font-size: 15px;
-                    background: transparent;
-                    border: 0;
-                    color: #fff;
-                }
-            }
-        }
-        
-        .aco-lan-container{
-            display: table;
-            width: 100%;
-            padding: 6px 0 4px;
-            line-height: 200%;
-            font-size: 14px;
-            
-            & > div{
-                display: table-cell;
-                width: 25px;
-                vertical-align: middle;
-            }
-            .aco-lan-text{
-                width: 100%;
-            }
-            
-            .aco-lan-btn{
-                width: 16px;
-                height: 16px;
-                margin: 0px 10px 0 0;
-                
-                
-                &.checkbox{
-                    background: url(src/uncheckedW.png);
-                    background-size: cover;
-                    margin-left: 10px;
-                    
-                    &.active{
-                        background: url(src/checkedW.png);
-                        background-size: cover;
-                    }
-                }
-                &.edit{
-                    background: url(src/editW.png);
-                    background-size: cover;
-                }
-                &.delete{
-                    background: url(src/deleteW.png);
-                    background-size: cover;
-                }
-            }
-            
-            &:hover{
-                background: $color-blue;
-            }
-            &.active{
-                background: $color-blue;
-            }
-        }
-        
-        .aco-lan-result-container{
-            line-height: 200%;
-            font-size: 14px;
-            padding: 4px 10px;
-            max-height: 200px;
-            overflow: auto;
-            
-            &:hover{
-                background: $color-blue;
-            }
-        }
-        
-        
-    }
-}
+@import 'templates/admin-panel';
+@import 'templates/login-panel';
+@import 'templates/notification-panel';
+
+
+
 
 
 aco-message-box{
@@ -181,7 +26,7 @@ aco-message-box{
     width: 100%;
     height: 100%;
     background: url(src/black.png);
-    font-family: $font-Acolyte;
+    font-family: $font-acolyte;
     z-index: 1500;
     display: none;
     
@@ -243,77 +88,6 @@ aco-message-box{
     }
 }
 
-aco-login-box{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url(src/black.png);
-    font-family: $font-Acolyte;
-    display: none;
-    z-index: 1000;
-    
-    & > #acoLoginBox{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-top: -200px;
-        margin-left: -200px;
-        background: #fff;
-        width: 300px;
-        height: 300px;
-        padding: 50px;
-        
-        & > h1{
-            font-size: 50px;
-            font-weight: 600;
-            line-height: 100%;
-            margin: 0;
-            padding: 0;
-            color: #000;
-            text-transform: uppercase;
-        }
-        & > h2{
-            font-size: 25px;
-            font-weight: 200;
-            line-height: 160%;
-            margin: 0;
-            padding: 0;
-            color: #000;
-            text-transform: inherit;
-        }
-        
-        & > form{
-            padding-top: 20px;
-            text-align: center;
-        }
-        & > form > input{
-            width: 266px;
-            padding: 0px 15px;
-            margin: 5px 0px;
-            height: 50px;
-            font-size: $form-font-size;
-        }
-        & > form > #acoLoginBtn{
-            width: 150px;
-            height: 50px;
-            text-align: center;
-            line-height: 50px;
-            font-weight: 400;
-            background: $color-blue;
-            color: #fff;
-            font-size: $form-font-size;
-            border: 0;
-            margin: 10px auto 0;
-            -webkit-border-radius: 25px;
-            -moz-border-radius: 25px;
-            border-radius: 25px;
-            cursor: pointer;
-        }
-    }
-}
-
 
 #aco-img-upload-box{
     position: fixed;
@@ -334,7 +108,7 @@ aco-login-box{
         color: #fff;
         text-align: center;
         font-size: 1.2em;
-        font-family: $font-Acolyte;
+        font-family: $font-acolyte;
         
         #aco-img-upload-header{
             font-size: 2em;
@@ -370,7 +144,7 @@ aco-background > aco-update-img-btn, .aco-background > aco-update-img-btn{
     background: #222;
     font-size: 14px;
     font-weight: 400;
-    font-family: $font-Acolyte;
+    font-family: $font-acolyte;
     text-transform: uppercase;
     letter-spacing: 1px;
     line-height: 20px;
@@ -383,45 +157,5 @@ aco-background > aco-update-img-btn, .aco-background > aco-update-img-btn{
     
     &:hover{
         background: #444;
-    }
-}
-
-
-
-aco-notification-box{
-    position: fixed;
-    bottom: 40px;
-    left: 0px;
-    width: 330px;
-    z-index: 1500;
-    display: none;
-    
-    .aco-notification{
-        background: url(src/black.png);
-        color: #fff;
-        padding: 30px;
-        font-family: $font-Acolyte;
-        text-align: left;
-        
-        h3{
-            margin: 0 0 10px;
-            padding: 0;
-            font-size: 1.2em;
-            line-height: 110%;
-            font-weight: 400;
-            
-            &.success{
-                color: $color-blue;
-            }
-            &.error{
-                color: $color-red;
-            }
-        }
-        p{
-            font-size: 1em;
-            line-height: 150%;
-            margin: 0;
-            padding: 0;
-        }
     }
 }

@@ -1,0 +1,35 @@
+<div id="acoAdminPanel" ng-controller="AcoLanguageController as acoLanCtrl">
+    <div id="acoAdminTable" ng-show="acoAdminCtrl.showPanel">
+        <div id="acoAdminDragBtn">
+            <img id="aco-admin-drag-img" ng-src="{{acoAdminCtrl.img.drag}}" />
+        </div>
+        <div id="acoAdminEditBtn" ng-class="(acoAdminCtrl.edit) ? 'active' : ''" ng-click="acoAdminCtrl.setEditMode()">
+            <img ng-src="{{acoAdminCtrl.img.edit}}" />
+        </div>
+        <div id="acoAdminLanBtn" ng-click="acoAdminCtrl.selectLan()">
+            {{acoLanCtrl.lan}}
+        </div>
+        <div id="acoAdminPublishBtn" ng-click="acoAdminCtrl.publish()">
+            publish
+        </div>
+    </div>
+    <div id="acoAdminLanBox" class="aco-lan-bottom">
+        <ul id="aco-admin-lan-list">
+            <li ng-repeat="lan in acoLanCtrl.languages" ng-show="acoLanCtrl.newLanKeyword == ''">
+                <div class="aco-lan-container" ng-class="(lan.lan == acoLanCtrl.lan) ? 'active' : ''">
+                    <div><div class="aco-lan-btn checkbox" ng-class="(lan.toggle == 1) ? 'active' : ''" ng-click="acoLanCtrl.setToggle(lan)"></div></div>
+                    <div class="aco-lan-text" ng-click="acoLanCtrl.setLan(lan.lan)">{{lan.lan}} - {{lan.language}}</div>
+                    <div><div class="aco-lan-btn delete" ng-click="acoLanCtrl.deleteLanguage(lan)"></div></div>
+                </div>
+            </li>
+            <li ng-repeat="lan in acoLanCtrl.searchResults" ng-show="acoLanCtrl.newLanKeyword != ''">
+                <div class="aco-lan-result-container" ng-click="acoLanCtrl.addLanguage(lan)">
+                    {{lan.lan}} - {{lan.language}}
+                </div>
+            </li>
+            <li>
+                <input type="text" placeholder="new language..." ng-model="acoLanCtrl.newLanKeyword" ng-keyup="acoLanCtrl.searchLan()" />
+            </li>
+        </ul>
+    </div>
+</div>
