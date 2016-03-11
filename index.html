@@ -1,132 +1,32 @@
 <!DOCTYPE html>
-<html ng-app="AcolyteWeb">
+<html ng-app="Acolyte">
     <head>
         <title>Acolyte</title>
         
-        <link rel="stylesheet" href="styles/app.css" />
         <link rel="stylesheet" href="acolyte/acolyte.css" />
         
-        <meta charset="UTF-8" />
-        
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-sanitize.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.js"></script>
-        
-        <script src="acolyte/acolyte.min.js"></script>
-        <script src="js/routes.js"></script>
+        <style>
+            .welcomeimage{
+                width: 300px;
+            }
+        </style>
     </head>
     <body>
-        
         <aco-root></aco-root>
         
-        <div id="eyebrow">
-            <div id="languages" ng-controller="AcolyteLanguageController as lanCtrl">
-                <div ng-repeat="lan in lanCtrl.languages" ng-class="(lan.lan == lanCtrl.active) ? 'active' : ''" ng-click="lanCtrl.select(lan)">
-                    {{lan.lan}}
-                </div>
-            </div>
-        </div>
-        <header class="aco-background" category="home" element="banner">
-            
-            <div id="logo">
-                <a href="#/home">
-                    Acolyte
-                </a>
-            </div>
-            
-            <div id="menu">
-                <ul>
-                    <li>
-                        <a href="#/gettingstarted">
-                            <div class="menuItem" ng-class="(title == 'gettingstarted') ? 'active' : ''">
-                                <img src="src/icons/playW.png" />
-                                <span aco-text category="menu" element="install"></span>
-                            </div>
-                        </a>
-                    </li><li>
-                        <a href="#/download">
-                            <div class="menuItem" ng-class="(title == 'download') ? 'active' : ''">
-                                <img src="src/icons/downloadW.png" />
-                                <span aco-text category="menu" element="download"></span>
-                            </div>
-                        </a>
-                    </li><li>
-                        <a href="#/documentation">
-                            <div class="menuItem" ng-class="(title == 'documentation') ? 'active' : ''">
-                                <img src="src/icons/docuW.png" />
-                                <span aco-text category="menu" element="docu"></span>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            
-            <div id="homeHeader" class="header content">
-                <h1 aco-text category="home" element="header"></h1>
-                <h2 aco-text category="home" element="subtitle"></h2>
-                
-                <a href="acolyte.zip">
-                    <div class="downloadBtn">
-                        <img src="src/icons/downloadW.png" />
-                        <div aco-text category="download" element="btnText"></div>
-                        <span aco-text category="download" element="info"></span>
-                    </div>
-                </a>
-            </div>
-            
-            <div id="gettingstartedHeader" class="header subheader">
-                <h1 aco-text category="install" element="header"></h1>
-                <h2 aco-text category="install" element="header2"></h2>
-            </div>
-            
-            <div id="downloadHeader" class="header subheader">
-                <h1 aco-text category="download" element="header"></h1>
-                <h2 aco-text category="download" element="header2"></h2>
-            </div>
-            
-            <div id="documentationHeader" class="header subheader">
-                <h1 aco-text category="documentation" element="header"></h1>
-                <h2 aco-text category="documentation" element="header2"></h2>
-            </div>
-        </header>
+        <h1>Welcome to Acolyte</h1>
         
+        <p aco-text category="home" element="welcometext"></p>
         
-        <main>
-            <div ng-view></div>
-        </main>
+        <img aco-img category="home" element="welcomeimage" class="welcomeimage" /><br />
         
+        <aco-login></aco-login>
         
-        <footer>
-            <a href="http://www.5-designs.com" target="_blank">
-                <img src="src/images/5-designs.png" class="logo" />
-            </a>
-            <ul class="menu">
-                <li>
-                    <a href="#/gettingstarted">
-                        <div aco-text category="menu" element="install"></div>
-                    </a>
-                </li><li>
-                    <a href="#/download">
-                        <div aco-text category="menu" element="download"></div>
-                    </a>
-                </li><li>
-                    <a href="#/documentation">
-                        <div aco-text category="menu" element="docu"></div>
-                    </a>
-                </li><li>
-                    <a href="#/impressum">
-                        <div>
-                            Impressum
-                        </div>
-                    </a>
-                </li><li>
-                    <aco-login></aco-login>
-                </li>
-            </ul>
-            <div class="copy">&copy; by 5-designs. All rights reserved.</div>
-        </footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-sanitize.js"></script>
         
+        <script src="acolyte/acolyte.min.js"></script>
     </body>
 </html>

@@ -7,12 +7,14 @@
         var self = this;
         self.edit = false;
         self.showPanel = false;
-        self.dragImg = acolyte.pathToAcolyte + 'src/dragW.png';
+        self.img = {};
+        self.img.drag = acolyte.pathToAcolyte + 'src/dragDots.svg';
+        self.img.edit = acolyte.pathToAcolyte + 'src/editW.svg';
         
         init();
         function init(){
-            $("aco-admin").draggable({ 
-                handle: '#aco-admin-drag',
+            $("#acoAdminPanel").draggable({ 
+                handle: '#acoAdminDragBtn',
                 containment: 'document',
                 stop: function(){
                     var offPos = $(this).offset().top;
@@ -34,11 +36,11 @@
         }
         
         self.selectLan = function(){
-            var lanBox = $("#aco-admin-panel").find("#aco-admin-lan-box");
-            var adminTable = $("#aco-admin-panel").find("#aco-admin-table");
+            var lanBox = $("#acoAdminPanel").find("#acoAdminLanBox");
+            var adminTable = $("#acoAdminPanel").find("#acoAdminTable");
             
             if(lanBox.css("display") == "none"){
-                adminTable.find("#aco-admin-lan").addClass("active");
+                adminTable.find("#acoAdminLanBtn").addClass("active");
                 var boxHeight = lanBox.outerHeight();
                 var tableOffset = adminTable.offset().top - $(window).scrollTop();
                 if(boxHeight > tableOffset){
@@ -49,7 +51,7 @@
                     lanBox.removeClass('aco-lan-top');
                 }
             }else{
-                adminTable.find("#aco-admin-lan").removeClass("active");
+                adminTable.find("#acoAdminLanBtn").removeClass("active");
             }
             lanBox.slideToggle(200);
         }

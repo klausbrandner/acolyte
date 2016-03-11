@@ -194,10 +194,3 @@ function CreateRequest(callback){
     document.cookie = "aco-token=" + token + ";path=/";
     callback(token);
 }
-
-
-$(document).ready(function(){
-    
-    
-    
-});

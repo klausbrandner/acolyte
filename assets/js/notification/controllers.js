@@ -9,19 +9,24 @@
         self.notification = {};
         self.timer = null;
         
-        // Listener to Login State
-        $scope.$on('AcoPushNotification',function(){
+        self.push = function(notification){
             if(self.timer != null){
                 $timeout.cancel(self.timer);
             }
-            $("aco-notification-box").hide("slide",200,function(){
-                self.notification = AcoNotificationService.getNotification();
-                $("aco-notification-box").show("slide",200,function(){
+            $("#acoNotificationPanel").hide("slide",200,function(){
+                self.notification = notification;
+                $("#acoNotificationPanel").show("slide",200,function(){
                     self.timer = $timeout(function(){
-                        $("aco-notification-box").hide("slide",200);
+                        $("#acoNotificationPanel").hide("slide",200);
                     },5000);
                 });
             });
+        }
+        
+        // Listener to Login State
+        $scope.$on('AcoPushNotification',function(){
+            var notification = AcoNotificationService.getNotification();
+            self.push(notification);
         });
         
     }]);

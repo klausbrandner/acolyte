@@ -1,0 +1,74 @@
+#acoNotificationPanel{
+    position: fixed;
+    bottom: 40px;
+    left: 0px;
+    width: 330px;
+    z-index: 1500;
+    display: none;
+    
+    .acoNotificationBox{
+        font-family: $font-acolyte;
+        font-size: $aco-font-size;
+        text-align: left;
+    }
+    .acoNotificationTable{
+        display: table;
+        width: 100%;
+        min-height: 60px;
+        
+        & > div{
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+    .acoNotificationSign{
+        background: $color-grey;
+        width: 60px;
+        text-align: center;
+        -webkit-border-bottom-right-radius: 5px;
+        -moz-border-radius-bottomright: 5px;
+        border-bottom-right-radius: 5px;
+        -webkit-border-top-right-radius: 5px;
+        -moz-border-radius-topright: 5px;
+        border-top-right-radius: 5px;
+        
+        img{
+            width: 35px;
+            height: 35px;
+            margin: 3px auto 0;
+        }
+        
+        &.success{
+            background: $color-blue;
+        }
+        &.error{
+            background: $color-red;
+        }
+    }
+    .acoNotificationInfo{
+        padding: 15px 18px;
+        background: $color-dark;
+    }
+    .acoNotificationHeader{
+        margin: 0 0 7px;
+        padding: 0;
+        line-height: 110%;
+        font-weight: 400;
+        font-weight: 600;
+        font-size: 0.95em;
+
+        &.success{
+            color: $color-blue;
+        }
+        &.error{
+            color: $color-red;
+        }
+    }
+    .acoNotificationMessage{
+        font-size: 0.75em;
+        line-height: 140%;
+        margin: 0;
+        padding: 0;
+        color: $color-grey-light;
+    }
+}

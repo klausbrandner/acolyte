@@ -14,7 +14,7 @@
                 AcoLoginService.logout();
             }else{
                 // open panel
-                $("aco-login-box").fadeIn();
+                $("#acoLoginPanel").stop().fadeIn(400);
             }
         }
         
@@ -34,12 +34,12 @@
             AcoLoginService.login(self.loginData.username,self.loginData.password);
         }
         self.close = function(){
-            $("aco-login-box").fadeOut();
+            $("#acoLoginPanel").stop().fadeOut(400);
         }
         
         // Listener to Login State
         $scope.$on('AcoLoginStateChanged',function(){
-            $("aco-login-box").fadeOut();
+            $("#acoLoginPanel").stop().fadeOut(400);
             self.loginData = {};
         });
         

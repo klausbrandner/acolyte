@@ -1,0 +1,19 @@
+<div id="acoNotificationPanel">
+    <div class="acoNotificationBox">
+        <div class="acoNotificationTable">
+            
+            <div class="acoNotificationInfo">
+                <div class="acoNotificationHeader" ng-class="(notifyCtrl.notification.type == 'success') ? 'success' : 'error'">
+                    {{notifyCtrl.notification.title}}
+                </div>
+                <div class="acoNotificationMessage">
+                    {{notifyCtrl.notification.message}}
+                </div>
+            </div>
+            <div class="acoNotificationSign" ng-class="(notifyCtrl.notification.type == 'success') ? 'success' : 'error'">
+                <img ng-src="acolyte/src/{{notifyCtrl.notification.type}}W.svg" />
+            </div>
+            
+        </div>
+    </div>
+</div>

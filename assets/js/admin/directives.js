@@ -7,7 +7,7 @@
             restrict: 'E',
             controller: 'AcoAdminController',
             controllerAs: 'acoAdminCtrl',
-            templateUrl: acolyte.pathToAcolyte + 'templates/aco-admin.html'
+            templateUrl: acolyte.pathToAcolyte + 'templates/admin-panel.html'
         };
     });
     
