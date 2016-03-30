@@ -1,0 +1,42 @@
+#aco-img-upload-box{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(src/black.png);
+    display: none;
+    z-index: 1300;
+
+    #aco-img-upload-content{
+        width: 100%;
+        display: table-cell;
+        vertical-align: middle;
+        color: #fff;
+        text-align: center;
+        font-size: 1.2em;
+        font-family: $font-acolyte;
+
+        #aco-img-upload-header{
+            font-size: 2em;
+        }
+
+        #aco-img-upload-bar{
+            width: 100%;
+            height: 2px;
+            padding: 30px 0px 10px;
+
+            #aco-img-upload-progress{
+                width: 0%;
+                height: 100%;
+                background: $color-blue;
+            }
+        }
+
+        #aco-img-upload-input{
+            display: none;
+        }
+    }
+}

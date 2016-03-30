@@ -5,7 +5,7 @@ require_once 'func/base64_decode.php';          //BASE 64 IMAGE UPLOAD
 require_once 'func/security_csrf.php';          //SECURITY
 require_once 'settings.php';                    //SETTINGS
 
-$app = new \Slim\Slim(); 
+$app = new \Slim\Slim();
 
 $app = new \Slim\Slim(array(
     'cookies.encrypt' => COOKIECRYPT,
@@ -18,24 +18,24 @@ $app->response->headers->set('Content-Type', 'application/json');
 
 $app->group('/content', function() use($app){
     $app->response->headers->set('Content-Type', 'application/json');
-    
+
     $app->map('/get', function() use($app){
         if($app->getCookie('aco-lan') !== null)     $lan = $app->getCookie('aco-lan');
         else                                        $app->redirect($app->urlFor('setLanguage', array('lan' =>
-                                                    substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)))); 
-        
+                                                    substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2))));
+
 
         if($app->getCookie('aco-user') !== null)    $app->redirect($app->urlFor('getModified'));
-        else                                        $app->redirect($app->urlFor('getFinished'));       
-        
+        else                                        $app->redirect($app->urlFor('getFinished'));
+
     })->via('GET', 'PUT', 'POST', 'DELETE')->name('getContent');
-    
+
     $app->map('/get/finished', function() use($app){
         if($app->getCookie('aco-lan') !== null)          $lan = $app->getCookie('aco-lan');
-        
+
             if(($db = connectToMySql()) !== false){
                 try{
-                    $query = 'SELECT category, element, text FROM TextContent WHERE lan = ?'; 
+                    $query = 'SELECT category, element, text FROM TextContent WHERE lan = ?';
                     $sql_text = $db->prepare($query);
                     $sql_text->bindParam(1, $lan);
                     $sql_text->execute();
@@ -46,7 +46,7 @@ $app->group('/content', function() use($app){
                     $sql_file->bindParam(1, $lan);
                     $sql_file->execute();
                     $sql_file->setFetchMode(PDO::FETCH_OBJ);
-                    
+
                     /*$query = 'SELECT lan, language FROM Language WHERE toggle != 0 AND toggle IS NOT NULL';
                     $sql_lan = $db->prepare($query);
                     $sql_lan->execute();
@@ -67,34 +67,34 @@ $app->group('/content', function() use($app){
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
             }
-        
+
         $app->response->status(200);
         $app->response->body(json_encode([  'lan' => $lan,
                                             //'language'  => $language,
-                                            'textContent' => $textcontent, 
+                                            'textContent' => $textcontent,
                                             'fileContent'=> $filecontent]));
-        
+
     })->via('GET', 'PUT', 'POST', 'DELETE')->name('getFinished');
-    
+
     $app->map('/get/modified', function() use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
         if(($db = connectToMySql()) !== false){
             try{
                 $case = '';
-                
-                $query = 'SELECT    category, element, 
-                            CASE    WHEN 	tmp_text       IS NULL      	THEN text  
+
+                $query = 'SELECT    category, element,
+                            CASE    WHEN 	tmp_text       IS NULL      	THEN text
                                     WHEN	tmp_text       = ?  			THEN text
                             ELSE    tmp_text
        	                    END AS  text
-                            FROM    TextContent            WHERE lan = ?'; 
+                            FROM    TextContent            WHERE lan = ?';
                 $sql_text = $db->prepare($query);
                 $sql_text->bindParam(1, $case);
                 $sql_text->bindParam(2, $lan);
                 $sql_text->execute();
                 $sql_text->setFetchMode(PDO::FETCH_OBJ);
 
-                $query = 'SELECT    category, element, 
+                $query = 'SELECT    category, element,
                             CASE    WHEN 	tmp_url       IS NULL 	       THEN url
 		                            WHEN	tmp_url       = ?    	       THEN url
                             ELSE    tmp_url
@@ -105,17 +105,17 @@ $app->group('/content', function() use($app){
                 $sql_file->bindParam(2, $lan);
                 $sql_file->execute();
                 $sql_file->setFetchMode(PDO::FETCH_OBJ);
-                
+
                 /*$query = 'SELECT lan, language, toggle, preset FROM Language';
                 $sql_lan = $db->prepare($query);
                 $sql_lan->execute();
                 $sql_lan->setFetchMode(PDO::FETCH_OBJ);*/
 
-                //$language = $sql_lan->fetchAll();  
+                //$language = $sql_lan->fetchAll();
                 $textcontent = $sql_text->fetchAll();
                 $filecontent = $sql_file->fetchAll();
             }catch(Exception $e){
-                setupMySql($db); 
+                setupMySql($db);
                 $app->redirect($app->urlFor('getContent'));
                 $app->halt(503, json_encode(['type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
@@ -126,31 +126,31 @@ $app->group('/content', function() use($app){
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
         }
-        
+
         $app->response->status(200);
         $app->response->body(json_encode([  'lan' => $lan,
                                             //'language'  => $language,
-                                            'textContent' => $textcontent, 
+                                            'textContent' => $textcontent,
                                             'fileContent'=> $filecontent]));
     })->via('GET', 'PUT', 'POST', 'DELETE')->name('getModified');
-    
+
     $app->put('/save/lan', function() use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
-        
+
         if(($db = connectToMySql()) !== false){
             try{
                 $case = '';
-                
-                $query = 'UPDATE TextContent t SET t.text = t.tmp_text, t.tmp_text = NULL 
+
+                $query = 'UPDATE TextContent t SET t.text = t.tmp_text, t.tmp_text = NULL
                 WHERE t.tmp_text IS NOT NULL AND t.tmp_text != ? AND t.lan = ?';
                 $sql_text = $db->prepare($query);
                 $sql_text->bindParam(1,$case);
                 $sql_text->bindParam(2,$lan);
                 $sql_text->execute();
-                
-                $query = 'UPDATE FileContent f SET f.url = f.tmp_url, f.src = f.tmp_src, 
-                f.tmp_url = NULL, f.tmp_src = NULL 
-                WHERE f.tmp_url IS NOT NULL AND f.tmp_src IS NOT NULL 
+
+                $query = 'UPDATE FileContent f SET f.url = f.tmp_url, f.src = f.tmp_src,
+                f.tmp_url = NULL, f.tmp_src = NULL
+                WHERE f.tmp_url IS NOT NULL AND f.tmp_src IS NOT NULL
                 AND f.tmp_url != ? AND f.tmp_src != ? AND f.lan = ?';
                 $sql_file = $db->prepare($query);
                 $sql_file->bindParam(1,$case);
@@ -168,22 +168,22 @@ $app->group('/content', function() use($app){
                                          'message' => 'No database connection']));
         }
     });
-    
+
     $app->put('/save/all', function() use($app){
         if(($db = connectToMySql()) !== false){
             try{
                 $case = '';
-                
-                $query = 'UPDATE TextContent t SET t.text = t.tmp_text, t.tmp_text = NULL 
+
+                $query = 'UPDATE TextContent t SET t.text = t.tmp_text, t.tmp_text = NULL
                 WHERE t.tmp_text IS NOT NULL AND t.tmp_text != ?';
                 $sql_text = $db->prepare($query);
                 $sql_text->bindParam(1,$case);
                 //$sql_text->bindParam(2,$lan);
                 $sql_text->execute();
-                
-                $query = 'UPDATE FileContent f SET f.url = f.tmp_url, f.src = f.tmp_src, 
-                f.tmp_url = NULL, f.tmp_src = NULL 
-                WHERE f.tmp_url IS NOT NULL AND f.tmp_src IS NOT NULL 
+
+                $query = 'UPDATE FileContent f SET f.url = f.tmp_url, f.src = f.tmp_src,
+                f.tmp_url = NULL, f.tmp_src = NULL
+                WHERE f.tmp_url IS NOT NULL AND f.tmp_src IS NOT NULL
                 AND f.tmp_url != ? AND f.tmp_src != ?';
                 $sql_file = $db->prepare($query);
                 $sql_file->bindParam(1,$case);
@@ -204,13 +204,13 @@ $app->group('/content', function() use($app){
 
 $app->group('/content/text', function() use($app){
     $app->response->headers->set('Content-Type', 'application/json');
-    
+
     $app->map('/get/modified/:category/:element', function($category, $element) use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
-       
+
         if(($db = connectToMySql()) !== false){
              try{
-                $query = 'SELECT category, element, tmp_text AS text FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
+                $query = 'SELECT category, element, tmp_text AS text FROM TextContent WHERE lan = ? AND category = ? AND element = ?';
                 $sql_text = $db->prepare($query);
                 $sql_text->bindParam(1, $lan);
                 $sql_text->bindParam(2, $category);
@@ -228,26 +228,26 @@ $app->group('/content/text', function() use($app){
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
         }
-        
+
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The text could not be found!']));
         if(empty($result)) $app->stop();
-        
+
         $app->response->status(200);
         $app->response->body(json_encode(['textContent' => $result]));
-        
+
     })->via('GET', 'PUT', 'POST')->name('getText');
-    
+
     $app->map('/edit/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('aco-lan') !== null)                     $lan = $app->getCookie('aco-lan');
         if(isset($data->text))                                      $text = $data->text;
-         
+
         if(($db = connectToMySql()) !== false){
             try{
-                $query = 'SELECT * FROM TextContent WHERE lan = ? AND category = ? AND element = ?'; 
+                $query = 'SELECT * FROM TextContent WHERE lan = ? AND category = ? AND element = ?';
                 $sql_text = $db->prepare($query);
                 $sql_text->bindParam(1, $lan);
                 $sql_text->bindParam(2, $category);
@@ -265,14 +265,14 @@ $app->group('/content/text', function() use($app){
                                             'title' => 'Oops, sadsomething went wrong!',
                                             'message' => 'No database connection']));
         }
-        
+
 
         if(!empty($result)) $app->redirect($app->urlFor('setText', array(   'category' => $category,
                                                                             'element' => $element)));
         else                $app->redirect($app->urlFor('addText', array(   'category' => $category,
                                                                             'element' => $element)));
     })->via('PUT', 'POST')->name('editText');
-    
+
     $app->map('/set/modified/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('aco-lan') !== null)                     $lan = $app->getCookie('aco-lan');
@@ -299,20 +299,20 @@ $app->group('/content/text', function() use($app){
                                             'title' => 'Oops, sadsomething went wrong!',
                                             'message' => 'No database connection']));
         }
-            
-        
+
+
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The text could not been updated!']));
-        
+
         if($result === 0) $app->stop();
-        
+
         $app->redirect($app->urlFor('getText', array(   'category' => $category,
                                                         'element' => $element)));
     })->via('PUT', 'POST')->name('setText');
-    
-    
+
+
     $app->map('/add/modified/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('aco-lan') !== null)                     $lan = $app->getCookie('aco-lan');
@@ -338,29 +338,29 @@ $app->group('/content/text', function() use($app){
                                             'title' => 'Oops, sadsomething went wrong!',
                                             'message' => 'No database connection']));
         }
-        
+
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The text could not been inserted!']));
-        
+
         if($result === 0) $app->stop();
-        
+
         $app->redirect($app->urlFor('getText', array(   'category' => $category,
                                                         'element' => $element)));
-        
+
     })->via('PUT', 'POST')->name('addText');
 });
 
 $app->group('/content/file', function() use($app){
     $app->response->headers->set('Content-Type', 'application/json');
-    
+
     $app->map('/get/modified/:category/:element', function($category, $element) use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
-        
+
         if(($db = connectToMySql()) !== false){
             try{
-                $query = 'SELECT category, element, tmp_url AS url FROM FileContent WHERE category = ? AND element = ? AND lan = ?'; 
+                $query = 'SELECT category, element, tmp_url AS url FROM FileContent WHERE category = ? AND element = ? AND lan = ?';
                 $sql_file = $db->prepare($query);
                 $sql_file->bindParam(1, $category);
                 $sql_file->bindParam(2, $element);
@@ -378,26 +378,26 @@ $app->group('/content/file', function() use($app){
                                          'title' => 'Oops, sadsomething went wrong!',
                                          'message' => 'No database connection']));
         }
-        
+
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The File could not be found!']));
         if(empty($result)) $app->stop();
-        
+
         $app->response->status(200);
         $app->response->body(json_encode(['fileContent' => $result]));
     })->via('GET', 'PUT', 'POST')->name('getFile');
-    
+
     $app->map('/edit/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if($app->getCookie('aco-lan') !== null)                 $lan = $app->getCookie('aco-lan');
         if(isset($data->image) && !empty($data->image))           $file = $data->image;
-        
-        
+
+
         if(($db = connectToMySql()) !== false){
             try{
-                $query = 'SELECT * FROM FileContent WHERE category = ? AND element = ? AND lan = ?'; 
+                $query = 'SELECT * FROM FileContent WHERE category = ? AND element = ? AND lan = ?';
                 $sql_file = $db->prepare($query);
                 $sql_file->bindParam(1, $category);
                 $sql_file->bindParam(2, $element);
@@ -409,34 +409,34 @@ $app->group('/content/file', function() use($app){
                 $app->halt(503, json_encode(['type' => 'Error',
                                              'title' => 'Oops, something went wrong!',
                                              'message' => $e->getMessage()]));
-            }finally{$db = null;}  
+            }finally{$db = null;}
         }else{
             $app->halt(503, json_encode([   'type' => 'Error',
                                          'title' => 'Oops, sadsomething went wrong!',
                                          'message' => 'No database connection']));
         }
 
-        if(!empty($result)){ 
-            if(file_exists($result->tmp_src)) unlink($result->tmp_src);   
+        if(!empty($result)){
+            if(file_exists($result->tmp_src)) unlink($result->tmp_src);
                     $app->redirect($app->urlFor('setFile', array(   'category' => $category,
                                                                     'element' => $element)));
-        }else{    
+        }else{
             $app->redirect($app->urlFor('addFile', array(   'category' => $category,
                                                             'element' => $element)));
         }
-        
+
     })->via('PUT', 'POST')->name('editFile');
-    
+
     $app->map('/set/modified/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
         if(isset($data->image) && !empty($data->image))           $file = $data->image;
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
-        
+
         $dirname = dirname(__FILE__);
-        $server = $_SERVER["DOCUMENT_ROOT"]; 
+        $server = $_SERVER["DOCUMENT_ROOT"];
 
         $directory = str_replace($server,'',$dirname).'/src/';
-        
+
         if(($db = connectToMySql()) !== false){
             try{
                 if(($file = base64_decode_image($file,$directory)) !== null){
@@ -461,28 +461,28 @@ $app->group('/content/file', function() use($app){
                                          'title' => 'Oops, sadsomething went wrong!',
                                          'message' => 'No database connection']));
         }
-        
+
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The File could not been updated!']));
-        
+
         if($result === 0) {if(file_exists($file["src"])) unlink($file["src"]);$app->stop();}
-        
+
         $app->redirect($app->urlFor('getFile', array(   'category' => $category,
                                                         'element' => $element)));
-        
+
     })->via('PUT', 'POST')->name('setFile');
-                      
+
     $app->map('/add/modified/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
 
         $data = json_decode($app->request->getBody());
         if(isset($data->image) && !empty($data->image))           $file = $data->image;
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
-        
+
         $dirname = dirname(__FILE__);
-        $server = $_SERVER["DOCUMENT_ROOT"]; 
+        $server = $_SERVER["DOCUMENT_ROOT"];
 
         $directory = str_replace($server,'',$dirname).'/src/';
 
@@ -510,23 +510,23 @@ $app->group('/content/file', function() use($app){
                                              'title' => 'Oops, sadsomething went wrong!',
                                              'message' => 'No database connection']));
         }
-        
+
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The File could not been inserted!']));
-        
+
         if($result === 0) {if(file_exists($file["src"])) unlink($file["src"]);$app->stop();}
-        
+
         $app->redirect($app->urlFor('getFile', array(   'category' => $category,
                                                         'element' => $element)));
-        
+
     })->via('PUT', 'POST')->name('addFile');
 });
 
 $app->group('/language', function() use($app){
     $app->response->headers->set('Content-Type', 'application/json');
-    
+
     $app->map('/get', function() use($app){
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
         if(($db = connectToMySql()) !== false){
@@ -536,13 +536,13 @@ $app->group('/language', function() use($app){
                     $sql_lan->execute();
                     $sql_lan->setFetchMode(PDO::FETCH_OBJ);
                     $language = $sql_lan->fetchAll();
-                    
+
                     $query = 'SELECT * FROM Languages';
                     $sql_lans = $db->prepare($query);
                     $sql_lans->execute();
                     $sql_lans->setFetchMode(PDO::FETCH_OBJ);
                     $languages = $sql_lans->fetchAll();
-                }catch(Exception $e){ 
+                }catch(Exception $e){
                     setupMySql($db);
                     $app->redirect($app->urlFor('getLanguage'));
                     $app->halt(503, json_encode(['type' => 'Error',
@@ -559,7 +559,7 @@ $app->group('/language', function() use($app){
                                             'language'  => $language,
                                             'languages' => $languages]));
     })->via('GET', 'PUT', 'DELETE')->name('getLanguage');
-    
+
     $app->map('/set/:lan', function($lan) use($app){
         if(($db = connectToMySql()) !== false){
                 try{
@@ -569,13 +569,13 @@ $app->group('/language', function() use($app){
                     $sql_lan->execute();
                     $sql_lan->setFetchMode(PDO::FETCH_OBJ);
                     $result = $sql_lan->fetch();
-                    
-                    $query = 'SELECT lan FROM Language WHERE preset != 0 AND preset IS NOT NULL'; 
+
+                    $query = 'SELECT lan FROM Language WHERE preset != 0 AND preset IS NOT NULL';
                     $sql_lan = $db->prepare($query);
                     $sql_lan->execute();
                     $sql_lan->setFetchMode(PDO::FETCH_OBJ);
                     $presult = $sql_lan->fetch();
-                }catch(Exception $e){ 
+                }catch(Exception $e){
                 $app->halt(503, json_encode(['type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
@@ -589,7 +589,7 @@ $app->group('/language', function() use($app){
         else $app->setCookie('aco-lan', $result->lan, '180 days');
         $app->redirect($app->urlFor('getContent'));
     })->via('GET', 'PUT', 'DELETE')->name('setLanguage');
-    
+
     $app->put('/set/toggle/:lan', function($lan) use($app){
         $data = json_decode($app->request->getBody());
         if(isset($data->toggle))           $toggle = $data->toggle;
@@ -601,7 +601,7 @@ $app->group('/language', function() use($app){
                     $sql_lan->bindParam(2, $lan);
                     if($sql_lan->execute())     $result = 1;
                     else                        $result = 0;
-                }catch(Exception $e){ 
+                }catch(Exception $e){
                 $app->halt(503, json_encode(['type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
@@ -610,17 +610,17 @@ $app->group('/language', function() use($app){
                 $app->halt(503, json_encode([   'type' => 'Error',
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
-        } 
+        }
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The text could not been saved!']));
-        
+
         if($result === 0 || empty($result)) $app->stop();
-        
-        $app->redirect($app->urlFor('getLanguage'));    
+
+        $app->redirect($app->urlFor('getLanguage'));
     });
-    
+
     $app->delete('/remove/all/:lan', function($lan) use ($app){
         if(($db = connectToMySql()) !== false){
                 try{
@@ -628,17 +628,17 @@ $app->group('/language', function() use($app){
                     $sql_file = $db->prepare($query);
                     $sql_file->bindParam(1, $lan);
                     $sql_file->execute();
-                    
+
                     $query = 'DELETE FROM TextContent WHERE lan = ?';
                     $sql_text = $db->prepare($query);
                     $sql_text->bindParam(1, $lan);
                     $sql_text->execute();
-                    
+
                     $query = 'DELETE FROM Language WHERE lan =?';
                     $sql_lan = $db->prepare($query);
                     $sql_lan->bindParam(1, $lan);
                     $sql_lan->execute();
-                }catch(Exception $e){ 
+                }catch(Exception $e){
                 $app->halt(503, json_encode(['type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
@@ -647,7 +647,7 @@ $app->group('/language', function() use($app){
                 $app->halt(503, json_encode([   'type' => 'Error',
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
-        } 
+        }
         if($app->getCookie('aco-lan') === $lan){
             $app->deleteCookie('aco-lan');
             $app->redirect($app->urlFor('getContent'));
@@ -655,7 +655,7 @@ $app->group('/language', function() use($app){
             $app->redirect($app->urlFor('getContent'));
         }
     });
-    
+
     $app->delete('/remove/lan/:lan', function($lan) use ($app){
         if(($db = connectToMySql()) !== false){
                 try{
@@ -663,7 +663,7 @@ $app->group('/language', function() use($app){
                     $sql_lan = $db->prepare($query);
                     $sql_lan->bindParam(1, $lan);
                     $sql_lan->execute();
-                }catch(Exception $e){ 
+                }catch(Exception $e){
                 $app->halt(503, json_encode(['type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
@@ -672,20 +672,20 @@ $app->group('/language', function() use($app){
                 $app->halt(503, json_encode([   'type' => 'Error',
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
-        } 
+        }
         if($app->getCookie('aco-lan') === $lan){
             $app->deleteCookie('aco-lan');
             $app->redirect($app->urlFor('getContent'));
         }else{
             $app->redirect($app->urlFor('getContent'));
         }
-    });  
-    
+    });
+
     $app->post('/add', function() use($app){
         $data = json_decode($app->request->getBody());
         if(isset($data->lan) && !empty($data->lan))                     $lan = $data->lan;
         if(isset($data->language) && !empty($data->language))           $language = $data->language;
-        
+
         if(($db = connectToMySql()) !== false){
                 try{
                     $query = 'INSERT INTO Language(lan, language, toggle, preset) VALUES (?, ?, 0, 0)';
@@ -694,7 +694,7 @@ $app->group('/language', function() use($app){
                     $sql_lan->bindParam(2, $language);
                     $sql_lan->execute();
                     $result = $sql_lan->rowCount();
-                }catch(Exception $e){ 
+                }catch(Exception $e){
                 $app->halt(503, json_encode(['type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
@@ -703,17 +703,17 @@ $app->group('/language', function() use($app){
                 $app->halt(503, json_encode([   'type' => 'Error',
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
-        } 
+        }
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The language could not been inserted!']));
-        
+
         if($result === 0 ) $app->stop();
-        
+
         $app->redirect($app->urlFor('getLanguage'));
     });
-    
+
 });
 
 
@@ -729,12 +729,12 @@ $app->group('/language', function() use($app){
 
 $app->group('/user', function() use($app){
     $app->response->headers->set('Content-Type', 'application/json');
-    
+
     $app->post('/login', function() use($app){
         $data = json_decode($app->request->getBody());
         if(isset($data->username) && !empty($data->username))           $user = $data->username;
         if(isset($data->password) && !empty($data->password))           $password = $data->password;
-        
+
         if(security_login($user, $password)){
             $app->setCookie('aco-user','acodmin');
             $app->redirect($app->urlFor('getContent'));
@@ -746,7 +746,7 @@ $app->group('/user', function() use($app){
                                                 'message' => 'The Login coulld not been proceeded!']));
         }
     });
-    
+
     $app->put('/logout', function() use($app){
         if($app->getCookie('aco-lan') !== null)          $lan = $app->getCookie('aco-lan');
          if(($db = connectToMySql()) !== false){
@@ -766,14 +766,14 @@ $app->group('/user', function() use($app){
             $app->halt(503, json_encode([   'type' => 'Error',
                                              'title' => 'Oops, sadsomething went wrong!',
                                              'message' => 'No database connection']));
-        }    
+        }
         if($result->toggle == 0){
-            $app->deleteCookie('aco-lan'); 
+            $app->deleteCookie('aco-lan');
         }
         $app->deleteCookie('aco-user');
         $app->redirect($app->urlFor('getContent'));
     });
-    
+
     $app->get('/view', function() use($app){
         $app->response->status(200);
         $app->response->body(json_encode(['user' => $app->getCookie('aco-user')]));
@@ -783,7 +783,26 @@ $app->group('/user', function() use($app){
 $app->group('/test', function() use($app){
    $app->get('/function', function() use($app){
        phpinfo();
-   }); 
+   });
+
+   $app->post('/upload', function() use($app){
+       $req = $app->request();
+       $wines = json_decode($req->post('wines'));
+       $imgs = "";
+       if(isset($_FILES['images'])){
+           $imgs = "yay there are files - ".$_FILES['images']['name'];
+       }
+       if(isset($_FILES['files'])){
+           $files = $_FILES['files'];
+           $count = count($_FILES['files']['name']);
+           for ($i = 0; $i < $count; $i++) {
+               $imgs .= 'Name: '.$_FILES['files']['name'][$i].'<br/>';
+               // move_uploaded_file($_FILES['files']['tmp_name'][$i],$path);
+           }
+       }
+       $app->response->status(200);
+       $app->response->body(json_encode(['test' => 'hello', "wines" => $wines, 'imgs' => $imgs]));
+   });
 });
 
 $app->run();

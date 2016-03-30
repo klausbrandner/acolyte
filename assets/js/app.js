@@ -8,7 +8,7 @@
 var acolyte = {
     pathToAcolyte: 'acolyte/',
     pathToServer: 'acolyte/server/',
-    tmpImage: 'src/images/black.png',
+    tmpImage: 'acolyte/src/black.png',
     tmpText: '...',
     newText: "Hi, I'm a new text.",
     updateRate: 1000
@@ -16,17 +16,17 @@ var acolyte = {
 
 
 (function(){
-    
-    
+
+
     angular.module('Acolyte',['ngSanitize'])
-    
-    
+
+
     /*
-    
+
         ---------------- Directives ----------------
-    
+
     */
-    
+
     .directive('acoRoot',function(){
         return {
             restrict:'E',
@@ -35,23 +35,23 @@ var acolyte = {
             templateUrl: acolyte.pathToAcolyte + 'templates/aco-root.html'
         }
     })
-    
-    
+
+
     /*
-    
+
         ---------------- Services ----------------
-    
+
     */
-    
+
     .factory('AcoPageContentService',['$rootScope','$http',function($rootScope,$http){
-        
+
         var self = {};
-        
+
         self.texts = {};
         self.images = {};
-        
+
         self.edit = false;
-        
+
         self.setEdit = function(setTo){
             if(typeof setTo !== 'undefined'){
                 self.edit = setTo;
@@ -63,7 +63,7 @@ var acolyte = {
         self.getEditMode = function(){
             return self.edit;
         }
-        
+
         self.fetchContent = function(){
             CreateRequest(function(token){
                 $http.get(acolyte.pathToServer + 'content/get').success(function(response){
@@ -73,18 +73,18 @@ var acolyte = {
                 });
             });
         }
-        
+
         self.setContent = function(content){
             SetNewContent(content);
         }
-        
+
         function SetNewContent(content){
             console.log(content);
             self.texts = content.textContent;
             self.images = content.fileContent;
             self.broadcastPageContent();
         }
-        
+
         self.getText = function(category, element){
             var text = false;
             for(var i=0; i<self.texts.length; i++){
@@ -144,42 +144,42 @@ var acolyte = {
             }
             self.broadcastPageContent();
         }
-        
+
         self.broadcastPageContent = function(){
             $rootScope.$broadcast('AcoPageContentChanged');
         }
         self.broadcastEditMode = function(){
             $rootScope.$broadcast('AcoEditModeChanged');
         }
-        
+
         return self;
-        
+
     }])
-    
-    
+
+
     /*
-    
+
         ---------------- Controllers ----------------
-    
+
     */
     .controller('AcoRootController',['$scope','$http','$timeout','AcoPageContentService','AcoLoginService',function($scope,$http,$timeout,AcoPageContentService,AcoLoginService){
-        
+
         var self = this;
-        
+
         init();
         function init(){
             $timeout(function(){
                 AcoLoginService.checkLoginState();
             });
         }
-        
+
         // Listener to Login State
         $scope.$on('AcoLoginStateChanged',function(){
             AcoPageContentService.fetchContent();
         });
-        
+
     }]);
-    
+
 })();
 
 

@@ -1,19 +1,19 @@
 (function(){
-    
+
     angular.module('Acolyte')
-    
+
     .controller('AcoAdminController',['$scope','$http','AcoPageContentService','AcoLoginService','AcoMessageBoxService','AcoNotificationService',function($scope,$http,AcoPageContentService,AcoLoginService,AcoMessageBoxService,AcoNotificationService){
-        
+
         var self = this;
         self.edit = false;
         self.showPanel = false;
         self.img = {};
         self.img.drag = acolyte.pathToAcolyte + 'src/dragDots.svg';
         self.img.edit = acolyte.pathToAcolyte + 'src/editW.svg';
-        
+
         init();
         function init(){
-            $("#acoAdminPanel").draggable({ 
+            $("#acoAdminPanel").draggable({
                 handle: '#acoAdminDragBtn',
                 containment: 'document',
                 stop: function(){
@@ -30,15 +30,15 @@
                 }
             });
         }
-        
+
         self.setEditMode = function(){
             AcoPageContentService.setEdit();
         }
-        
+
         self.selectLan = function(){
             var lanBox = $("#acoAdminPanel").find("#acoAdminLanBox");
             var adminTable = $("#acoAdminPanel").find("#acoAdminTable");
-            
+
             if(lanBox.css("display") == "none"){
                 adminTable.find("#acoAdminLanBtn").addClass("active");
                 var boxHeight = lanBox.outerHeight();
@@ -55,23 +55,20 @@
             }
             lanBox.slideToggle(200);
         }
-        
+
         self.publish = function(){
             AcoMessageBoxService.pushMessage({
-                title: "Publish page",
-                message: "Do you want to publish all languages or just the current one?",
+                title: "Publish your page",
+                message: "Now, you can make your changes available for everyone. Are you sure that you want to publish your page?",
                 buttons: [
                     {
-                        title: "Publish all",
+                        title: "Yes, Publish",
                         callback: PublishAll
-                    },{
-                        title: "Publish current",
-                        callback: PublishCurrent
                     }
                 ]
             });
         }
-        
+
         function PublishAll(){
             CreateRequest(function(token){
                 $http.put(acolyte.pathToServer + 'content/save/all').success(function(response){
@@ -90,12 +87,12 @@
                 });
             });
         }
-        
+
         // Listener to Edit Mode
         $scope.$on('AcoEditModeChanged',function(){
             self.edit = AcoPageContentService.getEditMode();
         });
-        
+
         // Listener to Login State
         $scope.$on('AcoLoginStateChanged',function(){
             self.showPanel = AcoLoginService.getLoginState();
@@ -103,7 +100,7 @@
                 AcoPageContentService.setEdit(false);
             }
         });
-        
+
     }]);
-    
+
 })();
