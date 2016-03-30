@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="Acolyte">
+<html ng-app="AcoTest">
     <head>
         <title>Acolyte</title>
-        
+
         <link rel="stylesheet" href="acolyte/acolyte.css" />
-        
+
         <style>
             .welcomeimage{
                 width: 300px;
@@ -13,20 +13,47 @@
     </head>
     <body>
         <aco-root></aco-root>
-        
+
         <h1>Welcome to Acolyte</h1>
-        
+
         <p aco-text category="home" element="welcometext"></p>
-        
+
         <img aco-img category="home" element="welcomeimage" class="welcomeimage" /><br />
-        
+
+        <div ng-controller="TestController as tCtrl">
+            <div ng-click="tCtrl.ask()">question</div>
+        </div>
+
         <aco-login></aco-login>
-        
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-sanitize.js"></script>
-        
+
         <script src="acolyte/acolyte.min.js"></script>
+        <script>
+            angular.module('AcoTest',['Acolyte'])
+
+            .controller('TestController',['AcoMessageBoxService',function(AcoMessageBoxService){
+                var self = this;
+
+                self.ask = function(){
+                    AcoMessageBoxService.pushMessage({
+                        title: "This is a title",
+                        message: "Are you sure you want to do that?",
+                        buttons: [
+                            {
+                                title: "yes",
+                                callback: DoSomething
+                            }
+                        ]
+                    });
+                }
+                function DoSomething(){
+                    alert("yiha");
+                }
+            }]);
+        </script>
     </body>
 </html>
