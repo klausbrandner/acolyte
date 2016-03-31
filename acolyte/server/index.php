@@ -703,29 +703,29 @@ $app->group('/language', function() use($app){
                     $sql_lan->bindParam(2, $language);
                     $sql_lan->execute();
                     $result = $sql_lan->rowCount();
-                    
+
                     $query = 'SELECT * FROM Language WHERE preset = 1';
                     $sql_preset = $db->prepare($query);
                     $sql_preset->execute();
                     $sql_preset->setFetchMode(PDO::FETCH_OBJ);
                     $preset = $sql_preset->fetch()->lan;
-                    
+
                     $query = 'SELECT * FROM TextContent WHERE lan = ?';
                     $sql_text = $db->prepare($query);
                     $sql_text->bindParam(1, $preset);
                     $sql_text->execute();
                     $sql_text->setFetchMode(PDO::FETCH_OBJ);
                     $texts = $sql_text->fetchAll();
-                    
+
                     $query = 'SELECT * FROM FileContent WHERE lan = ?';
                     $sql_file = $db->prepare($query);
                     $sql_file->bindParam(1, $preset);
                     $sql_file->execute();
                     $sql_file->setFetchMode(PDO::FETCH_OBJ);
                     $files = $sql_file->fetchAll();
-                    
+
                     foreach($texts as $text){
-                        $query = 'SELECT * FROM FileContent WHERE category = ? AND element = ? AND lan =?';
+                        $query = 'SELECT * FROM TextContent WHERE category = ? AND element = ? AND lan =?';
                         $sql_select_text = $db->prepare($query);
                         $sql_select_text->bindParam(1,$text->category);
                         $sql_select_text->bindParam(2,$text->element);
@@ -733,7 +733,7 @@ $app->group('/language', function() use($app){
                         $sql_select_text->execute();
                         $sql_select_text->setFetchMode(PDO::FETCH_OBJ);
                         $selectedText = $sql_select_text->fetchAll();
-                        
+
                         if($selectedText->num_rows === 0){
                             $query = 'INSERT INTO TextContent(category, element, text, lan, tmp_text) VALUES (?,?,?,?,?)';
                             $sql_insert_text = $db->prepare($query);
@@ -745,7 +745,7 @@ $app->group('/language', function() use($app){
                             $sql_insert_text->execute();
                         }
                     }
-                    
+
                     foreach($files as $file){
                         $query = 'SELECT * FROM FileContent WHERE category = ? AND element = ? AND lan =?';
                         $sql_select_file = $db->prepare($query);
@@ -755,9 +755,9 @@ $app->group('/language', function() use($app){
                         $sql_select_file->execute();
                         $sql_select_file->setFetchMode(PDO::FETCH_OBJ);
                         $selectedFile = $sql_select_file->fetchAll();
-                        
+
                         if($selectedFile->num_rows === 0){
-                            $query = 'INSERT INTO FileContent(category, element, url, src, width, height, lan, tmp_url, tmp_src) VALUES 
+                            $query = 'INSERT INTO FileContent(category, element, url, src, width, height, lan, tmp_url, tmp_src) VALUES
                             (?,?,?,?,?,?,?,?,?)';
                             $sql_insert_file = $db->prepare($query);
                             $sql_insert_file->bindParam(1,$file->category);
