@@ -694,6 +694,75 @@ $app->group('/language', function() use($app){
                     $sql_lan->bindParam(2, $language);
                     $sql_lan->execute();
                     $result = $sql_lan->rowCount();
+                    
+                    $query = 'SELECT * FROM Language WHERE preset = 1';
+                    $sql_preset = $db->prepare($query);
+                    $sql_preset->execute();
+                    $sql_preset->setFetchMode(PDO::FETCH_OBJ);
+                    $preset = $sql_preset->fetch()->lan;
+                    
+                    $query = 'SELECT * FROM TextContent WHERE lan = ?';
+                    $sql_text = $db->prepare($query);
+                    $sql_text->bindParam(1, $preset);
+                    $sql_text->execute();
+                    $sql_text->setFetchMode(PDO::FETCH_OBJ);
+                    $texts = $sql_text->fetchAll();
+                    
+                    $query = 'SELECT * FROM FileContent WHERE lan = ?';
+                    $sql_file = $db->prepare($query);
+                    $sql_file->bindParam(1, $preset);
+                    $sql_file->execute();
+                    $sql_file->setFetchMode(PDO::FETCH_OBJ);
+                    $files = $sql_file->fetchAll();
+                    
+                    foreach($texts as $text){
+                        $query = 'SELECT * FROM FileContent WHERE category = ? AND element = ? AND lan =?';
+                        $sql_select_text = $db->prepare($query);
+                        $sql_select_text->bindParam(1,$text->category);
+                        $sql_select_text->bindParam(2,$text->element);
+                        $sql_select_text->bindParam(3,$lan);
+                        $sql_select_text->execute();
+                        $sql_select_text->setFetchMode(PDO::FETCH_OBJ);
+                        $selectedText = $sql_select_text->fetchAll();
+                        
+                        if($selectedText->num_rows === 0){
+                            $query = 'INSERT INTO TextContent(category, element, text, lan, tmp_text) VALUES (?,?,?,?,?)';
+                            $sql_insert_text = $db->prepare($query);
+                            $sql_insert_text->bindParam(1,$text->category);
+                            $sql_insert_text->bindParam(2,$text->element);
+                            $sql_insert_text->bindParam(3,$text->text);
+                            $sql_insert_text->bindParam(4,$lan);
+                            $sql_insert_text->bindParam(5,$text->tmp_text);
+                            $sql_insert_text->execute();
+                        }
+                    }
+                    
+                    foreach($files as $file){
+                        $query = 'SELECT * FROM FileContent WHERE category = ? AND element = ? AND lan =?';
+                        $sql_select_file = $db->prepare($query);
+                        $sql_select_file->bindParam(1,$file->category);
+                        $sql_select_file->bindParam(2,$file->element);
+                        $sql_select_file->bindParam(3,$lan);
+                        $sql_select_file->execute();
+                        $sql_select_file->setFetchMode(PDO::FETCH_OBJ);
+                        $selectedFile = $sql_select_file->fetchAll();
+                        
+                        if($selectedFile->num_rows === 0){
+                            $query = 'INSERT INTO FileContent(category, element, url, src, width, height, lan, tmp_url, tmp_src) VALUES 
+                            (?,?,?,?,?,?,?,?,?)';
+                            $sql_insert_file = $db->prepare($query);
+                            $sql_insert_file->bindParam(1,$file->category);
+                            $sql_insert_file->bindParam(2,$file->element);
+                            $sql_insert_file->bindParam(3,$file->url);
+                            $sql_insert_file->bindParam(4,$file->src);
+                            $sql_insert_file->bindParam(5,$file->width);
+                            $sql_insert_file->bindParam(6,$file->height);
+                            $sql_insert_file->bindParam(7,$lan);
+                            $sql_insert_file->bindParam(8,$file->tmp_url);
+                            $sql_insert_file->bindParam(9,$file->tmp_src);
+                            $sql_file_text->execute();
+                        }
+                    }
                 }catch(Exception $e){
                 $app->halt(503, json_encode(['type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
