@@ -439,17 +439,22 @@ $app->group('/content/file', function() use($app){
 
         if(($db = connectToMySql()) !== false){
             try{
-                if(($file = base64_decode_image($file,$directory)) !== null){
-                    $query = 'UPDATE FileContent SET tmp_url = ?, tmp_src = ? WHERE category = ? AND element = ? AND lan = ?';
-                    $sql_file = $db->prepare($query);
-                    $sql_file->bindParam(1,$file["url"]);
-                    $sql_file->bindParam(2,$file["src"]);
-                    $sql_file->bindParam(3,$category);
-                    $sql_file->bindParam(4,$element);
-                    $sql_file->bindParam(5,$lan);
-                    $sql_file->execute();
-                    $result = $sql_file->rowCount();
-                }else throw new Exception($e);
+                if(isset($_FILES['image'])){
+                    $image_name = date('dmy-his', time()).'_'.substr(sha1(rand()), 0, 5).$_FILES['image']['name'];
+                    $image_path = $_SERVER["DOCUMENT_ROOT"].$directory.$image_name;
+                    $image_url = 'http://'.$_SERVER["HTTP_HOST"].$directory.$image_name;
+                    if(move_uploaded_file($_FILES["image"]["tmp_name"], $image_path)){
+                        $query = 'UPDATE FileContent SET tmp_url = ?, tmp_src = ? WHERE category = ? AND element = ? AND lan = ?';
+                        $sql_file = $db->prepare($query);
+                        $sql_file->bindParam(1,$image_url);
+                        $sql_file->bindParam(2,$image_path);
+                        $sql_file->bindParam(3,$category);
+                        $sql_file->bindParam(4,$element);
+                        $sql_file->bindParam(5,$lan);
+                        $sql_file->execute();
+                        $result = $sql_file->rowCount();
+                    }else $result = 0;
+                }else $result = 0;
             }catch(Exception $e){
                 //if($file !== null) if(file_exists($file["src"])) unlink($file["src"]);
                 $app->halt(503, json_encode(['type' => 'Error',
@@ -467,7 +472,7 @@ $app->group('/content/file', function() use($app){
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The File could not been updated!']));
 
-        if($result === 0) {if(file_exists($file["src"])) unlink($file["src"]);$app->stop();}
+        if($result === 0) {if(file_exists($image_path)) unlink($image_path);$app->stop();}
 
         $app->redirect($app->urlFor('getFile', array(   'category' => $category,
                                                         'element' => $element)));
@@ -475,10 +480,9 @@ $app->group('/content/file', function() use($app){
     })->via('PUT', 'POST')->name('setFile');
 
     $app->map('/add/modified/:category/:element', function($category, $element) use($app){
+        /*
         $data = json_decode($app->request->getBody());
-
-        $data = json_decode($app->request->getBody());
-        if(isset($data->image) && !empty($data->image))           $file = $data->image;
+        if(isset($data->image) && !empty($data->image))           $file = $data->image;*/
         if($app->getCookie('aco-lan') !== null)         $lan = $app->getCookie('aco-lan');
 
         $dirname = dirname(__FILE__);
@@ -488,17 +492,22 @@ $app->group('/content/file', function() use($app){
 
         if(($db = connectToMySql()) !== false){
             try{
-                if(($file = base64_decode_image($file,$directory)) !== null){
-                    $query = 'INSERT INTO FileContent(tmp_url, tmp_src, category, element, lan) VALUES(?,?,?,?,?)';
-                    $sql_file = $db->prepare($query);
-                    $sql_file->bindParam(1,$file["url"]);
-                    $sql_file->bindParam(2,$file["src"]);
-                    $sql_file->bindParam(3,$category);
-                    $sql_file->bindParam(4,$element);
-                    $sql_file->bindParam(5,$lan);
-                    $sql_file->execute();
-                    $result = $sql_file->rowCount();
-                }else throw new Exception();
+                if(isset($_FILES['image'])){
+                    $image_name = date('dmy-his', time()).'_'.substr(sha1(rand()), 0, 5).$_FILES['image']['name'];
+                    $image_path = $_SERVER["DOCUMENT_ROOT"].$directory.$image_name;
+                    $image_url = 'http://'.$_SERVER["HTTP_HOST"].$directory.$image_name;
+                    if(move_uploaded_file($_FILES["image"]["tmp_name"], $image_path)){
+                        $query = 'INSERT INTO FileContent(tmp_url, tmp_src, category, element, lan) VALUES(?,?,?,?,?)';
+                        $sql_file = $db->prepare($query);
+                        $sql_file->bindParam(1,$image_url);
+                        $sql_file->bindParam(2,$image_path);
+                        $sql_file->bindParam(3,$category);
+                        $sql_file->bindParam(4,$element);
+                        $sql_file->bindParam(5,$lan);
+                        $sql_file->execute();
+                        $result = $sql_file->rowCount();
+                    }else $result = 0;
+                }else $result = 0;
             }catch(Exception $e){
                 //if($file !== null) if(file_exists($file["src"])) unlink($file["src"]);
                 $app->halt(503, json_encode(['type' => 'Error',
@@ -516,7 +525,7 @@ $app->group('/content/file', function() use($app){
                                             'title' => 'Oops, something went wrong!',
                                             'message' => 'The File could not been inserted!']));
 
-        if($result === 0) {if(file_exists($file["src"])) unlink($file["src"]);$app->stop();}
+        if($result === 0) {if(file_exists($image_path)) unlink($image_path);$app->stop();}
 
         $app->redirect($app->urlFor('getFile', array(   'category' => $category,
                                                         'element' => $element)));
