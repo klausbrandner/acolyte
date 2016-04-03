@@ -1,11 +1,11 @@
 (function(){
-    
+
     angular.module('Acolyte')
-    
+
     .factory('AcoLanguageService',['$rootScope','$http','AcoPageContentService',function($rootScope,$http,AcoPageContentService){
-        
+
         var self = this;
-        
+
         self.lan = 'en';
         self.languages = [
             {
@@ -15,7 +15,9 @@
             }
         ];
         self.availableLanguages = [];
-        
+        self.newLanguage = null;
+        self.deletedLanguage = null;
+
         self.initLanguages = function(lancode, languages){
             self.lan = lancode;
             self.languages = languages;
@@ -24,7 +26,7 @@
         self.initAvailLanguages = function(languages){
             self.availableLanguages = languages;
         }
-        
+
         self.getLan = function(){
             return self.lan;
         }
@@ -44,7 +46,7 @@
             self.lan = lancode;
             self.broadcastLanguagesChanged();
         }
-        
+
         self.getLanguages = function(){
             return self.languages;
         }
@@ -61,17 +63,17 @@
             }
             return result;
         }
-        
-        
+
+
         self.setToggle = function(lan){
             // http -> set toggle
             CreateRequest(function(token){
-                
+
                 var setTo = 0;
                 if(lan.toggle == 0){
                     setTo = 1;
                 }
-                
+
                 var postData = {
                     toggle: setTo,
                     token: token
@@ -88,7 +90,7 @@
                     console.log(response);
                 });
             });
-            
+
         }
         self.deleteLanguage = function(lan){
             // http -> delete language
@@ -107,14 +109,16 @@
             CreateRequest(function(token){
                 $http.delete(acolyte.pathToServer + 'language/remove/all/' + lan.lan).success(function(response){
                     console.log(response);
+                    self.deletedLanguage = lan;
                     DeleteLanguage(lan,response);
                     self.broadcastLanguagesChanged();
+                    self.broadcastLanguageDeleted();
                 }).error(function(response){
                     console.log(response);
                 });
             });
         }
-        
+
         function DeleteLanguage(lan, content){
             console.log("delete lan: " + lan.lan);
             var i = 0;
@@ -127,7 +131,7 @@
             self.lan = content.lan;
             AcoPageContentService.setContent(content);
         }
-        
+
         self.addLanguage = function(lan){
             // http -> add lan
             CreateRequest(function(token){
@@ -141,21 +145,35 @@
                     //lan.toggle = 0;
                     //self.languages.push(lan);
                     self.languages = response.language;
+                    self.newLanguage = lan;
                     console.log(self.languages);
                     self.broadcastLanguagesChanged();
+                    self.broadcastNewLanguageCreated();
                 }).error(function(response){
                     console.log(response);
                 });
             });
         }
-        
-        
+        self.getNewLanguage = function(){
+            return self.newLanguage;
+        }
+        self.getDeletedLanguage = function(){
+            return self.deletedLanguage;
+        }
+
+
         self.broadcastLanguagesChanged = function(){
             $rootScope.$broadcast('AcoLanguagesChanged');
         }
-        
+        self.broadcastNewLanguageCreated = function(){
+            $rootScope.$broadcast('AcoNewLanguageCreated');
+        }
+        self.broadcastLanguageDeleted = function(){
+            $rootScope.$broadcast('AcoLanguageDeleted');
+        }
+
         return self;
-        
+
     }]);
-    
+
 })();

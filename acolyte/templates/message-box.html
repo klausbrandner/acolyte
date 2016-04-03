@@ -2,13 +2,15 @@
     <div id="aco-message-container">
         <div id="aco-message-cell">
             <div id="aco-message-content">
-                <div class="acoLoginBoxHeader">{{acoMBCtrl.title}}</div>
-                {{acoMBCtrl.message}}<br />
-                <div id="aco-message-buttons">
-                    <div class="aco-message-btn" ng-repeat="btn in acoMBCtrl.buttons" ng-click="acoMBCtrl.doCallback(btn.callback)">
-                        {{btn.title}}
-                    </div><div class="aco-message-btn cancel" ng-click="acoMBCtrl.cancel()">
-                        Cancel
+                <div class="acoMessageBoxHeader">{{acoMBCtrl.title}}</div>
+                <div class="acoMessageBoxContent">
+                    {{acoMBCtrl.message}}<br />
+                    <div id="aco-message-buttons">
+                        <div class="aco-message-btn" ng-repeat="btn in acoMBCtrl.buttons" ng-click="acoMBCtrl.doCallback(btn.callback)">
+                            {{btn.title}}
+                        </div><div class="aco-message-btn cancel" ng-click="acoMBCtrl.cancel()">
+                            Cancel
+                        </div>
                     </div>
                 </div>
             </div>
