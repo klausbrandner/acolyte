@@ -1,7 +1,7 @@
 (function(){
-    
+
     angular.module('Acolyte')
-    
+
     .directive('acoImg',function(){
         return{
             restrict:'AC',
@@ -26,7 +26,10 @@
             },
             link: function(scope,elem,attr){
 
-                var img = acolyte.tmpImage;
+                var img = AcoPageContentService.getImage(scope.category,scope.element);
+                if(!img){
+                    img = acolyte.tmpImage;
+                }
                 var size = elem.css('background-size');
                 var pos = elem.css('background-position');
                 var atta = elem.css('background-attachment');
@@ -37,7 +40,9 @@
                 style += 'background-attachment:'+atta+';';
                 style += 'background-repeat:'+repeat+';';
                 attr.$set('style',style);
-                
+                elem.find("aco-update-img-btn").remove();
+                elem.append($compile('<aco-update-img-btn ng-show="acoImgCtrl.editable" ng-click="acoImgCtrl.edit()">edit</div>')(scope));
+
                 scope.$on('AcoPageContentChanged',function(){
                     var c = attr.category;
                     var e = attr.element;
@@ -58,7 +63,7 @@
                     elem.find("aco-update-img-btn").remove();
                     elem.append($compile('<aco-update-img-btn ng-show="acoImgCtrl.editable" ng-click="acoImgCtrl.edit()">edit</div>')(scope));
                 });
-                
+
             }
         };
     }])
@@ -71,5 +76,5 @@
             templateUrl: acolyte.pathToAcolyte + 'templates/aco-img-upload.html'
         };
     });
-    
+
 })();
