@@ -10,6 +10,17 @@
         self.editable = false;
         self.src = acolyte.tmpImage;
 
+        // init controller to fetch the image
+        init();
+        function init(){
+            var src = AcoPageContentService.getImage($scope.category,$scope.element);
+            if(!src){
+                src = acolyte.tmpImage;
+            }
+            self.src = src;
+        }
+
+
         // click event on image
         self.edit = function(e){
             if(AcoLoginService.getLoginState()){
