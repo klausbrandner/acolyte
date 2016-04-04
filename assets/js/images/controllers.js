@@ -54,10 +54,6 @@
 
 
 
-
-
-
-
     // Background Controller
     .controller('AcoBackgroundController',['$scope','AcoPageContentService','AcoLoginService','AcoImageUploadService',function($scope,AcoPageContentService,AcoLoginService,AcoImageUploadService){
 
@@ -88,7 +84,8 @@
     }])
 
 
-    // Image Upload Controller
+
+    // Controller for uploading both, aco-background and aco-img Images
     .controller('AcoImageUploadController',['$scope','AcoNotificationService','AcoImageUploadService','AcoPageContentService',function($scope,AcoNotificationService,AcoImageUploadService,AcoPageContentService){
 
         var self = this;
@@ -108,10 +105,11 @@
                     $scope.$apply();
                     $("#aco-img-upload-box").css({"display":"table","opacity":"1"});
                     var fileExt = $(this).val().split('.').pop();
-                    if(fileExt === "jpg" || fileExt === 'JPG'){
-                        fileExt = "jpeg";
+                    if(fileExt === 'JPG'){
+                        fileExt = "jpg";
                     }
-                    if(fileExt == "jpeg" || fileExt == "png" || fileExt == "gif" || fileExt == "bmp"){
+                    var allowed_file_types = ['jpg','jpeg','png','gif','bmp','svg'];
+                    if(allowed_file_types.indexOf(fileExt) >= 0){
                         UploadFile(files[0]);
                     }else{
                         AcoNotificationService.push('error','Invalid file', 'We are sorry, but this file-type is not supported.');
