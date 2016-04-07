@@ -84,6 +84,7 @@
                     AcoNotificationService.push("success","Page published","Yeah, your page content is now visible for everyone.");
                 }).error(function(response){
                     console.log(response);
+                    AcoNotificationService.push(response.type,response.title,response.message);
                 });
             });
         }

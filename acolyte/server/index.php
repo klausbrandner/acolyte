@@ -156,13 +156,13 @@ $app->group('/content', function() use($app){
                 $sql_file->bindParam(3,$lan);
                 $sql_file->execute();
             }catch(Exception $e){
-                $app->halt(503, json_encode(['type' => 'Error',
+                $app->halt(503, json_encode(['type' => 'error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
             }finally{ $db = null;}
         }else{
-            $app->halt(503, json_encode([ 'type' => 'Error',
-                                         'title' => 'Oops, sadsomething went wrong!',
+            $app->halt(503, json_encode([ 'type' => 'error',
+                                         'title' => 'Oops, something went wrong!',
                                          'message' => 'No database connection']));
         }
     });
@@ -188,13 +188,13 @@ $app->group('/content', function() use($app){
                 $sql_file->bindParam(2,$case);
                 $sql_file->execute();
             }catch(Exception $e){
-                $app->halt(503, json_encode(['type' => 'Error',
+                $app->halt(503, json_encode(['type' => 'error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
             }finally{ $db = null;}
         }else{
-            $app->halt(503, json_encode([ 'type' => 'Error',
-                                         'title' => 'Oops, sadsomething went wrong!',
+            $app->halt(503, json_encode([ 'type' => 'error',
+                                         'title' => 'Oops, something went wrong!',
                                          'message' => 'No database connection']));
         }
     });
@@ -223,14 +223,14 @@ $app->group('/content/text', function() use($app){
             }finally{ $db = null;}
         }else{
                 $app->halt(503, json_encode([   'type' => 'Error',
-                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'title' => 'Oops, something went wrong!',
                                                 'message' => 'No database connection']));
         }
 
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
-                                            'message' => 'The text could not be found!']));
+                                            'message' => 'We could not get the text content!']));
         if(empty($result)) $app->stop();
 
         $app->response->status(200);
@@ -260,7 +260,7 @@ $app->group('/content/text', function() use($app){
             }finally{ $db = null; }
         }else{
             $app->halt(503, json_encode([   'type' => 'Error',
-                                            'title' => 'Oops, sadsomething went wrong!',
+                                            'title' => 'Oops, something went wrong!',
                                             'message' => 'No database connection']));
         }
 
@@ -294,7 +294,7 @@ $app->group('/content/text', function() use($app){
             }finally{ $db = null; }
         }else{
             $app->halt(503, json_encode([   'type' => 'Error',
-                                            'title' => 'Oops, sadsomething went wrong!',
+                                            'title' => 'Oops, something went wrong!',
                                             'message' => 'No database connection']));
         }
 
@@ -302,14 +302,13 @@ $app->group('/content/text', function() use($app){
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
-                                            'message' => 'The text could not been updated!']));
+                                            'message' => 'The text could not be updated!']));
 
         if($result === 0) $app->stop();
 
         $app->redirect($app->urlFor('getText', array(   'category' => $category,
                                                         'element' => $element)));
     })->via('PUT', 'POST')->name('setText');
-
 
     $app->map('/add/modified/:category/:element', function($category, $element) use($app){
         $data = json_decode($app->request->getBody());
@@ -333,14 +332,14 @@ $app->group('/content/text', function() use($app){
             }finally{ $db = null; }
         }else{
             $app->halt(503, json_encode([   'type' => 'Error',
-                                            'title' => 'Oops, sadsomething went wrong!',
+                                            'title' => 'Oops, something went wrong!',
                                             'message' => 'No database connection']));
         }
 
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
-                                            'message' => 'The text could not been inserted!']));
+                                            'message' => 'The text could not be inserted!']));
 
         if($result === 0) $app->stop();
 
@@ -373,7 +372,7 @@ $app->group('/content/file', function() use($app){
             }finally{$db = null;}
         }else{
             $app->halt(503, json_encode([   'type' => 'Error',
-                                         'title' => 'Oops, sadsomething went wrong!',
+                                         'title' => 'Oops, something went wrong!',
                                          'message' => 'No database connection']));
         }
 
@@ -397,9 +396,9 @@ $app->group('/content/file', function() use($app){
                 $dirname = dirname(__FILE__);
                 $server = $_SERVER["DOCUMENT_ROOT"];
                 $directory = str_replace($server,'',$dirname).'/src/';
-                $image_name = date('dmy-his', time()).'_'.substr(sha1(rand()), 0, 5).$_FILES['image']['name'];
+                $image_name = date('dmy-his', time()).'_'.substr(sha1(rand()), 0, 5).str_replace(' ','',$_FILES['image']['name']);
                 $image_path = $_SERVER["DOCUMENT_ROOT"].$directory.$image_name;
-                $image_url = 'http://'.$_SERVER["HTTP_HOST"].$directory.$image_name;
+                $image_url = PROTOCOL.'://'.$_SERVER["HTTP_HOST"].$directory.$image_name;
 
                 // Upload Image
                 if(move_uploaded_file($_FILES["image"]["tmp_name"], $image_path)){
@@ -469,7 +468,7 @@ $app->group('/content/file', function() use($app){
 
             }else{
                 $app->halt(503, json_encode([   'type' => 'Error',
-                                             'title' => 'Oops, sadsomething went wrong!',
+                                             'title' => 'Oops, something went wrong!',
                                              'message' => 'No database connection']));
             }
         }else{
@@ -505,13 +504,13 @@ $app->group('/language', function() use($app){
                 }catch(Exception $e){
                     setupMySql($db);
                     $app->redirect($app->urlFor('getLanguage'));
-                    $app->halt(503, json_encode(['type' => 'Error',
+                    $app->halt(503, json_encode(['type' => 'error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
             }finally {$db = null;}
         }else{
-                $app->halt(503, json_encode([   'type' => 'Error',
-                                                'title' => 'Oops, sadsomething went wrong!',
+                $app->halt(503, json_encode([   'type' => 'error',
+                                                'title' => 'Oops, something went wrong!',
                                                 'message' => 'No database connection']));
         }
         $app->response->status(200);
@@ -536,13 +535,13 @@ $app->group('/language', function() use($app){
                     $sql_lan->setFetchMode(PDO::FETCH_OBJ);
                     $presult = $sql_lan->fetch();
                 }catch(Exception $e){
-                $app->halt(503, json_encode(['type' => 'Error',
+                $app->halt(503, json_encode(['type' => 'error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
             }finally {$db = null;}
         }else{
-                $app->halt(503, json_encode([   'type' => 'Error',
-                                                'title' => 'Oops, sadsomething went wrong!',
+                $app->halt(503, json_encode([   'type' => 'error',
+                                                'title' => 'Oops, something went wrong!',
                                                 'message' => 'No database connection']));
         }
         if(empty($result)) $app->setCookie('aco-lan', $presult->lan, '180 days');
@@ -562,19 +561,19 @@ $app->group('/language', function() use($app){
                     if($sql_lan->execute())     $result = 1;
                     else                        $result = 0;
                 }catch(Exception $e){
-                $app->halt(503, json_encode(['type' => 'Error',
+                $app->halt(503, json_encode(['type' => 'error',
                                             'title' => 'Oops, something went wrong!',
                                             'message' => $e->getMessage()]));
             }finally {$db = null;}
         }else{
-                $app->halt(503, json_encode([   'type' => 'Error',
+                $app->halt(503, json_encode([   'type' => 'error',
                                                 'title' => 'Oops, sadsomething went wrong!',
                                                 'message' => 'No database connection']));
         }
         $app->response->status(400);
-        $app->response->body(json_encode([  'type' => 'Error',
+        $app->response->body(json_encode([  'type' => 'error',
                                             'title' => 'Oops, something went wrong!',
-                                            'message' => 'The text could not been saved!']));
+                                            'message' => 'Language could not be activated!']));
 
         if($result === 0 || empty($result)) $app->stop();
 
@@ -605,7 +604,7 @@ $app->group('/language', function() use($app){
             }finally {$db = null;}
         }else{
                 $app->halt(503, json_encode([   'type' => 'Error',
-                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'title' => 'Oops, something went wrong!',
                                                 'message' => 'No database connection']));
         }
         if($app->getCookie('aco-lan') === $lan){
@@ -630,7 +629,7 @@ $app->group('/language', function() use($app){
             }finally {$db = null;}
         }else{
                 $app->halt(503, json_encode([   'type' => 'Error',
-                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'title' => 'Oops, something went wrong!',
                                                 'message' => 'No database connection']));
         }
         if($app->getCookie('aco-lan') === $lan){
@@ -730,13 +729,13 @@ $app->group('/language', function() use($app){
             }finally {$db = null;}
         }else{
                 $app->halt(503, json_encode([   'type' => 'Error',
-                                                'title' => 'Oops, sadsomething went wrong!',
+                                                'title' => 'Oops, something went wrong!',
                                                 'message' => 'No database connection']));
         }
         $app->response->status(400);
         $app->response->body(json_encode([  'type' => 'Error',
                                             'title' => 'Oops, something went wrong!',
-                                            'message' => 'The language could not been inserted!']));
+                                            'message' => 'The language could not be inserted!']));
 
         if($result === 0 ) $app->stop();
 
@@ -760,8 +759,8 @@ $app->group('/user', function() use($app){
         else{
             $app->response->status(400);
             $app->response->body(json_encode([  'type' => 'Error',
-                                                'title' => 'Oops, something went wrong!',
-                                                'message' => 'The Login coulld not been proceeded!']));
+                                                'title' => 'Could not log you in!',
+                                                'message' => 'Please check your login data']));
         }
     });
 
@@ -776,13 +775,13 @@ $app->group('/user', function() use($app){
                 $sql_user->setFetchMode(PDO::FETCH_OBJ);
                 $result = $sql_user->fetch();
             }catch(Exception $e){
-                $app->halt(503, json_encode(['type' => 'Error',
+                $app->halt(503, json_encode(['type' => 'error',
                                              'title' => 'Oops, something went wrong! catch',
                                              'message' => $query]));
             }finally{$db = null;}
         }else{
-            $app->halt(503, json_encode([   'type' => 'Error',
-                                             'title' => 'Oops, sadsomething went wrong!',
+            $app->halt(503, json_encode([   'type' => 'error',
+                                             'title' => 'Oops, something went wrong!',
                                              'message' => 'No database connection']));
         }
         if($result->toggle == 0){
