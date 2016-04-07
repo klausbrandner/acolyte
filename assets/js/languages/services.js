@@ -2,7 +2,7 @@
 
     angular.module('Acolyte')
 
-    .factory('AcoLanguageService',['$rootScope','$http','AcoPageContentService',function($rootScope,$http,AcoPageContentService){
+    .factory('AcoLanguageService',['$rootScope','$http','AcoPageContentService','AcoNotificationService',function($rootScope,$http,AcoPageContentService,AcoNotificationService){
 
         var self = this;
 
@@ -38,6 +38,7 @@
                     self.broadcastLanguagesChanged();
                 }).error(function(response){
                     console.log(response);
+                    AcoNotificationService.push('error','An error occured','The language could not be saved. Please, try again later.');
                 });
             });
         }
@@ -88,6 +89,7 @@
                     self.broadcastLanguagesChanged();
                 }).error(function(response){
                     console.log(response);
+                    AcoNotificationService.push('error','An error occured','The language could not be activated. Please, try again later.');
                 });
             });
 
@@ -101,6 +103,7 @@
                     self.broadcastLanguagesChanged();
                 }).error(function(response){
                     console.log(response);
+                    AcoNotificationService.push('error','An error occured','The language could not be deleted. Please, try again later.');
                 });
             });
         }
@@ -115,6 +118,7 @@
                     self.broadcastLanguageDeleted();
                 }).error(function(response){
                     console.log(response);
+                    AcoNotificationService.push('error','An error occured','The language could not be deleted. Please, try again later.');
                 });
             });
         }
@@ -151,6 +155,7 @@
                     self.broadcastNewLanguageCreated();
                 }).error(function(response){
                     console.log(response);
+                    AcoNotificationService.push('error','An error occured','The language could not be added. Please, try again later.');
                 });
             });
         }

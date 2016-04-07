@@ -16,6 +16,7 @@
                 background-size: cover;
             }
         </style>
+        <meta charset="utf-8">
     </head>
     <body>
         <aco-root></aco-root>
@@ -43,6 +44,11 @@
 
         <script src="acolyte/acolyte.min.js"></script>
         <script>
+
+            var pageContentLoaded = function(){
+                console.log("loaded");
+            }
+
             angular.module('AcoTest',['Acolyte'])
 
             .controller('TestController',['AcoMessageBoxService',function(AcoMessageBoxService){

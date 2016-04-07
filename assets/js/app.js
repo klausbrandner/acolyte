@@ -49,7 +49,7 @@ var acolyte = {
 
         self.texts = {};
         self.images = {};
-
+        self.initialized = false;
         self.edit = false;
 
         self.setEdit = function(setTo){
@@ -79,10 +79,15 @@ var acolyte = {
         }
 
         function SetNewContent(content){
-            console.log(content);
             self.texts = content.textContent;
             self.images = content.fileContent;
             self.broadcastPageContent();
+            if(!self.initialized){
+                if(typeof pageContentLoaded !== 'undefined'){
+                    pageContentLoaded();
+                }
+                self.initialized = true;
+            }
         }
 
         self.getText = function(category, element){
