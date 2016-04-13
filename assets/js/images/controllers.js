@@ -120,72 +120,72 @@
         }
 
         function UploadFile(file){
-            self.status = "Uploading image...";
-            $scope.$apply();
 
+            CreateRequest(function(token){
+                self.status = "Uploading image...";
+                $scope.$apply();
+                var url = acolyte.pathToServer + 'content/file/edit/' + self.tmpImage.category + '/' + self.tmpImage.element;
+                var dataPost = new FormData();
+                dataPost.append('image',file);
+                dataPost.append('token', token);
 
-            var url = acolyte.pathToServer + 'content/file/edit/' + self.tmpImage.category + '/' + self.tmpImage.element;
-            var dataPost = new FormData();
-            dataPost.append('image',file);
-            dataPost.append('test','test');
+                $.ajax({
+                    url: url,
+                    data: dataPost,
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    mimeType: 'multipart/form-data',
+                    xhr: function() {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.upload.addEventListener("progress", function(evt) {
+                            if (evt.lengthComputable) {
+                                var percentComplete = evt.loaded / evt.total;
+                                //Do something with upload progress here
+                                $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":percentComplete*100+"%"});
+                                self.percentage = Math.round(percentComplete * 100) + "%";
+                                $scope.$apply();
+                            }
+                       }, false);
 
-            $.ajax({
-                url: url,
-                data: dataPost,
-                type: 'POST',
-                processData: false,
-                contentType: false,
-                mimeType: 'multipart/form-data',
-                xhr: function() {
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress", function(evt) {
-                        if (evt.lengthComputable) {
-                            var percentComplete = evt.loaded / evt.total;
-                            //Do something with upload progress here
-                            $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":percentComplete*100+"%"});
-                            self.percentage = Math.round(percentComplete * 100) + "%";
-                            $scope.$apply();
-                        }
-                   }, false);
+                       xhr.addEventListener("progress", function(evt) {
+                           if (evt.lengthComputable) {
+                               var percentComplete = evt.loaded / evt.total;
+                               //Do something with download progress
+                                $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":percentComplete*100+"%"});
+                                self.percentage = Math.round(percentComplete * 100) + "%";
+                                $scope.$apply();
+                           }
+                       }, false);
 
-                   xhr.addEventListener("progress", function(evt) {
-                       if (evt.lengthComputable) {
-                           var percentComplete = evt.loaded / evt.total;
-                           //Do something with download progress
-                            $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":percentComplete*100+"%"});
-                            self.percentage = Math.round(percentComplete * 100) + "%";
-                            $scope.$apply();
-                       }
-                   }, false);
+                       return xhr;
+                    },
+                    success: function(data){
+                        data = JSON.parse(data);
+                        console.log("success");
+                        console.log(data);
 
-                   return xhr;
-                },
-                success: function(data){
-                    data = JSON.parse(data);
-                    console.log("success");
-                    console.log(data);
-
-                    $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":"0%"});
-                    $("#aco-img-upload-box").animate({"opacity":"0"},400,function(){
-                        $("#aco-img-upload-box").css({"display":"none"});
-                    });
-                    AcoPageContentService.setImage(self.tmpImage.category, self.tmpImage.element, data.fileContent.url)
-                    AcoNotificationService.push('success','Image uploaded','Image has been successfully uploaded.');
-                    $scope.$apply();
-                },
-                error:function(data,textStatus,xhr){
-                    data = JSON.parse(data);
-                    console.log("error");
-                    console.log(data);
-                    $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":"0%"});
-                    $("#aco-img-upload-box").animate({"opacity":"0"},400,function(){
-                        $("#aco-img-upload-box").css({"display":"none"});
-                    });
-                    AcoNotificationService.push("error","Unknown error","Sorry, an unknown error occured while processing your request!");
-                    $scope.$apply();
-                }
+                        $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":"0%"});
+                        $("#aco-img-upload-box").animate({"opacity":"0"},400,function(){
+                            $("#aco-img-upload-box").css({"display":"none"});
+                        });
+                        AcoPageContentService.setImage(self.tmpImage.category, self.tmpImage.element, data.fileContent.url)
+                        AcoNotificationService.push('success','Image uploaded','Image has been successfully uploaded.');
+                        $scope.$apply();
+                    },
+                    error:function(data,textStatus,xhr){
+                        data = JSON.parse(data);
+                        console.log("error");
+                        console.log(data);
+                        $("#aco-img-upload-box").find("#aco-img-upload-progress").css({"width":"0%"});
+                        $("#aco-img-upload-box").animate({"opacity":"0"},400,function(){
+                            $("#aco-img-upload-box").css({"display":"none"});
+                        });
+                        AcoNotificationService.push("error","Unknown error","Sorry, an unknown error occured while processing your request!");
+                        $scope.$apply();
+                    }
+                });
             });
-
         }
 
         // Listener when there is a new image to be uploaded

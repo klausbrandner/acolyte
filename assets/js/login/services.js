@@ -52,7 +52,7 @@
         }
         self.logout = function(){
             CreateRequest(function(token){
-                $http.put(acolyte.pathToServer + 'user/logout').success(function(response){
+                $http.put(acolyte.pathToServer + 'user/logout', {token: token}).success(function(response){
                     self.loggedIn = false;
                     AcoLanguageService.setLanOnly(response.lan);
                     AcoNotificationService.push('success','Good Bye!','Successfully logged out.');

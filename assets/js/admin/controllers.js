@@ -71,16 +71,17 @@
 
         function PublishAll(){
             CreateRequest(function(token){
-                $http.put(acolyte.pathToServer + 'content/save/all').success(function(response){
+                $http.put(acolyte.pathToServer + 'content/save/all', {token: token}).success(function(response){
                     AcoNotificationService.push("success","Page published","Yeah, your page content is now visible for everyone.");
                 }).error(function(response){
                     console.log(response);
+                    AcoNotificationService.push(response.type,response.title,response.message);
                 });
             });
         }
         function PublishCurrent(){
             CreateRequest(function(token){
-                $http.put(acolyte.pathToServer + 'content/save/lan').success(function(response){
+                $http.put(acolyte.pathToServer + 'content/save/lan', {token: token}).success(function(response){
                     AcoNotificationService.push("success","Page published","Yeah, your page content is now visible for everyone.");
                 }).error(function(response){
                     console.log(response);

@@ -10,7 +10,7 @@ var acolyte = {
     pathToServer: 'acolyte/server/',
     tmpImage: 'acolyte/src/black.png',
     tmpText: '...',
-    newText: "Hi, I'm a new text.",
+    newText: "New Acolyte Text",
     updateRate: 1000
 };
 
