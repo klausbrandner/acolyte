@@ -32,7 +32,7 @@
         }
         self.setLan = function(lancode){
             CreateRequest(function(token){
-                $http.put(acolyte.pathToServer + 'language/set/' + lancode).success(function(response){
+                $http.put(acolyte.pathToServer + 'language/set/' + lancode, {token: token}).success(function(response){
                     AcoPageContentService.setContent(response);
                     self.lan = response.lan;
                     self.broadcastLanguagesChanged();
@@ -92,15 +92,14 @@
                     AcoNotificationService.push('error','An error occured','The language could not be activated. Please, try again later.');
                 });
             });
-
         }
         self.deleteLanguage = function(lan){
             // http -> delete language
             CreateRequest(function(token){
-                $http.delete(acolyte.pathToServer + 'language/remove/lan/' + lan.lan).success(function(response){
-                    console.log(response);
+                $http.delete(acolyte.pathToServer + 'language/remove/lan/' + lan.lan, {token: token}).success(function(response){
                     DeleteLanguage(lan,response);
                     self.broadcastLanguagesChanged();
+                    self.broadcastLanguageDeleted();
                 }).error(function(response){
                     console.log(response);
                     AcoNotificationService.push('error','An error occured','The language could not be deleted. Please, try again later.');
@@ -110,8 +109,7 @@
         self.deleteAndTexts = function(lan){
             // http -> delete language
             CreateRequest(function(token){
-                $http.delete(acolyte.pathToServer + 'language/remove/all/' + lan.lan).success(function(response){
-                    console.log(response);
+                $http.delete(acolyte.pathToServer + 'language/remove/all/' + lan.lan, {token: token}).success(function(response){
                     self.deletedLanguage = lan;
                     DeleteLanguage(lan,response);
                     self.broadcastLanguagesChanged();
@@ -124,7 +122,6 @@
         }
 
         function DeleteLanguage(lan, content){
-            console.log("delete lan: " + lan.lan);
             var i = 0;
             for(var l in self.languages){
                 if(self.languages[l].lan == lan.lan){
@@ -145,12 +142,8 @@
                     token: token
                 };
                 $http.post(acolyte.pathToServer + 'language/add', postData).success(function(response){
-                    console.log(response);
-                    //lan.toggle = 0;
-                    //self.languages.push(lan);
                     self.languages = response.language;
                     self.newLanguage = lan;
-                    console.log(self.languages);
                     self.broadcastLanguagesChanged();
                     self.broadcastNewLanguageCreated();
                 }).error(function(response){
